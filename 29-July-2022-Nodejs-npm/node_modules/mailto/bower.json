@@ -1,0 +1,26 @@
+{
+  "name": "mailto",
+  "main": "dist/mailto.min.js",
+  "version": "0.1.2",
+  "homepage": "https://github.com/oncletom/mailto",
+  "authors": [
+    "Thomas Parisot (https://oncletom.io)"
+  ],
+  "description": "Transform your HTML forms in beautiful mailto: links, form submission or XHR requests.",
+  "keywords": [
+    "mailto",
+    "form",
+    "lofi",
+    "email",
+    "browser",
+    "web"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mailto Form to Mailto: link demo</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.1/slate/bootstrap.min.css">
+  <style type="text/css">
+    [type="range"].form-control {
+      background: transparent;
+    }
+
+    input[type="range"].form-control::-webkit-slider-runnable-track {
+      background: -moz-linear-gradient(top, rgba(149,149,149,0) 0%, rgba(252,252,252,1) 50%, rgba(27,27,27,0) 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(149,149,149,0)), color-stop(50%,rgba(252,252,252,1)), color-stop(100%,rgba(27,27,27,0))); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top, rgba(149,149,149,0) 0%,rgba(252,252,252,1) 50%,rgba(27,27,27,0) 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top, rgba(149,149,149,0) 0%,rgba(252,252,252,1) 50%,rgba(27,27,27,0) 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top, rgba(149,149,149,0) 0%,rgba(252,252,252,1) 50%,rgba(27,27,27,0) 100%); /* IE10+ */
+      background: linear-gradient(to bottom, rgba(149,149,149,0) 0%,rgba(252,252,252,1) 50%,rgba(27,27,27,0) 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00959595', endColorstr='#001b1b1b',GradientType=0 ); /* IE6-9 */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Form Fields</h2>
+
+      <form class="form mailto-form" action="mailto:thomas@oncle-tom.net" method="post" role="form">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" class="form-control" name="name" id="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="satisfaction">Library rating:</label>
+          <select class="form-control" name="satisfaction" id="satisfaction" required>
+            <option>Please choose a rating:</option>
+            <option value="0">0. Not very much</option>
+            <option value="1">1. Just a little</option>
+            <option value="2">2. Almost</option>
+            <option value="3">3. Okay</option>
+            <option value="4">4. Pretty cool</option>
+            <option value="5">5. Changed my life!</option>
+          </select>
+        </div>
+
+
+        <div class="form-group">
+          <label for="easiness">Ease of Use:</label>
+          <input type="range" min="0" max="5" class="form-control" name="easiness" id="easiness">
+        </div>
+
+        <div class="form-group">
+          <label for="message">A nice message or a bug report:</label>
+          <textarea name="message" class="form-control" id="message" cols="30" rows="5"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary update-preview">Update Preview</button>
+      </form>
+    </div>
+
+    <div class="col-md-6 preview">
+      <h2>Form Preview</h2>
+
+      <div class="form-group">
+        <textarea class="form-control" name="preview" id="content-preview" cols="30" rows="10" readonly></textarea>
+      </div>
+
+      <a class="btn btn-primary preview-link" href="#">Send as email</a>
+    </div>
+  </div>
+</div>
+
+<script src="mailto.min.js"></script>
+<script>
+(function(d, Mailto){
+  var form = document.querySelector('.mailto-form');
+  var updatePreviewBtn = document.querySelector('.mailto-form .update-preview');
+  var previewContainer = document.querySelector('.preview textarea');
+  var previewLink = document.querySelector('.preview .preview-link');
+
+  var m = new Mailto(form);
+  var updatePreview = function updatePreview(event){
+    var body = m.getBody();
+    var data = m.getData();
+
+    previewContainer.value = body;
+    previewLink.href = m.getMailtoUrl('', { subject: 'Greetings from '+ data.name, body: body});
+  };
+
+  form.addEventListener('change', updatePreview);
+  form.addEventListener('submit', updatePreview);
+  updatePreviewBtn.addEventListener('click', updatePreview);
+})(document, mailto);
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<form method="post" action="mailto:test@example.com" data-subject="Grabbed from data-uri" class="mailto-form">
+  <input type="text" name="from" value="" title="User Email">
+
+  <label>What is your gender?
+    <input name="gender" type="radio" value="female" id="gender-female"> <label for="gender-female">Female</label>
+    <input name="gender" type="radio" value="male" id="gender-male" checked> <label for="gender-male">Male</label>
+    <input name="gender" type="radio" value="optout" id="gender-optout"> <label for="gender-optout">Prefer not to say</label>
+  </label>
+
+  <label>Format proposal
+    <input name="format" type="checkbox" value="keynote" id="format-keynote"> <label for="format-keynote">Keynote</label>
+    <input name="format" type="checkbox" value="lt" id="format-lt" checked> <label for="format-lt">Lightning Talk</label>
+    <input name="format" type="checkbox" value="workshop" id="format-workshop"> <label for="format-workshop">Workshop</label>
+  </label>
+
+  <select name="country" title="Current country of residence" required>
+    <option>Make a choice</option>
+    <option value="uk">United Kingdom</option>
+    <option value="fr">France</option>
+    <option value="neverland">Neverland</option>
+  </select>
+
+  <input type="text" value="" title="Should not be included">
+
+  <input type="text" name="subject" value="Default value">
+
+  <label for="message">Message Content:</label>
+  <textarea name="message" id="message" cols="30" rows="10"></textarea>
+
+  <label>Do you agree with the TOS?
+    <input name="tos" type="radio" value="yes" id="tos-yes" required> <label for="tos-yes">Yes, have my sould</label>
+    <input name="tos" type="radio" value="no" id="tos-no"> <label for="tos-no">No, let's be friends</label>
+  </label>
+</form>
+
+<div class="content-template" hidden="hidden">
+Hello,
+
+I am a {{gender}} writing from {{from}} and located in {{country}}. I'd like to propose you a talk entitled {{subject}}.
+It could be done as {{format}} and is basically talking about:
+
+&gt; {{message}}
+</div>
+
+<div class="expected-output" hidden="hidden">
+Hello,
+
+I am a female writing from jane@doe.co.uk and located in uk. I'd like to propose you a talk entitled Men come from Venus, really.
+It could be done as keynote,lt and is basically talking about:
+
+&gt; Have some viagra for you people.
+</div>
