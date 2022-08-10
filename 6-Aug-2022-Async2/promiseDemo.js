@@ -10,6 +10,7 @@ let myPromise = new Promise((resolve, reject) => {
 myPromise.then(function(data){
     console.log(data);
 });
+
 myPromise.catch(function(data){
     console.log(data);
 });
