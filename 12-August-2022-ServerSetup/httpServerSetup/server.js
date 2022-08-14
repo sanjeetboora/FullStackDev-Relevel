@@ -11,9 +11,9 @@ const requestListener = (req, res) =>{
     * Details of http response will be present
     * in res parameter
     */
-   
+   console.log(req);
    console.log("A new HTTP request received");
-   console.log(res);
+   //console.log(res);
    res.writeHead(200, { 'Content-Type': 'text/html'});
    res.end("<h1>Thanks for visiting!!!<h1>");
 }
