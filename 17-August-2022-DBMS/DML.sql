@@ -1,6 +1,11 @@
 /* INSERT INTO table_name (col1, col2, col3) VALUES (val1, val2. val3) */
 
+INSERT INTO user (id, name, email) VALUES (5, 'Daniel', 'Daniel@gmail.com');
 INSERT INTO user (id, name, email) VALUES (1, 'Bhawesh', 'bhawesh@gmail.com');
+INSERT INTO user (id, name, email) VALUES (3, 'Akash', 'Akash@gmail.com');
+INSERT INTO user (id, name, email) VALUES (4, 'Sashmita', 'Sashmita@gmail.com');
+INSERT INTO user (id, name, email) VALUES (2, 'Shivam', 'Shivam@gmail.com');
+
 INSERT INTO user (id, name) VALUES (2, 'Akash');
 -- INSERT INTO user (id, email) VALUES (3, 'Sashmita'); 
 /*ERROR : 
@@ -22,6 +27,8 @@ DELETE FROM user WHERE id = 1;
  
  -- DELETE FROM table_name; /* to delete all the records of the table*/
  DELETE FROM user;
+
+
 
 
 DESC user; /* describe the structure of table user*/

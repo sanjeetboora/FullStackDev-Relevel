@@ -17,7 +17,7 @@ TRUNCATE TABLE customer;
 
 DROP TABLE IF EXISTS customer;
 
--- describe user;
+describe user;
 -- describe customer;
 
 
