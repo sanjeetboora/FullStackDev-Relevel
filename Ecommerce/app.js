@@ -1,7 +1,7 @@
 const express = require('express');
 const categoryRoutes = require('./routes/category.routes');
+const {PORT} =  require('./config/serverConfig');
 const app = express();
-const PORT = 3000;
 
 categoryRoutes(app);
 
