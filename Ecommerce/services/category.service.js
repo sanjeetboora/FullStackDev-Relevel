@@ -10,6 +10,26 @@ const createNewCategory = async(data) =>{
         name: data.name,
         description: data.description
     })
+    return newCategory;
 }
 
-module.exports = {createNewCategory,getAllCategories};
+
+const getCategoriesById = async (idData) =>{
+    const response = await Category.findAll({
+        where:{
+            id: idData
+        }
+    })
+    return response;
+}
+
+const getCategoriesByName  = async(nameData) =>{
+    const response = await Category.findAll({
+        where:{
+            name: nameData
+        }
+    })
+    return response;
+}
+
+module.exports = {createNewCategory, getAllCategories, getCategoriesById, getCategoriesByName};

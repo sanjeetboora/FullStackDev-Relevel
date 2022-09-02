@@ -1,7 +1,7 @@
-const {createNewCategory, getAllCategories} = require('../services/category.service');
+const CategoryService = require('../services/category.service');
 
 const getCategories = async(req, res) =>{
-    const allCategoriesData = await getAllCategories();
+    const allCategoriesData = await CategoryService.getAllCategories();
     return res.json({
         message: 'Successfully fetched the categories',
         success: true,
@@ -11,7 +11,7 @@ const getCategories = async(req, res) =>{
 }
 
 const createCategory = async(req, res) =>{
-    const response = await createNewCategory(req.body);
+    const response = await CategoryService.createNewCategory(req.body);
     return res.json({
         message: 'Successfully created the category',
         success: true,
@@ -20,7 +20,29 @@ const createCategory = async(req, res) =>{
     });
 }
 
+const getCategoriesById = async(req, res) =>{
+    const response = await CategoryService.getCategoriesById(req.params.id);
+    return res.json({
+        message: 'Successfully fetched the categories',
+        success: true,
+        code: 200,
+        data:response
+    });
+}
+
+const getCategoriesByName = async(req, res) =>{
+    const response = await CategoryService.getCategoriesByName(req.query.name);
+    return res.json({
+        message: 'Successfully fetched the categories',
+        success: true,
+        code: 200,
+        data:response
+    });
+}
+
 module.exports = {
     createCategory,
-    getCategories
+    getCategories,
+    getCategoriesById,
+    getCategoriesByName
 }
