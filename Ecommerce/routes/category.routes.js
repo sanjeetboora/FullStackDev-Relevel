@@ -13,6 +13,9 @@ const routes = (app) =>{
     /* to get all categories by name */
     app.get('/ecomm/api/v1/categoriesByName/', CategoryController.getCategoriesByName);
 
+    /* to update the category by given id */
+    app.put('/ecomm/api/v1/categories/:id', CategoryController.updateCategory);
+
 }
 
 module.exports = routes;

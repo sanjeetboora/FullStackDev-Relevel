@@ -32,4 +32,23 @@ const getCategoriesByName  = async(nameData) =>{
     return response;
 }
 
-module.exports = {createNewCategory, getAllCategories, getCategoriesById, getCategoriesByName};
+const updateCategory =  async(id, data) =>{
+    const response = await Category.update(
+        { 
+            name: data.name,
+            description: data.description,  
+        }, 
+        {
+            where: {
+                id: id
+            }
+        });
+    return response;
+}
+
+
+
+
+
+
+module.exports = {createNewCategory, getAllCategories, getCategoriesById, getCategoriesByName, updateCategory};
