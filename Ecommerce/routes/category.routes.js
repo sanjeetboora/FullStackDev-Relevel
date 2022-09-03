@@ -16,10 +16,8 @@ const routes = (app) =>{
     /* to update the category by given id */
     app.put('/ecomm/api/v1/categories/:id', CategoryController.updateCategory);
 
+    /* to delete a category by id*/
+    app.delete('/ecomm/api/v1/categories/:id', CategoryController.deleteCategory)
 }
 
 module.exports = routes;
-
-
-
-

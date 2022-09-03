@@ -50,10 +50,22 @@ const updateCategory = async(req, res) =>{
     });
 }
 
+
+const deleteCategory = async(req, res) =>{
+    const response = await CategoryService.deleteCategory(req.params.id);
+    return res.json({
+        message: 'Successfully deleted the category',
+        success: true,
+        code: 200,
+        data:response
+    });
+}
+
 module.exports = {
     createCategory,
     getCategories,
     getCategoriesById,
     getCategoriesByName,
-    updateCategory
+    updateCategory,
+    deleteCategory
 }
