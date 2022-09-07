@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 categoryRoutes(app);
 productRoutes(app);
 
-app.listen(PORT, ()=>{
+app.listen(PORT, async()=>{
     console.log('server is listening to port: ', PORT);
 });
 

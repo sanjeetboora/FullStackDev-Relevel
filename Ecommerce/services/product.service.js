@@ -1,4 +1,5 @@
 const {Category, Product} = require("../models/index")
+const {Op} = require('sequelize');
 
 const getAllProducts = async() =>{
     const response = await Product.findAll();
@@ -43,4 +44,25 @@ const deleteProduct = async(productId) =>{
     });
     return response;
 }
-module.exports = {getAllProducts, getAllProductsWithCategories, createProduct, updateProduct, deleteProduct};
+
+const getAllProductsByCategoryId = async(categoryId) =>{
+    let response = await Product.findAll({
+        where:{
+            categoryId: categoryId
+        }
+    })
+    return response;
+}
+
+const getProductsByCostRange = async(data) =>{
+    const response = await Product.findAll({
+        where: {
+          cost: {
+            [Op.between]: [data.minCost, data.maxCost]
+          }
+        }
+      });
+    return response;
+}
+
+module.exports = {getAllProducts, getAllProductsWithCategories, createProduct, updateProduct, deleteProduct, getAllProductsByCategoryId, getProductsByCostRange};

@@ -17,6 +17,13 @@ const routes = (app) => {
     /* to delete a product*/
     app.delete('/ecomm/api/v1/products/:productId', ProductController.deleteProduct);
 
+    /* to get all products by a categoryId */
+    app.get('/ecomm/api/v1/products/:categoryId', ProductController.getAllProductsByCategoryId);
+
+    /* to get all products in the cost range*/
+    app.get('/ecomm/api/v1/productsByCostRange/', ProductController.getProductsByCostRange);
+
+
 }
 
 module.exports = routes;
