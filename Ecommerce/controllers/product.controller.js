@@ -50,5 +50,24 @@ const deleteProduct = async(req, res) =>{
     });
 }
 
+const getAllProductsByCategoryId = async(req, res) =>{
+    const response = await ProductService.getAllProductsByCategoryId(req.params.categoryId);
+    return res.json({
+        message: 'Successfully fetched all the products',
+        success: true,
+        code: 200,
+        data:response
+    });
+}
 
-module.exports = {getProducts, getProductsWithCategories, createProduct, updateProduct, deleteProduct}
+const getProductsByCostRange = async(req, res) =>{
+    const response = await ProductService.getProductsByCostRange(req.query);
+    return res.json({
+        message: 'Successfully fetched all the products',
+        success: true,
+        code: 200,
+        data:response
+    });
+}
+
+module.exports = {getProducts, getProductsWithCategories, createProduct, updateProduct, deleteProduct, getAllProductsByCategoryId, getProductsByCostRange}
