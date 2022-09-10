@@ -14,9 +14,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
+    email:{ /* constraints are being checked at mysql level in the db*/
+      type: DataTypes.STRING,
+      allowNull: false, //email should not be null
+      unique: true,
+      validate: {/* validations are being validated at sequelize level in the project */
+        isEmail: true, // to validate the email format is correct
+      }  
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [5,40], //password's length can be between 5 to 40 characters
+      } 
+    },
     username: DataTypes.STRING
+    
+
   }, {
     sequelize,
     modelName: 'User',

@@ -11,17 +11,11 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false, //email should not be null
-        unique: true, //email should always be unique
-        validate: {
-          isEmail: true, // to validate the email format is correct
-        }  
+        unique: true, //email should always be unique 
       },
       password: {
         type: Sequelize.STRING,
         allowNull: false,
-        validate: {
-          len: [5,40], //password's length can be between 5 to 40 characters
-        } 
       },
       username: {
         type: Sequelize.STRING,

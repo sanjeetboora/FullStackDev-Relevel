@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const categoryRoutes = require('./routes/category.routes');
 const productRoutes = require('./routes/product.routes');
+const authRoutes = require('./routes/auth.routes');
 const {PORT} =  require('./config/serverConfig');
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 categoryRoutes(app);
 productRoutes(app);
+authRoutes(app);
 
 app.listen(PORT, async()=>{
     console.log('server is listening to port: ', PORT);
