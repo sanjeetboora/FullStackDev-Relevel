@@ -1,12 +1,13 @@
 const CategoryController = require('../controllers/category.controller');
 const CategoryMiddleware = require('../middlewares/category.validators')
+const AuthenticationMiddleWare = require('../middlewares/authentication.validators')
 
 const routes = (app) =>{
     /* to get all the categories */
     app.get('/ecomm/api/v1/categories', CategoryController.getCategories);
 
     /* to create a new category */
-    app.post('/ecomm/api/v1/categories', CategoryMiddleware.validateCreate, CategoryController.createCategory)
+    app.post('/ecomm/api/v1/categories', AuthenticationMiddleWare.isAuthenticated, CategoryMiddleware.validateCreate, CategoryController.createCategory)
 
     /* to get all categories by id */
     app.get('/ecomm/api/v1/categories/:id', CategoryController.getCategoriesById);
