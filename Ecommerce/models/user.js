@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init({
+  User.init({ //User.init initilaizes User object
     email:{ /* constraints are being checked at mysql level in the db*/
       type: DataTypes.STRING,
       allowNull: false, //email should not be null
@@ -37,9 +37,9 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
   });
   
-  /* this beforeCreate is a simple function known as a hook, will be 
+  /* this beforeCreate is a simple function known as a hook, will be running
   everytime before creating the user object in user table */
-  User.beforeCreate(async (user) => {
+  User.beforeCreate((user) => {
     const salt = bcrypt.genSaltSync(10);
     let hashedPassword = bcrypt.hashSync(user.password, salt);
     user.password = hashedPassword; //this line will replace user's actual password with hashed password
