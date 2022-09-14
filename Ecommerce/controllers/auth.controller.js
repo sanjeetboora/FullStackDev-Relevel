@@ -43,7 +43,25 @@ const signin = async(req, res) =>{
             });
         }
     }
-
 }
 
-module.exports = {signup, signin}
+const addRoleToUser = (req, res) =>{
+    let response = authService.addRoleToUser(req.params.userId, req.body.roleId);
+    if(response){
+        return res.json({
+            message: 'Role is added successfully',
+            success: true,
+            code: 200,
+        });
+    }
+    else{
+        return res.json({
+            message: 'Internal server error',
+            success: true,
+            code: 500,
+        });
+    }
+}
+
+
+module.exports = {signup, signin, addRoleToUser}
