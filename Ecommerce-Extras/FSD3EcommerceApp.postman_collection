@@ -377,6 +377,124 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Sign up or Create new user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "bhuvi@relevel.com",
+							"type": "default"
+						},
+						{
+							"key": "username",
+							"value": "bhuvi",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "bhuvi@bhuvi",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecomm/api/v1/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecomm",
+						"api",
+						"v1",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign In",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "bhuvi@relevel.com",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "bhuvi@bhuvi",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecomm/api/v1/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecomm",
+						"api",
+						"v1",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Role to User",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJodXZpQHJlbGV2ZWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkbHhrZWh3Wk9BZG90TU1MdTNzS1ByLndmRjdCUXJtTDZkdU1qN2FlVFo2aGc5bWxJby8vVmEiLCJ1c2VybmFtZSI6ImJodXZpIiwiaWF0IjoxNjYzMTc2Nzg0LCJleHAiOjE2NjMxODM5ODR9.-_B_KpLUCyZ9hcb_g_AoYa0oEKdHDt1W8dwMWXujQi4",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "roleId",
+							"value": "2",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecomm/api/v1/user/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecomm",
+						"api",
+						"v1",
+						"user",
+						"9"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
