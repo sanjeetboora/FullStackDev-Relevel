@@ -16,10 +16,10 @@ const routes = (app) =>{
     app.get('/ecomm/api/v1/categoriesByName/', CategoryController.getCategoriesByName);
 
     /* to update the category by given id */
-    app.put('/ecomm/api/v1/categories/:id', CategoryController.updateCategory);
+    app.put('/ecomm/api/v1/categories/:id', AuthenticationMiddleWare.isAuthenticated,CategoryController.updateCategory);
 
     /* to delete a category by id */
-    app.delete('/ecomm/api/v1/categories/:id', CategoryController.deleteCategory)
+    app.delete('/ecomm/api/v1/categories/:id', AuthenticationMiddleWare.isAuthenticated,CategoryController.deleteCategory)
 }
 
 module.exports = routes;

@@ -1,4 +1,4 @@
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const authService = require('../services/auth.service');
 require('dotenv').config();
 
@@ -27,7 +27,7 @@ const signin = async(req, res) =>{
         //actualHashedPasswordStoredInDb is userData.password;
         const passwordVerified = authService.verifyPassword(req.body.password, userData.password);
         if(passwordVerified){ //password is correct
-            var token = jwt.sign({ email: userData.email, password: userData.password, username: userData.username}, process.env.JWT_SECRET_KEY);
+            var token = jwt.sign({ email: userData.email, password: userData.password, username: userData.username}, process.env.JWT_SECRET_KEY, {expiresIn: '2h'});
             return res.json({
                 message: 'Signed in successfully',
                 success: true,
