@@ -54,5 +54,4 @@ const checkAdmin = async(req, res, next) =>{
     next();
 }
 
-
 module.exports = {isAuthenticated, checkAdmin}
