@@ -1,4 +1,4 @@
-const {Role, User} = require('../models/index');
+const {User} = require('../models/index');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -34,27 +34,4 @@ const verifyToken = (token) =>{
     }
 }
 
-//unique field for user
-//unique field for role
-const addRoleToUser = async(userId, roleId) =>{
-    try{
-        const user = await User.findOne({
-            where: {
-                id: userId
-            }
-        });
-        const role = await Role.findOne({
-            where: {
-                id: roleId
-            }
-        });
-        await user.addRole(role);
-        return user;
-    }
-    catch(err){
-        console.log(err);
-    }
-    
-}
-
-module.exports = {signup, getUserByEmail, verifyPassword, verifyToken, addRoleToUser};
+module.exports = {signup, getUserByEmail, verifyPassword, verifyToken};
