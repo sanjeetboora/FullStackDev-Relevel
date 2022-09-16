@@ -1,4 +1,5 @@
 const authService = require('../services/auth.service');
+const roleService = require('../services/role.service');
 
 const isAuthenticated = async(req, res, next) => {
     const token = req.headers['x-access-token'];
@@ -37,4 +38,21 @@ const isAuthenticated = async(req, res, next) => {
     next();
 }
 
-module.exports = {isAuthenticated}
+const checkAdmin = async(req, res, next) =>{
+    const user =  req.user;
+    const adminRole = await roleService.getRoleById(1);
+    const isAdmin = await user.hasRole(adminRole);
+    if(!isAdmin){
+        return res.json({
+            status: 401,
+            message: "User is not admin",
+            data: {},
+            err: 'Not authorized'
+        });
+    }
+
+    next();
+}
+
+
+module.exports = {isAuthenticated, checkAdmin}

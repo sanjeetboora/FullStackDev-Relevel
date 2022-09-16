@@ -41,4 +41,14 @@ const removeRoleFromUser = async(userId, roleId) =>{
     }
 }
 
-module.exports = {addRoleToUser, removeRoleFromUser};
+const getRoleById = async(id) =>{
+    try{
+        const response = await Role.findByPk(id);
+        return response;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+module.exports = {addRoleToUser, removeRoleFromUser, getRoleById};
