@@ -54,4 +54,22 @@ const checkAdmin = async(req, res, next) =>{
     next();
 }
 
-module.exports = {isAuthenticated, checkAdmin}
+const checkAdminOrSeller = async(req, res, next) =>{
+    const user =  req.user;
+    const adminRole = await roleService.getRoleById(1);
+    const sellerRole = await roleService.getRoleById(2);
+    const isAdmin = await user.hasRole(adminRole);
+    const isSeller = await user.hasRole(sellerRole);
+    if(!isAdmin && !isSeller){
+        return res.json({
+            status: 401,
+            message: "User is not authorized",
+            data: {},
+            err: 'Not authorized'
+        });
+    }
+
+    next();
+}
+
+module.exports = {isAuthenticated, checkAdmin, checkAdminOrSeller}
