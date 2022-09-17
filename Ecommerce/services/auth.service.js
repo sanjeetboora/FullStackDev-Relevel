@@ -1,24 +1,25 @@
 const {User} = require('../models/index');
+const roleService = require('./role.service');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const signup = (data) =>{
-    const response = User.create({
-        username: data.username,
-        email: data.email,
-        password: data.password,
-    })
-    return response;
-}
+const signup = async (data) =>{
+    try{
+        const user = await User.create({
+            username: data.username,
+            email: data.email,
+            password: data.password,
+        });
+        const customerRole = await roleService.getRoleByName('customer');
 
-const getUserByEmail = (data) =>{
-    const response = User.findOne({
-        where:{
-            email:data
-        }
-    });
-    return response;
+        //assigning the role of customer by default
+        await user.addRole(customerRole);
+        return user;
+    }
+    catch(err){
+        console.log(err);
+    }
 }
 
 const verifyPassword = (password, hashedPassword) =>{
@@ -34,4 +35,4 @@ const verifyToken = (token) =>{
     }
 }
 
-module.exports = {signup, getUserByEmail, verifyPassword, verifyToken};
+module.exports = {signup, verifyPassword, verifyToken};

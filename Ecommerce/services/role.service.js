@@ -1,18 +1,11 @@
-const {Role, User} = require('../models/index');
+const {Role} = require('../models/index');
+const authHelperService =  require('./auth-helper.service');
 //unique field for user
 //unique field for role
-const addRoleToUser = async(userId, roleId) =>{
+const addRoleToUser = async(userEmail, roleName) =>{
     try{
-        const user = await User.findOne({
-            where: {
-                id: userId
-            }
-        });
-        const role = await Role.findOne({
-            where: {
-                id: roleId
-            }
-        });
+        const user = await authHelperService.getUserByEmail(userEmail);
+        const role = await getRoleByName(roleName);
         await user.addRole(role);
         return user;
     }
@@ -21,18 +14,10 @@ const addRoleToUser = async(userId, roleId) =>{
     }
 }
 
-const removeRoleFromUser = async(userId, roleId) =>{
+const removeRoleFromUser = async(userEmail, roleName) =>{
     try{
-        const user = await User.findOne({
-            where: {
-                id: userId
-            }
-        });
-        const role = await Role.findOne({
-            where: {
-                id: roleId
-            }
-        });
+        const user = await authHelperService.getUserByEmail(userEmail);
+        const role = await getRoleByName(roleName);
         await user.removeRole(role);
         return user;
     }
@@ -51,4 +36,18 @@ const getRoleById = async(id) =>{
     }
 }
 
-module.exports = {addRoleToUser, removeRoleFromUser, getRoleById};
+const getRoleByName = async(roleName) =>{
+    try{
+        const response = await Role.findOne({
+            where:{
+                name: roleName
+            }
+        });
+        return response;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+module.exports = {addRoleToUser, removeRoleFromUser, getRoleById, getRoleByName};

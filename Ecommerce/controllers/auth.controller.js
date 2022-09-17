@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const authService = require('../services/auth.service');
+const authHelperService = require('../services/auth-helper.service');
 require('dotenv').config();
 
 const signup = async(req, res) =>{
@@ -14,7 +14,7 @@ const signup = async(req, res) =>{
 
 
 const signin = async(req, res) =>{
-    const userData = await authService.getUserByEmail(req.body.email);
+    const userData = await authHelperService.getUserByEmail(req.body.email);
     if(!userData){ //user is not present in db for given email
         return res.json({
             message: 'Email id is incorrect, please try again',

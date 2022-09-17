@@ -1,7 +1,7 @@
 const roleService = require('../services/role.service');
 
 const addRoleToUser = (req, res) =>{
-    let response = roleService.addRoleToUser(req.body.userId, req.body.roleId);
+    let response = roleService.addRoleToUser(req.body.userEmail, req.body.roleName);
     if(response){
         return res.json({
             message: 'Role is added successfully',
@@ -20,7 +20,7 @@ const addRoleToUser = (req, res) =>{
 }
 
 const removeRoleFromUser = async(req, res) =>{
-    const response = await roleService.removeRoleFromUser(req.body.userId, req.body.roleId);
+    const response = await roleService.removeRoleFromUser(req.body.userEmail, req.body.roleName);
     if(response){
         return res.json({
             message: 'Role is removed successfully',

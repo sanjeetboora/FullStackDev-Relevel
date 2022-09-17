@@ -1,4 +1,5 @@
 const authService = require('../services/auth.service');
+const authHelperService = require('../services/auth-helper.service');
 const roleService = require('../services/role.service');
 
 const isAuthenticated = async(req, res, next) => {
@@ -23,7 +24,7 @@ const isAuthenticated = async(req, res, next) => {
         });
     }
 
-    const user = await authService.getUserByEmail(response.email);
+    const user = await authHelperService.getUserByEmail(response.email);
     if(!user){
         return res.json({
             status: 401,
@@ -40,7 +41,7 @@ const isAuthenticated = async(req, res, next) => {
 
 const checkAdmin = async(req, res, next) =>{
     const user =  req.user;
-    const adminRole = await roleService.getRoleById(1);
+    const adminRole = await roleService.getRoleByName('admin');
     const isAdmin = await user.hasRole(adminRole);
     if(!isAdmin){
         return res.json({
@@ -56,8 +57,8 @@ const checkAdmin = async(req, res, next) =>{
 
 const checkAdminOrSeller = async(req, res, next) =>{
     const user =  req.user;
-    const adminRole = await roleService.getRoleById(1);
-    const sellerRole = await roleService.getRoleById(2);
+    const adminRole = await roleService.getRoleByName('admin');
+    const sellerRole = await roleService.getRoleByName('seller');
     const isAdmin = await user.hasRole(adminRole);
     const isSeller = await user.hasRole(sellerRole);
     if(!isAdmin && !isSeller){
