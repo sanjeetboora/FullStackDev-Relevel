@@ -11,7 +11,13 @@ const addProduct = async (req, res) =>{
     }
 
     let response = await orderService.addProductToOrder(req.body.productId, order.id);
-
+    if(response.error){
+        return res.json({
+            status: 400,
+            success: true,
+            message: response.error
+        });
+    }
     if(response){
         return res.json({
             status: 200,
@@ -21,4 +27,40 @@ const addProduct = async (req, res) =>{
     }
 }
 
-module.exports = {addProduct}
+const removeProduct = async(req, res) =>{
+    let order = await orderService.getOrderByUser(req.user, STATUS.CREATION);
+    if(!order){
+        return res.json({
+            status: 400,
+            success: true,
+            message: 'No product in order'
+        });
+    }
+    
+    const response = await orderService.removeProductFromOrder(req.body.productId, order.id);
+
+    if(!response){
+        return res.json({
+            status: 400,
+            success: true,
+            message: 'Product does not exists in order'
+        });
+    }
+    if(response.error){
+        return res.json({
+            status: 400,
+            success: true,
+            message: response.error
+        });
+    }
+    return res.json({
+        status: 200,
+        success: true,
+        message: 'Product removed from order successfully'
+    });
+
+}
+
+
+
+module.exports = {addProduct, removeProduct}
