@@ -14,7 +14,6 @@ const getOrderByUser = async (user, orderStatus) =>{
     catch(err){
         console.log(err);
     }
-    
 }
 
 const createOrder = async(user) => {

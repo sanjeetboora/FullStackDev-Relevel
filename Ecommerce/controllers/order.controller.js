@@ -33,7 +33,7 @@ const removeProduct = async(req, res) =>{
         return res.json({
             status: 400,
             success: true,
-            message: 'No product in order'
+            message: 'No order for current user'
         });
     }
     
@@ -41,9 +41,9 @@ const removeProduct = async(req, res) =>{
 
     if(!response){
         return res.json({
-            status: 400,
+            status: 500,
             success: true,
-            message: 'Product does not exists in order'
+            message: 'Internal server error'
         });
     }
     if(response.error){

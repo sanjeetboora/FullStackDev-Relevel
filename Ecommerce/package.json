@@ -4,7 +4,8 @@
   "description": "An ecommerce app",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +18,8 @@
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.4",
     "sequelize-cli": "^6.4.1"
+  },
+  "devDependencies": {
+    "jest": "^29.0.3"
   }
 }
