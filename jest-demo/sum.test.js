@@ -1,4 +1,5 @@
-let {sum, sumObjects, truthyValues, showErrors, promiseFun, fun2, addTwo} = require('./sum');
+const {sum, sumObjects, truthyValues, showErrors, promiseFun, addTwo} = require('./sum');
+const fun = require('./sum2');
 
 /*
 test('name_of_test', callback_function)
@@ -9,6 +10,7 @@ which is telling what this is gonna test
 callback_function: inside this function we are going to have the logic 
 of the test
 */
+
 
 /*
     https://jestjs.io/docs/setup-teardown
@@ -217,8 +219,11 @@ test('when promiseFun is called with falsy value, it will reject promise - 3', a
 })
 
 
-// test('when addTwo is called, it should return the value with 2 added to fun2 value',()=>{
-//     //fun2.mockImplementation(() => 2);
-//     const result = addTwo();
-//     expect(result).toBe(32);
-// })
+test('when addTwo is called it should return 2 + value returned from fun2', ()=>{
+    //mock fun2
+    //const spyOnfun2 = jest.spyOn(fun, 'fun2').mockImplementation(() =>{return 40;});
+    const spyOnfun2 = jest.spyOn(fun, 'fun2').mockReturnValue(40);
+    const result = addTwo();
+    expect(spyOnfun2).toHaveBeenCalled();
+    expect(result).toBe(42);
+});

@@ -1,3 +1,5 @@
+const fun = require('./sum2');
+
 function sum(a, b){
     return a+b;
 }
@@ -46,15 +48,9 @@ function promiseFun(value){
     });
 }
 
-function fun2(){
-    return 15;
-}
-
 function addTwo(){
-    const data = fun2();
+    const data = fun.fun2();
     return 2 + data;
 }
 
-
-
-module.exports = {sum, sumObjects, truthyValues, showErrors, promiseFun, fun2, addTwo};
+module.exports = {sum, sumObjects, truthyValues, showErrors, promiseFun, addTwo};
