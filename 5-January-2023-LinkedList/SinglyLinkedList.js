@@ -70,6 +70,62 @@ class SinglyLinkedList{
         this.length++;
     }
 
+
+    deleteAtHead(){
+        if(!this.head){
+            console.log("No elements are present in the linkedlist");
+            return;
+        }
+        let curr = this.head;
+        this.head = this.head.next;
+        curr = null;
+        this.length--;
+    }
+
+    deleteAtTail(){
+        //when no node in ll or only one node in ll 
+        if(!this.head || !this.head.next){
+            this.deleteAtHead();
+            return;
+        }
+        
+        let curr = this.head;
+        while(curr.next.next){
+            curr = curr.next;
+        }
+        curr.next = null;
+        this.length--;
+    }
+    //assuming position starts from 1
+    deleteAtGivenPosition(position){
+        //invalid position
+        if(position < 1 || position > this.length){
+            console.log("given position is invalid");
+            return;
+        }
+        //deletion at head
+        if(position == 1){
+            this.deleteAtHead();
+            return;
+        }
+        // deletion at tail
+        if(position == this.length){
+            this.deleteAtTail();
+            return;
+        }
+        let count = 1;
+        let curr = this.head;
+        while(count < position-1){
+            count++;
+            curr = curr.next;
+        }
+
+        let nodeToBeDeleted = curr.next;
+        curr.next = curr.next.next;
+        nodeToBeDeleted = null;
+        this.length--;
+    }
+
     printLinkedList(){
         let current = this.head;
         while(current != null){
@@ -88,13 +144,17 @@ class SinglyLinkedList{
 }
 
 const ll = new SinglyLinkedList();
-ll.insertAtHead(10);
+ ll.insertAtHead(10);
 ll.insertAtHead(20);
 ll.insertAtTail(30);
 ll.insertAtGivenPosition(50, 0);
 ll.insertAtGivenPosition(100, 4);
 ll.insertAtGivenPosition(70, 3);
 // ll.printLinkedList();
+//ll.printLinkedListData();
+// ll.deleteAtHead();
+//ll.deleteAtTail();
+ll.deleteAtGivenPosition(2);
 ll.printLinkedListData();
 
 
