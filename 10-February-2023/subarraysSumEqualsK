@@ -1,0 +1,22 @@
+function contiguousSubarraySumEqualsToK(arr, K){
+    let map = new Map();
+    let totalSum = 0;
+    let count = 0;
+    map[totalSum] = 1; //initial freq of sum = 0
+    for(let idx=0; idx<arr.length; idx++){
+        totalSum += arr[idx];
+        if((totalSum - K) in map){
+            count += map[totalSum-K];
+        }
+        if(totalSum in map){
+            let currFreq = map[totalSum];
+            map[totalSum] = currFreq+1;
+        }else{
+            map[totalSum]=1;
+        }
+    }
+    return count;
+}
+
+let arr = [1, 1, 1,1];
+console.log(contiguousSubarraySumEqualsToK(arr, 2));
