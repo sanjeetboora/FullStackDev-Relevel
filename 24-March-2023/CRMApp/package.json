@@ -1,0 +1,17 @@
+{
+  "name": "crmapp",
+  "version": "1.0.0",
+  "description": "This is CRM app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3"
+  }
+}
