@@ -42,4 +42,26 @@ const verifyUser = async(data) =>{
     }
 }
 
-module.exports = {createUser, verifyUser}
+const getUserByEmail = async(data) => { 
+    try{
+        let userInfo= await User.findOne({email: data.email});
+        return userInfo;
+    }
+    catch(err){
+        console.log(err);
+        return error.message;
+    }
+}
+
+const getAllUsers = async() => {
+    try{
+        let usersInfo= await User.find();
+        return usersInfo;
+    }
+    catch(err){
+        console.log(err);
+        return error.message;
+    }
+}
+
+module.exports = {createUser, verifyUser, getUserByEmail, getAllUsers}

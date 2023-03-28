@@ -1,5 +1,6 @@
-const { response } = require('express');
+const jwt = require('jsonwebtoken');
 const userService = require('../services/user.service');
+require('dotenv').config();
 
 exports.signup = async (req, res) =>{
     try{
@@ -33,7 +34,12 @@ exports.signin = async(req, res) =>{
             response = result.error;
         }else{
             statusCode = 201;
-            response = "User validated";
+            const token = jwt.sign({email: req.body.email}, process.env.JWT_SECRET_KEY);
+            response = {
+                message: "user validated",
+                token: token
+            };
+
         }
         res.status(statusCode).send({
             result: response
@@ -44,4 +50,3 @@ exports.signin = async(req, res) =>{
         })
     }
 }
-
