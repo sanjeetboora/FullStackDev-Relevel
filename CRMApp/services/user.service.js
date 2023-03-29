@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
+const userConstants = require('../constants/user.constant');
 
 const createUser = async(data) =>{
     const response = {};
@@ -49,7 +50,7 @@ const getUserByEmail = async(data) => {
     }
     catch(err){
         console.log(err);
-        return error.message;
+        return err.message;
     }
 }
 
@@ -60,7 +61,7 @@ const getUserByUserId = async(data) => {
     }
     catch(err){
         console.log(err);
-        return error.message;
+        return err.message;
     }
 }
 
@@ -71,8 +72,43 @@ const getAllUsers = async() => {
     }
     catch(err){
         console.log(err);
-        return error.message;
+        return err.message;
     }
 }
 
-module.exports = {createUser, verifyUser, getUserByEmail, getAllUsers, getUserByUserId}
+
+const updateUserType =  async(data) =>{
+    try{
+        let result;
+        if(!(Object.values(userConstants.userTypes).indexOf(data.updates.userType) >= 0)){
+            result = {
+                error: "invalid user type provided",
+            }
+            return result;
+        }
+        
+        if(data.userId){
+            //update the user status on basis of user id
+            await User.findOneAndUpdate({_id:data.userId}, {userType: data.updates.userType});
+            result = await User.findOne({_id:data.userId});
+        }
+        else if(data.email){
+            //update the user status on basis of email
+            await User.findOneAndUpdate({email:data.email}, {userType: data.updates.userType}); 
+            result = await User.findOne({email:data.email});
+        }
+        else{
+            //return error, required fields not provided
+            result = {
+                error: "required fields are not provided to update the user information",
+            }
+        }
+        return result;
+    }
+    catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+
+module.exports = {createUser, verifyUser, getUserByEmail, getAllUsers, getUserByUserId, updateUserType}

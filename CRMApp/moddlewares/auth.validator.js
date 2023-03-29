@@ -14,7 +14,7 @@ const isUserAuthenticated = async (req, res, next) =>{
     //if token is provided
     const isVerifiedToken = authService.verfiyJwtToken(token);
     //token is invalid
-    if(!isVerifiedToken){
+    if(!isVerifiedToken || isVerifiedToken === "invalid signature"){
         return res.status(401).send({
             message: "jwt token is invalid"
         })

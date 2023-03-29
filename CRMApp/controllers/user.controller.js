@@ -39,6 +39,25 @@ const getUserByEmail = async(req, res) =>{
      }
  }
 
+ const updateUserType = async(req, res) =>{
+    try{
+        let response = await userService.updateUserType(req.body);
+        if(response.error){
+            res.status(401).send({
+                result: response.error
+            })
+        }else{
+            res.status(200).send({
+                result: response
+            })
+        }   
+    }catch(err){
+        res.status(500).send({
+            result: err
+        })
+    }
+ }
 
 
-module.exports = {getAllUsers, getUserByEmail, getUserByUserId};
+
+module.exports = {getAllUsers, getUserByEmail, getUserByUserId, updateUserType};
