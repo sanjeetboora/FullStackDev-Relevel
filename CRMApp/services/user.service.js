@@ -43,6 +43,27 @@ const verifyUser = async(data) =>{
     }
 }
 
+const isValidActiveUser = async(data) =>{
+    try{
+        //get the user by email
+        let userInfo= await getUserByEmail(data);
+        console.log("==========userInfo======", userInfo);
+        if(userInfo && userInfo.userStatus === "approved"){
+            return {
+                user:userInfo
+            };
+        }else{
+            return {
+                error: "invalid user"
+            }
+        }
+    }
+    catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+
 const getUserByEmail = async(data) => { 
     try{
         let userInfo= await User.findOne({email: data.email});
@@ -111,4 +132,18 @@ const updateUserType =  async(data) =>{
     }
 }
 
-module.exports = {createUser, verifyUser, getUserByEmail, getAllUsers, getUserByUserId, updateUserType}
+const addNewTicketCreatedByUser = async(userEmail, ticketId) =>{
+    try{
+        const response = await User.updateOne(
+            { email: userEmail }, 
+            { $push: { ticketsCreated: ticketId} },
+        );
+        return response;
+    } catch(err){
+        console.log(err);
+        return err.message;
+    }
+    
+}
+
+module.exports = {createUser, verifyUser, getUserByEmail, getAllUsers, getUserByUserId, updateUserType, isValidActiveUser, addNewTicketCreatedByUser}
