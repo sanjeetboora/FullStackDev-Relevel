@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
+const Ticket = require("../models/ticket.model");
 const userConstants = require('../constants/user.constant');
 
 const createUser = async(data) =>{
@@ -131,9 +132,32 @@ const updateUserType =  async(data) =>{
         return err.message;
     }
 }
+const validateTicketId = async(ticketId) =>{
+    try{
+        const response = await Ticket.findOne({_id: ticketId});
+        if(response){
+            return response;
+        }
+        else{
+            return {
+                error: "invalid ticket id"
+            }
+        }
+    }
+    catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
 
 const addNewTicketCreatedByUser = async(userEmail, ticketId) =>{
     try{
+        const validatedTicket = await validateTicketId(ticketId);
+        if(!validatedTicket || validatedTicket.error){
+            return {
+                error: validatedTicket.error
+            }
+        }
         const response = await User.updateOne(
             { email: userEmail }, 
             { $push: { ticketsCreated: ticketId} },
@@ -142,8 +166,27 @@ const addNewTicketCreatedByUser = async(userEmail, ticketId) =>{
     } catch(err){
         console.log(err);
         return err.message;
-    }
-    
+    }   
 }
 
-module.exports = {createUser, verifyUser, getUserByEmail, getAllUsers, getUserByUserId, updateUserType, isValidActiveUser, addNewTicketCreatedByUser}
+const addTicketAssignedToUser = async(userEmail, ticketId) =>{
+    try{
+        const validatedTicket = await validateTicketId(ticketId);
+        console.log("=======================", validatedTicket);
+        if(!validatedTicket || validatedTicket.error){
+            return {
+                error: validatedTicket.error
+            }
+        }
+        const response = await User.updateOne(
+            { email: userEmail }, 
+            { $push: { ticketsAssigned: ticketId} },
+        );
+        return response;
+    } catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+
+module.exports = {createUser, verifyUser, getUserByEmail, getAllUsers, getUserByUserId, updateUserType, isValidActiveUser, addNewTicketCreatedByUser, addTicketAssignedToUser, validateTicketId}

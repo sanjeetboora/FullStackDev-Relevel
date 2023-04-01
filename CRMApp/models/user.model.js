@@ -10,7 +10,6 @@ const userSchema = new Schema({
     password:{
         type: String,
         minLength: 5,
-        maxLength: 50,
         required: true,
         match: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5,}$/,
     },
@@ -40,7 +39,15 @@ const userSchema = new Schema({
     type: String,
     required: true,
     default: "approved"
-   } 
+   },
+   ticketsCreated:{
+    type: [mongoose.Types.ObjectId],
+    ref: "Ticket"
+   },
+   ticketsAssigned:{
+    type: [mongoose.Types.ObjectId],
+    ref: "Ticket"
+   }
 });
 userSchema.pre('save', function(next) {
     const hashedPassword = bcrypt.hashSync(this.password, 11);

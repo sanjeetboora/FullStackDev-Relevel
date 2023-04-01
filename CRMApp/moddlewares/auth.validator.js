@@ -21,6 +21,7 @@ const isUserAuthenticated = async (req, res, next) =>{
     }
      //token is valid
     const userInfo = await userService.getUserByEmail({email:isVerifiedToken.email});
+    console.log("=========userInfo==========",userInfo)
     if(!userInfo){
         return res.status(401).send({
             message: "email is invalid"
