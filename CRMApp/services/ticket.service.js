@@ -69,4 +69,26 @@ const getOneTicket = async(data) => {
     }
 
 }
-module.exports = {createTicket, getOneTicket};
+
+const getAllTicktes = async() =>{
+    try{
+        const response = await Ticket.find();
+        return response;
+    }
+    catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+
+const getAllTicketsByStatus = async(data) =>{
+    try{
+        const response = await Ticket.find({status: data.status});
+        return response;
+    }
+    catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+module.exports = {createTicket, getOneTicket, getAllTicktes, getAllTicketsByStatus};

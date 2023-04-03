@@ -189,4 +189,31 @@ const addTicketAssignedToUser = async(userEmail, ticketId) =>{
     }
 }
 
-module.exports = {createUser, verifyUser, getUserByEmail, getAllUsers, getUserByUserId, updateUserType, isValidActiveUser, addNewTicketCreatedByUser, addTicketAssignedToUser, validateTicketId}
+const getAllAssignedTicketsOfUser  = async(userInfo) =>{
+    try{
+        const validatedUser = await isValidActiveUser(userInfo);
+       if(!validatedUser || validatedUser.error){
+            return {
+                error: "Invalid User"
+            }
+        }
+        const tickets = [];
+        for(const ticketId of userInfo.ticketsAssigned){
+            const ticket =  await Ticket.findOne({_id: ticketId});
+           tickets.push(ticket)
+        }
+        return tickets; 
+    } catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+
+
+
+module.exports = {createUser, 
+    verifyUser, getUserByEmail, 
+    getAllUsers, getUserByUserId, 
+    updateUserType, isValidActiveUser, 
+    addNewTicketCreatedByUser, addTicketAssignedToUser, 
+    validateTicketId, getAllAssignedTicketsOfUser}
