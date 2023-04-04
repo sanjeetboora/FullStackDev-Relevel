@@ -11,8 +11,7 @@ module.exports = function(app){
     //get all tickets created by current user
 
 
-
-    //get all  //only admin can get all the tickets
+    //get all //only admin can get all the tickets
     app.get('/crmapp/api/v1/ticket/', authValidators.isUserAuthenticated, authValidators.isAdmin, ticketController.getAllTicktes);
 
 
@@ -22,5 +21,9 @@ module.exports = function(app){
 
     //get all details of one ticket by id
     app.get('/crmapp/api/v1/ticket/:id', authValidators.isUserAuthenticated, ticketController.getOneTicket);
+
+
+    //patch => update the ticket by id
+    app.patch('/crmapp/api/v1/ticket/:id', authValidators.isUserAuthenticated, ticketController.updateTicketById);
 
 }

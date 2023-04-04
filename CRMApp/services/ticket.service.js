@@ -1,4 +1,5 @@
 const Ticket = require('../models/ticket.model');
+const User = require('../models/user.model');
 const UserService = require('./user.service');
 const mongoose = require('mongoose');
 
@@ -91,4 +92,60 @@ const getAllTicketsByStatus = async(data) =>{
         return err.message;
     }
 }
-module.exports = {createTicket, getOneTicket, getAllTicktes, getAllTicketsByStatus};
+
+const updateTicketById = async(ticketIdInfo, ticketInfo, currentUser) =>{
+    try{
+        const validateTicket = await UserService.validateTicketId(ticketIdInfo.id);
+        if(!validateTicket || validateTicket.error){
+            return {
+                error: "invalid ticket id"
+            }
+        }
+
+        const filter = { _id: ticketIdInfo.id };
+        const update = ticketInfo;
+        if(update.assignee && update.assignee != currentUser.email){
+            return {
+                error: "assignee is invalid"
+            }
+        }
+
+        if(update.assignedTo && UserService.isValidActiveUser(update.assignedTo)){
+            update.assignee = currentUser.email;
+        }else{
+            return {
+                error: "Invalid assignedTo user"
+            }
+        }
+
+        //previousAssignedToUser
+        await User.findOneAndUpdate({email:validateTicket.assignedTo}, {
+            $pull:{
+                ticketsAssigned: validateTicket._id
+            }
+        })
+
+        //newAssignedToUser 
+        await User.findOneAndUpdate({email:update.assignedTo}, {
+            $push:{
+                ticketsAssigned: validateTicket._id
+            }
+        })
+
+        const response = await Ticket.findOneAndUpdate(
+            filter, 
+            update,
+            {
+                new: true // return the updated document
+            }
+        );
+       
+        return response;
+    }
+    catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+
+module.exports = {createTicket, getOneTicket, getAllTicktes, getAllTicketsByStatus,updateTicketById};

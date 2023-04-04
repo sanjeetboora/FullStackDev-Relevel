@@ -101,4 +101,26 @@ const getMyAllAssignedTickets = async(req, res) =>{
     }
 }
 
-module.exports = {createTicket, getOneTicket, getAllTicktes, getAllTicketsByStatus, getMyAllAssignedTickets}
+const updateTicketById = async(req, res) =>{
+    try{
+        const response = await ticketService.updateTicketById(req.params, req.body, req.user);
+        if(response.error){
+            res.status(401).send({
+                result: response.error
+            })
+        }else{
+            res.status(201).send({
+                result: response
+            })
+        }
+    }
+    catch(err){
+        res.status(500).send({
+            result: err
+        })
+    }
+}
+
+module.exports = {createTicket, getOneTicket,
+    getAllTicktes, getAllTicketsByStatus,
+     getMyAllAssignedTickets, updateTicketById}
