@@ -104,7 +104,7 @@ const updateTicketById = async(ticketIdInfo, ticketInfo, currentUser) =>{
 
         const filter = { _id: ticketIdInfo.id };
         const update = ticketInfo;
-        if(update.assignee && update.assignee != currentUser.email){
+        if(update.assignee != currentUser.email){
             return {
                 error: "assignee is invalid"
             }
