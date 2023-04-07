@@ -11,7 +11,7 @@ const ticketNotificationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    recepientEmails:{
+    recepientEmails:{ //todo: add match validator for array of emails
         type: [String],
         required: true
     },
@@ -23,6 +23,7 @@ const ticketNotificationSchema = new mongoose.Schema({
     requester: {
         type: String,
         required: true,
+        match: /\S+@\S+\.\S+/,
     },
     ticketId:{
         type: String,
@@ -39,6 +40,6 @@ const ticketNotificationSchema = new mongoose.Schema({
     }
 });
 
-const ticketNotificationModel = mongoose.model('TicketNotification', ticketNotificationSchema);
+const ticketNotificationModel = mongoose.model("Notification", ticketNotificationSchema);
 
 module.exports = ticketNotificationModel;
