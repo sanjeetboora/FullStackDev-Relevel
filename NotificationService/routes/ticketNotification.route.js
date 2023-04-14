@@ -1,5 +1,3 @@
-
-
 const ticketNotificationController = require('../controllers/ticketNotification.controller');
 
 module.exports = function(app){
