@@ -5,7 +5,6 @@ const {db_uri} = require('./config/db.config');
 const mongoose = require('mongoose');
 const notificationRoutes = require('./routes/ticketNotification.route');
 const bodyParser = require('body-parser');
-const cronJob =  require('./crons/ticketNotificationCron');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -20,6 +19,14 @@ app.listen(PORT, () => {
     
     //connect mongoose with mongo db
     mongoose.connect(db_uri);
-    cronJob.start();
 })
 
+
+
+// , ()=>{
+//     //success callback
+//     console.log("connected to mongodb using uri ", db_uri)
+// }, (err) =>{
+//     //failure callback
+//     console.log("Error in connecting to mongodb : ", err);
+// }

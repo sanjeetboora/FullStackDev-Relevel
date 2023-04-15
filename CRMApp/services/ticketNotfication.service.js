@@ -21,30 +21,4 @@ const createTicketNotification = async (data) =>{
     }
 }
 
-const getAllUnsentNotifications = async() =>{
-    try{
-        const unsentNotifications = await TicketNotification.find({
-            sentStatus: "UNSENT"
-        });
-        return unsentNotifications;
-    }
-    catch(err){
-        console.log(err.message);
-        return err.message;
-    }
-}
-
-const setStatusSent = async(notification) =>{
-    try{
-        const update = notification;
-        update.sentStatus = "SENT";
-        await TicketNotification.updateOne({id: notification._id}, update);
-    }
-    catch(err){
-        console.log(err.message);
-        return err.message;
-    }
-}
-
-
-module.exports = {createTicketNotification, getAllUnsentNotifications, setStatusSent};
+module.exports = {createTicketNotification};
