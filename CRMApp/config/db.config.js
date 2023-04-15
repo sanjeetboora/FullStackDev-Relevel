@@ -1,4 +1,3 @@
-//"mongodb://127.0.0.1:27017/<db_name>";
-const notificationServiceDbUri = "mongodb://127.0.0.1:27017/notificationServiceDb";
+const mongoDbUri = 'mongodb://127.0.0.1:27017/crmApp';
 
-module.exports = {db_uri : notificationServiceDbUri};
+module.exports = mongoDbUri;
