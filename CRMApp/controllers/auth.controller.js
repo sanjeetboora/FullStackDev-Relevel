@@ -14,9 +14,7 @@ exports.signup = async (req, res) =>{
             statusCode = 201;
             response = result.user;
         }
-        res.status(statusCode).send({
-            result: response
-        })
+        res.status(statusCode).send(response)
     }catch(err){
         res.status(500).send({
             result: err
