@@ -21,13 +21,9 @@ const getOneTicket =  async(req, res)=>{
     try{//req.body's param has ticket's id
         const response = await ticketService.getOneTicket(req.params);
         if(response.error){
-            res.status(401).send({
-                result: response.error
-            })
+            res.status(401).send(response.error)
         }else{
-            res.status(201).send({
-                result: response
-            })
+            res.status(201).send(response)
         }
     }
     catch(err){
