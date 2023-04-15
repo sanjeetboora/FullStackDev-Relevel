@@ -39,12 +39,8 @@ exports.signin = async(req, res) =>{
             };
 
         }
-        res.status(statusCode).send({
-            result: response
-        })
+        res.status(statusCode).send(response);
     }catch(err){
-        res.status(500).send({
-            result: err
-        })
+        res.status(500).send(err)
     }
 }

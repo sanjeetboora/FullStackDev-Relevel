@@ -5,13 +5,9 @@ const createTicket = async(req, res)=>{
     try{//req.body has ticket's data, req.user => we are getting this data from middleware for current user who sent this request
         const response = await ticketService.createTicket(req.body, req.user);
         if(response.error){
-            res.status(401).send({
-                result: response.error
-            })
+            res.status(401).send( response.error);
         }else{
-            res.status(201).send({
-                result: response
-            })
+            res.status(201).send(response)
         }
     }
     catch(err){
