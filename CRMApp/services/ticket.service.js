@@ -1,7 +1,7 @@
 const Ticket = require('../models/ticket.model');
 const User = require('../models/user.model');
 const UserService = require('./user.service');
-const mongoose = require('mongoose');
+const sendNotification = require('../Utils/notificationServiceClient');
 
 const createTicket = async(data, userData) =>{
     try{
@@ -40,6 +40,16 @@ const createTicket = async(data, userData) =>{
                     }
                 }
             }
+            const sendNotificationEmailObject = {
+                subject: "A new ticket is created: " + ticketResponse.title, 
+                content: "Ticket Description : " + ticketResponse.description, 
+                recepientEmails: [ticketResponse.createdBy, ticketResponse.assignedTo], 
+                requester: ticketResponse.createdBy, 
+                ticketId: ticketResponse._id
+            }
+            sendNotification(sendNotificationEmailObject.subject, sendNotificationEmailObject.content, 
+                sendNotificationEmailObject.recepientEmails, sendNotificationEmailObject.requester, sendNotificationEmailObject.ticketId);
+
             return ticketResponse;
         }
         else{
@@ -139,7 +149,18 @@ const updateTicketById = async(ticketIdInfo, ticketInfo, currentUser) =>{
                 new: true // return the updated document
             }
         );
-       
+
+        const sendNotificationEmailObject = {
+            subject: "A ticket is updated: " + response.title, 
+            content: "Ticket Description : " + response.description, 
+            recepientEmails: [response.createdBy, response.assignedTo], 
+            requester: response.createdBy, 
+            ticketId: response._id
+        }
+
+        sendNotification(sendNotificationEmailObject.subject, sendNotificationEmailObject.content, 
+            sendNotificationEmailObject.recepientEmails, sendNotificationEmailObject.requester, sendNotificationEmailObject.ticketId);
+
         return response;
     }
     catch(err){
