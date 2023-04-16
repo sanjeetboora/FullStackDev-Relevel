@@ -98,7 +98,6 @@ const getAllUsers = async() => {
     }
 }
 
-
 const updateUserType =  async(data) =>{
     try{
         let result;
@@ -132,6 +131,7 @@ const updateUserType =  async(data) =>{
         return err.message;
     }
 }
+
 const validateTicketId = async(ticketId) =>{
     try{
         const response = await Ticket.findOne({_id: ticketId});
@@ -208,8 +208,6 @@ const getAllAssignedTicketsOfUser  = async(userInfo) =>{
         return err.message;
     }
 }
-
-
 
 module.exports = {createUser, 
     verifyUser, getUserByEmail, 
