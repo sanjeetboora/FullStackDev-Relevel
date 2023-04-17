@@ -171,7 +171,6 @@ const addNewTicketCreatedByUser = async(userEmail, ticketId) =>{
 const addTicketAssignedToUser = async(userEmail, ticketId) =>{
     try{
         const validatedTicket = await validateTicketId(ticketId);
-        console.log("=======================", validatedTicket);
         if(!validatedTicket || validatedTicket.error){
             return {
                 error: validatedTicket.error

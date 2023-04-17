@@ -5,6 +5,7 @@ const {createUser,
     addNewTicketCreatedByUser, addTicketAssignedToUser, 
     validateTicketId, getAllAssignedTicketsOfUser} = require('./user.service');
 const User = require("../models/user.model");
+const Ticket = require("../models/ticket.model");
 const db = require('../tests/testUtils/db');
 const bcrypt = require("bcrypt");
 
@@ -439,3 +440,227 @@ describe('updateUserType', ()=>{
         }
     });
 });
+
+describe('validateTicketId', ()=>{
+    it('should return error, when error is thrown', async()=>{
+        const ticketId = "123"
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            throw new Error({message:"Search failed"});
+        })
+        expect.assertions(1);
+        try {
+            const result = await validateTicketId(ticketId);
+            expect(findOneTicketSpy).toHaveBeenCalled();
+        } catch (err) {
+          expect(err).toEqual("Search failed");
+        }
+    });
+
+    it('should return response, when ticket is found by id', async()=>{
+        const ticketId = "123"
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            return {_id: "123"};
+        })
+
+        const result = await validateTicketId(ticketId);
+        expect(findOneTicketSpy).toHaveBeenCalled();
+        expect(result).toEqual(expect.objectContaining({_id: "123"}));
+    });
+
+    it('should return error response, when ticket is not found by id', async()=>{
+        const ticketId = "123"
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            return null;
+        })
+
+        const result = await validateTicketId(ticketId);
+        expect(findOneTicketSpy).toHaveBeenCalled();
+        expect(result).toEqual(expect.objectContaining({
+            error: "invalid ticket id"
+        }));
+   
+    
+    });
+});
+
+describe('addNewTicketCreatedByUser', ()=>{
+    it('should return error, when ticket is not found with id', async()=>{
+        const ticketId = "123"
+        const userEmail = "abc@gmail.com"
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            return null;
+        })
+
+        const result = await addNewTicketCreatedByUser(userEmail,ticketId);
+        expect(findOneTicketSpy).toHaveBeenCalled();
+        expect(result).toEqual(expect.objectContaining({
+            error: "invalid ticket id"
+        }));
+    });
+
+    it('should return response, when ticket is found by id and user is updated', async()=>{
+        const ticketId = "123"
+        const userEmail = "abc@gmail.com"
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            return {_id: "123"};
+        })
+        const updateOneUserSpy = jest.spyOn(User, 'updateOne').mockImplementation(()=>{
+            return {email: "abc@gmail.com"};
+        })
+
+        const result = await addNewTicketCreatedByUser(userEmail,ticketId);
+        expect(findOneTicketSpy).toHaveBeenCalled();
+        expect(updateOneUserSpy).toHaveBeenCalled();
+        expect(updateOneUserSpy).toHaveBeenCalledWith({ email: userEmail }, 
+            { $push: { ticketsCreated: ticketId}});
+        expect(result).toEqual(expect.objectContaining({email: "abc@gmail.com"}));
+    });
+
+    it('should return error response, when error is thrown by Update One', async()=>{
+        const ticketId = "123"
+        const userEmail = "abc@gmail.com"
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            return {_id: "123"};
+        })
+        const updateOneUserSpy = jest.spyOn(User, 'updateOne').mockImplementation(()=>{
+            throw new Error({message: "update failed"})
+        })
+
+        expect.assertions(3);
+        try{
+            const result = await addNewTicketCreatedByUser(userEmail,ticketId);
+            expect(findOneTicketSpy).toHaveBeenCalled();
+            expect(updateOneUserSpy).toHaveBeenCalled();
+            expect(updateOneUserSpy).toHaveBeenCalledWith({ email: userEmail }, 
+                { $push: { ticketsCreated: ticketId}});
+        }
+        catch(err){
+            expect(err).toEqual("update failed");
+        }
+        
+    });
+});
+
+describe('addTicketAssignedToUser', ()=>{
+    it('should return error, when ticket is not found with id', async()=>{
+        const ticketId = "123"
+        const userEmail = "abc@gmail.com"
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            return null;
+        })
+
+        const result = await addTicketAssignedToUser(userEmail,ticketId);
+        expect(findOneTicketSpy).toHaveBeenCalled();
+        expect(result).toEqual(expect.objectContaining({
+            error: "invalid ticket id"
+        }));
+    });
+
+    it('should return response, when ticket is found by id and user is updated', async()=>{
+        const ticketId = "123"
+        const userEmail = "abc@gmail.com"
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            return {_id: "123"};
+        })
+        const updateOneUserSpy = jest.spyOn(User, 'updateOne').mockImplementation(()=>{
+            return {email: "abc@gmail.com"};
+        })
+
+        const result = await addTicketAssignedToUser(userEmail,ticketId);
+        expect(findOneTicketSpy).toHaveBeenCalled();
+        expect(updateOneUserSpy).toHaveBeenCalled();
+        expect(updateOneUserSpy).toHaveBeenCalledWith({ email: userEmail }, 
+            { $push: { ticketsAssigned: ticketId}});
+        expect(result).toEqual(expect.objectContaining({email: "abc@gmail.com"}));
+    });
+
+    it('should return error response, when error is thrown by Update One', async()=>{
+        const ticketId = "123"
+        const userEmail = "abc@gmail.com"
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            return {_id: "123"};
+        })
+        const updateOneUserSpy = jest.spyOn(User, 'updateOne').mockImplementation(()=>{
+            throw new Error({message: "update failed"})
+        })
+
+        expect.assertions(3);
+        try{
+            const result = await addTicketAssignedToUser(userEmail,ticketId);
+            expect(findOneTicketSpy).toHaveBeenCalled();
+            expect(updateOneUserSpy).toHaveBeenCalled();
+            expect(updateOneUserSpy).toHaveBeenCalledWith({ email: userEmail }, 
+                { $push: { ticketsAssigned: ticketId}});
+        }
+        catch(err){
+            expect(err).toEqual("update failed");
+        }
+        
+    });
+});
+
+describe('getAllAssignedTicketsOfUser', ()=>{
+    it('should return error, when user is not found', async()=>{
+        const userInfo = {
+            email: "abc@gmail.com"
+        }
+
+        const findOneUSerSpy = jest.spyOn(User, 'findOne').mockImplementation(()=>{
+            return null;
+        })
+
+        const result = await getAllAssignedTicketsOfUser(userInfo);
+        expect(findOneUSerSpy).toHaveBeenCalled();
+        expect(result).toEqual(expect.objectContaining({
+            error: "Invalid User"
+        }));
+    });
+
+    it('should return response, when ticket is found by id and user is valid', async()=>{
+        const userInfo = {
+            email: "abc@gmail.com",
+            ticketsAssigned: ["123", "321"],
+            userStatus: "approved"
+        }
+
+        const findOneUserSpy = jest.spyOn(User, 'findOne').mockImplementation(()=>{
+            return userInfo;
+        })
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            return {ticketId: "123"};
+        })
+
+        const result = await getAllAssignedTicketsOfUser(userInfo);
+        expect(findOneUserSpy).toHaveBeenCalled();
+        expect(findOneTicketSpy).toHaveBeenCalled();
+        expect(result).toEqual([{ticketId: "123"}, {ticketId: "123"}]);
+    });
+
+    it('should return error response, when error is thrown by find One', async()=>{
+        const userInfo = {
+            email: "abc@gmail.com",
+            ticketsAssigned: ["123", "321"],
+            userStatus: "approved"
+        }
+
+        const findOneUserSpy = jest.spyOn(User, 'findOne').mockImplementation(()=>{
+            return userInfo;
+        })
+        const findOneTicketSpy = jest.spyOn(Ticket, 'findOne').mockImplementation(()=>{
+            throw new Error({message: "ticket not found"})
+        })
+        expect.assertions(2);
+        try{
+            const result = await getAllAssignedTicketsOfUser(userInfo);
+            expect(findOneUserSpy).toHaveBeenCalled();
+            expect(findOneTicketSpy).toHaveBeenCalled();
+        }
+        catch(err){
+            expect(err).toEqual("ticket not found");
+        }
+        
+    });
+});
+
+
+//H.W => getAllUsers, 
