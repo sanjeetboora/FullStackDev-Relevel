@@ -44,11 +44,21 @@ const verifyUser = async(data) =>{
     }
 }
 
+const getUserByEmail = async(data) => { 
+    try{
+        let userInfo= await User.findOne({email: data.email});
+        return userInfo;
+    }
+    catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+
 const isValidActiveUser = async(data) =>{
     try{
         //get the user by email
         let userInfo= await getUserByEmail(data);
-        console.log("==========userInfo======", userInfo);
         if(userInfo && userInfo.userStatus === "approved"){
             return {
                 user:userInfo
@@ -58,17 +68,6 @@ const isValidActiveUser = async(data) =>{
                 error: "invalid user"
             }
         }
-    }
-    catch(err){
-        console.log(err);
-        return err.message;
-    }
-}
-
-const getUserByEmail = async(data) => { 
-    try{
-        let userInfo= await User.findOne({email: data.email});
-        return userInfo;
     }
     catch(err){
         console.log(err);

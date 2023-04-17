@@ -11,8 +11,8 @@ afterAll(async() => {
     await db.closeDatabase();
 });
 
-afterEach(() => {
-    return db.clearDatabase();
+afterEach(async() => {
+    await db.clearDatabase();
 });
   
 describe('SignUp',() => {
