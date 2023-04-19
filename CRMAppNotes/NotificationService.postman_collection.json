@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "96b496f9-6857-440b-94bf-64eba88ac09f",
+		"name": "NotificationService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Notification",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subject\": \"A better notification email\",\r\n    \"content\": \"You have received a new notification from your own app\",\r\n    \"recepientEmails\": [\"notificationfsd@gmail.com\", \"patelshivam1739@gmail.com\",\"satishkumar8210770481@gmail.com\" ],\r\n    \"requester\": \"patelshivam1739@gmail.com\",\r\n    \"ticketId\": \"3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/notificationService/api/v1/notification",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"notificationService",
+						"api",
+						"v1",
+						"notification"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

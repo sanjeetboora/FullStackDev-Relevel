@@ -1,0 +1,362 @@
+{
+	"info": {
+		"_postman_id": "b2232853-0145-4074-b346-ceb020c0d533",
+		"name": "CRMApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth - Sign Up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"nikhil\",\r\n    \"email\" : \"nikhilsolanki0712@gmail.com\",\r\n    \"password\": \"bhawesh@123\",\r\n    \"userType\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth - Sign in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"satishkumar8210770481@gmail.com\",\r\n    \"password\": \"bhawesh@123\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth- Sign in with JWT token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdGlzaEBnbWFpbC5jb20iLCJpYXQiOjE2ODAwMjQ2MjZ9.a_RNjs5fgPo0ehRxW93fdl9WC7_JJG2FNdZZ1_fk66Q",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/user/641e8c4757467a83ca2ad5a0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"user",
+						"641e8c4757467a83ca2ad5a0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user status (by admin)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdGlzaEBnbWFpbC5jb20iLCJpYXQiOjE2ODAxMDM4MDF9.CgSqgFcDg7H9NzFOqYuD8gGt0EmnslZE1bBNbAOdxqE",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"akash@gmail.com\",\r\n    \"updates\":{\r\n        \"userType\": \"engineer\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/user/updateUserStatus",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"user",
+						"updateUserStatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Ticket",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdGlzaGt1bWFyODIxMDc3MDQ4MUBnbWFpbC5jb20iLCJpYXQiOjE2ODEzMTY5NTR9.dMR-Yw8uW7QcDu0jTE1GAB73qWP_3kTTD3M9ozYTK2A",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"This is a real ticket\",\r\n    \"description\": \"This is the real ticket description\",\r\n    \"assignedTo\":\"bhaweshg0777@gmail.com\",\r\n    \"clientName\": \"adobe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/ticket/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"ticket",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOneTicket",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdGlzaEBnbWFpbC5jb20iLCJpYXQiOjE2ODAyNzY0MDN9.xAR4KqoQlLuBdoNMT6dor1wCevCHtAIxnUJXepao9bY",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/ticket/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"ticket",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "642712a2e913aa8df4f8afc8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all tickets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJoYXdlc2hAZ21haWwuY29tIiwiaWF0IjoxNjgwNTM1MTA2fQ.XRNVyGQK7lgPotdn0RraO0s53mbjVxcpehdkwUHneJ0",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/ticket/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"ticket",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all tickets by status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJoYXdlc2hAZ21haWwuY29tIiwiaWF0IjoxNjgwNTM1MTA2fQ.XRNVyGQK7lgPotdn0RraO0s53mbjVxcpehdkwUHneJ0",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/ticketbystatus/:status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"ticketbystatus",
+						":status"
+					],
+					"variable": [
+						{
+							"key": "status",
+							"value": "open"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all my assigned tickets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJoYXdlc2hAZ21haWwuY29tIiwiaWF0IjoxNjgwNTM1MTA2fQ.XRNVyGQK7lgPotdn0RraO0s53mbjVxcpehdkwUHneJ0",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/getMyAssignedTickets/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"getMyAssignedTickets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update ticket by id",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdGlzaGt1bWFyODIxMDc3MDQ4MUBnbWFpbC5jb20iLCJpYXQiOjE2ODEzMTc3MDd9.GCNM4k3Arxz3AhDP4cqGaYodvbXGAGiVDIdn0_OoNYY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Updating the ticket\",\r\n    \"ticketPriority\": 2,\r\n    \"assignedTo\": \"nikhilsolanki0712@gmail.com\",\r\n    \"assignee\": \"satishkumar8210770481@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/crmapp/api/v1/ticket/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"crmapp",
+						"api",
+						"v1",
+						"ticket",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "6436ddb2930a91769679843b"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
