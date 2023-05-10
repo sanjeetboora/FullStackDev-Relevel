@@ -1,26 +1,64 @@
 import '../styles/Login.css';
 import React, {useState} from "react";
 import {DropdownButton, Dropdown} from 'react-bootstrap'
-
+import axios from 'axios';
 
 function Login(){
+    const BASE_URL = "http://localhost:8000/crmapp/api/v1/";
     const [showSignUpPage, setShowSignUpPage] = useState(false);
-
+    const [userType, setUserType] = useState("");
     const toggleSignUp = () =>{
         setShowSignUpPage(!showSignUpPage);
         console.log(showSignUpPage)
     }
 
     const loginFn = (event) =>{
-        const userEmail = event.getElementById("email");
-        const userPassword = event.getElementById("password");
-        const userData = {userEmail, userPassword}
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const userData = {email, password}
         event.preventDefault();
         console.log(userData);
+
+        axios.post(BASE_URL+'auth/signin', userData)
+        .then(function (response) { 
+            console.log(response); 
+            if(response.status === 201){
+                localStorage.setItem("token",response.data.token);
+                localStorage.setItem("email",response.data.userData.email);
+                localStorage.setItem("name",response.data.userData.name);
+                localStorage.setItem("userType",response.data.userData.userType);
+                localStorage.setItem("userStatus",response.data.userData.userStatus);
+            }
+          })
+          .catch(function (error) {
+            console.log("error from sign in");
+            console.log(JSON.stringify(error));
+          });
+    }
+
+    const signUpFn = (event)=>{
+        const name  = document.getElementById("name").value;
+        const email  = document.getElementById("email").value;
+        const password  = document.getElementById("password").value;
+        
+        const userData = {name, email, password, userType};
+        event.preventDefault();
+        console.log(event);
+        console.log(userData);
+        
+        axios.post(BASE_URL + 'auth/signup', userData)
+          .then(function (response) {  
+            console.log("response from sign up");
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log("error from sign up");
+            console.log(JSON.stringify(error));
+          });
     }
 
     const handleSelect = (val) =>{
-        console.log(val);
+        setUserType(val);
     }
 
     return (
@@ -35,7 +73,7 @@ function Login(){
                                             <div class="form-left h-100 py-5 px-5">
                                                 { 
                                                     showSignUpPage ? (
-                                                            <form onSubmit={loginFn} class="row g-4">
+                                                            <form onSubmit={signUpFn} class="row g-4">
                                                                 <div class="col-12">
                                                                     <label>Name<span class="text-danger">*</span></label>
                                                                     <div class="input-group">
@@ -62,7 +100,7 @@ function Login(){
                                                                 <div class="col-12">
                                                                     <label>User Type<span class="text-danger">*</span></label>
                                                                     <div class="input-group">
-                                                                        <DropdownButton id="userType" align="end" title="UserType" onSelect={handleSelect} variant='light' className="mb-2">
+                                                                        <DropdownButton id="usertype" align="end" title="UserType" onSelect={handleSelect} variant='light' className="mb-2">
                                                                             <Dropdown.Item active = "true" eventKey = "customer">Customer</Dropdown.Item>
                                                                             <Dropdown.Item eventKey = "engineer">Engineer</Dropdown.Item>
                                                                             <Dropdown.Item eventKey = "admin">Admin</Dropdown.Item>
@@ -77,12 +115,10 @@ function Login(){
                                                                 <div class="col-12">
                                                                     <button type="submit" class="btn btn-primary px-4 float-end mt-4">Sign Up</button>
                                                                 </div>
-                                                        </form>
-                                                    
+                                                        </form>                                                   
                                                     )
                                                         : 
                                                     (
-
                                                         <form onSubmit={loginFn} class="row g-4">
                                                                 <div class="col-12">
                                                                     <label>Email Address<span class="text-danger">*</span></label>
