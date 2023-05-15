@@ -29,6 +29,17 @@ function Login(){
                 localStorage.setItem("userType",response.data.userData.userType);
                 localStorage.setItem("userStatus",response.data.userData.userStatus);
             }
+            switch (response.data.userData.userType) {
+                case "engineer":
+                    window.location.href = "/engineer";
+                    break;
+                case "admin":
+                    window.location.href = "/admin";
+                    break;
+                default:
+                    window.location.href = "/customer";
+                    break;
+            }
           })
           .catch(function (error) {
             console.log("error from sign in");
