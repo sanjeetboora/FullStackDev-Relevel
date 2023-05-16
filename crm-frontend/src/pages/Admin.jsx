@@ -1,15 +1,14 @@
+import * as TicketService from '../services/tickets';
+import * as UserService from '../services/users';
 import { useEffect, useRef, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import MaterialTable from "@material-table/core";
-import axios from 'axios';
 import ExportCsv from '@material-table/exporters/csv';
 import ExportPdf from '@material-table/exporters/pdf';
 import TicketCard from "../utils/ticketsCard";
 
-
 function Admin(){
-    const BASE_URL = "http://localhost:8000/crmapp/api/v1/";
     const currUserName = useState(localStorage.getItem("name"));
     const [allUserData, setAllUserData] = useState([]);
     const [ticketsData, setTicketsData] = useState({});
@@ -18,39 +17,33 @@ function Admin(){
     const componentMounted = useRef(true);
     const ticketStatus = ["open", "inProgress", "resolved", "cancelled", "onHold"];
     const ticketCardColor = ["primary", "info", "warning", "light", "success"];
-    const access_token = localStorage.getItem("token");
-    axios.defaults.headers.common['x-access-token'] = access_token;
-    
+
     useEffect(()=>{
         (async()=>{
             if(componentMounted.current){
                 fetchUsers();
-                updateTotalTickets();
+                updateTicketCardsData();
                 componentMounted.current=false;
             }
         })();
     },[]);
 
-    const fetchUsers = () =>{
-        axios.get(BASE_URL+'users/').then((response)=>{
-            console.log(response);
-            setAllUserData(response.data.result);
-        }).catch(err =>{
-            console.log(err);
-        })
+    const fetchUsers = async() =>{
+        const response =  await UserService.getAllUsers();
+        setAllUserData(response.data.result);
     }
 
     const fetchTickets = async() =>{
         const result = {};
         for (let index = 0; index < ticketStatus.length; index++) {
             const status = ticketStatus[index];
-            const res = await axios.get(BASE_URL+'ticketbystatus/'+ status);
+            const res = await TicketService.getTicketsByStatus(status);
             result[status] = res.data.result;
         }
        return result;
     }
 
-    const updateTotalTickets = async() => {
+    const updateTicketCardsData = async() => {
         const response = await fetchTickets();
         setTicketsData(response);
         let totalTickets = 0;
@@ -152,9 +145,6 @@ function Admin(){
             }
 
         </div>
-
-
-
     );
 }
 
