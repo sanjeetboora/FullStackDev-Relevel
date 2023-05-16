@@ -12,14 +12,12 @@ function Admin(){
     const BASE_URL = "http://localhost:8000/crmapp/api/v1/";
     const currUserName = useState(localStorage.getItem("name"));
     const [allUserData, setAllUserData] = useState([]);
-    const [openTickets, setopenTickets] = useState([]);
-    const [inProgressTickets, setInProgressTickets] = useState([]);
-    const [resolvedTickets, setResolvedTickets] = useState([]);
-    const [onHoldTickets, setOnHoldTickets] = useState([]);
-    const [cancelledTickets, setCancelledTickets] = useState([]);
+    const [ticketsData, setTicketsData] = useState({});
     const [totalTicketsCount, setTotalTicketsCount] = useState(100);
     const [cardsDetails, setCardsDetails] = useState([]);
     const componentMounted = useRef(true);
+    const ticketStatus = ["open", "inProgress", "resolved", "cancelled", "onHold"];
+    const ticketCardColor = ["primary", "info", "warning", "light", "success"];
     const access_token = localStorage.getItem("token");
     axios.defaults.headers.common['x-access-token'] = access_token;
     
@@ -42,30 +40,34 @@ function Admin(){
         })
     }
 
-    const fetchTickets = async() =>{  
-        const open = await axios.get(BASE_URL+'ticketbystatus/open');
-        const inprogress = await axios.get(BASE_URL+'ticketbystatus/inProgress');
-        const resolved = await axios.get(BASE_URL+'ticketbystatus/resolved');
-        const onhold = await axios.get(BASE_URL+'ticketbystatus/onHold');
-        const cancelled = await axios.get(BASE_URL+'ticketbystatus/cancelled');
-        return {open, inprogress, resolved, cancelled, onhold};
+    const fetchTickets = async() =>{
+        const result = {};
+        for (let index = 0; index < ticketStatus.length; index++) {
+            const status = ticketStatus[index];
+            const res = await axios.get(BASE_URL+'ticketbystatus/'+ status);
+            result[status] = res.data.result;
+        }
+       return result;
     }
 
     const updateTotalTickets = async() => {
         const response = await fetchTickets();
-        setopenTickets(response.open.data.result);
-        setCancelledTickets(response.cancelled.data.result);
-        setOnHoldTickets(response.onhold.data.result);
-        setInProgressTickets(response.inprogress.data.result);
-        setResolvedTickets(response.resolved.data.result);
-        setTotalTicketsCount(response.open.data.result.length+response.cancelled.data.result.length+response.resolved.data.result.length+response.inprogress.data.result.length+response.onhold.data.result.length);
-        const cardsData = [
-            {cardColor: "primary", cardTitle: "Open", numberOfTickets : openTickets.length, percentageOfTickets : openTickets.length*100/totalTicketsCount},
-            {cardColor: "info", cardTitle: "In Progress", numberOfTickets : inProgressTickets.length, percentageOfTickets : inProgressTickets.length*100/totalTicketsCount},
-            {cardColor: "warning", cardTitle: "On Hold", numberOfTickets : onHoldTickets.length, percentageOfTickets : onHoldTickets.length*100/totalTicketsCount},
-            {cardColor: "light", cardTitle: "Cancelled", numberOfTickets : cancelledTickets.length, percentageOfTickets : cancelledTickets.length*100/totalTicketsCount},
-            {cardColor: "success", cardTitle: "Resolved", numberOfTickets : resolvedTickets.length, percentageOfTickets : resolvedTickets.length*100/totalTicketsCount}
-        ]
+        setTicketsData(response);
+        let totalTickets = 0;
+        for(const ele in response){
+            totalTickets += response[ele].length;
+        }
+        setTotalTicketsCount(totalTickets);
+        const cardsData = [];
+        for(let i=0; i<ticketStatus.length; i++){
+            const data = {
+                cardColor: ticketCardColor[i], 
+                cardTitle: ticketStatus[i], 
+                numberOfTickets : response[ticketStatus[i]].length, 
+                percentageOfTickets : response[ticketStatus[i]].length*100/totalTickets,
+            }
+            cardsData.push(data);
+        }
         setCardsDetails(cardsData);
     }
 
