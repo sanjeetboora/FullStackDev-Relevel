@@ -5,8 +5,7 @@ import MaterialTable from "@material-table/core";
 import axios from 'axios';
 import ExportCsv from '@material-table/exporters/csv';
 import ExportPdf from '@material-table/exporters/pdf';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import TicketCard from "../utils/ticketsCard";
 
 
 function Admin(){
@@ -19,6 +18,7 @@ function Admin(){
     const [onHoldTickets, setOnHoldTickets] = useState([]);
     const [cancelledTickets, setCancelledTickets] = useState([]);
     const [totalTicketsCount, setTotalTicketsCount] = useState(100);
+    const [cardsDetails, setCardsDetails] = useState([]);
     const componentMounted = useRef(true);
     const access_token = localStorage.getItem("token");
     axios.defaults.headers.common['x-access-token'] = access_token;
@@ -59,6 +59,14 @@ function Admin(){
         setInProgressTickets(response.inprogress.data.result);
         setResolvedTickets(response.resolved.data.result);
         setTotalTicketsCount(response.open.data.result.length+response.cancelled.data.result.length+response.resolved.data.result.length+response.inprogress.data.result.length+response.onhold.data.result.length);
+        const cardsData = [
+            {cardColor: "primary", cardTitle: "Open", numberOfTickets : openTickets.length, percentageOfTickets : openTickets.length*100/totalTicketsCount},
+            {cardColor: "info", cardTitle: "In Progress", numberOfTickets : inProgressTickets.length, percentageOfTickets : inProgressTickets.length*100/totalTicketsCount},
+            {cardColor: "warning", cardTitle: "On Hold", numberOfTickets : onHoldTickets.length, percentageOfTickets : onHoldTickets.length*100/totalTicketsCount},
+            {cardColor: "light", cardTitle: "Cancelled", numberOfTickets : cancelledTickets.length, percentageOfTickets : cancelledTickets.length*100/totalTicketsCount},
+            {cardColor: "success", cardTitle: "Resolved", numberOfTickets : resolvedTickets.length, percentageOfTickets : resolvedTickets.length*100/totalTicketsCount}
+        ]
+        setCardsDetails(cardsData);
     }
 
     return (
@@ -68,123 +76,16 @@ function Admin(){
             {
                 /* cards */
             }
-            <div className="row text-center"> 
-                <div className="col">
-                    <div class="card bg-primary" style={{width: 16+"rem"}}>
-                        <div class="card-body">
-                            <h5 class="card-title">Open</h5>
-                            <hr />
-                            <div className="row">
-                                <div className="col">
-                                    <h1>{openTickets.length}</h1>
-                                </div>
-                                <div className="col"> 
-                                    <div style={{ width: 50, height: 50 }}>
-                                        <CircularProgressbar 
-                                            value={openTickets.length*100/totalTicketsCount} 
-                                            text={`${openTickets.length*100/totalTicketsCount}%`} 
-                                            styles={buildStyles({
-                                                textColor: 'white',
-                                                pathColor: 'white',
-                                                trailColor: 'black',
-                                            })} 
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+            <div className="row text-center">
+                {
+                    cardsDetails.map(card => {
+                        return <div className="col">
+                            <TicketCard props ={{cardColor: card.cardColor, cardTitle: card.cardTitle, numberOfTickets : card.numberOfTickets, percentageOfTickets : card.percentageOfTickets}} />
                         </div>
-                    </div>
-                </div>
-                <div className="col">
-                    <div className="card bg-info" style={{width: 16+"rem"}}>    
-                        <div class="card-body">
-                            <h5 class="card-title">In Progress</h5>
-                            <hr />
-                            <div className="row">
-                                <div className="col" >
-                                    <h1>{inProgressTickets.length}</h1>
-                                </div>
-                                <div className="col">
-                                    <div style={{ width: 50, height: 50 }}>
-                                        <CircularProgressbar value={inProgressTickets.length/totalTicketsCount} text={`${inProgressTickets.length/totalTicketsCount}%`} styles={buildStyles({
-                                                textColor: 'white',
-                                                pathColor: 'white',
-                                                trailColor: 'black',
-                                            })}  />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col">
-                    <div className="card bg-warning" style={{width: 16+"rem"}}>
-                        <div class="card-body">
-                            <h5 class="card-title">On Hold</h5>
-                            <hr />
-                            <div className="row">
-                                <div className="col">
-                                    <h1>{onHoldTickets.length}</h1>
-                                </div>
-                                <div className="col">
-                                    <div style={{ width: 50, height: 50 }}>
-                                        <CircularProgressbar value={onHoldTickets.length/totalTicketsCount} text={`${onHoldTickets.length/totalTicketsCount}%`} styles={buildStyles({
-                                                textColor: 'white',
-                                                pathColor: 'white',
-                                                trailColor: 'black',
-                                            })}  />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>        
-                    </div>
-                </div>
-                <div className="col">
-                    <div className="card bg-light" style={{width: 16+"rem"}}>
-                        <div class="card-body">
-                            <h5 class="card-title">Cancelled</h5>
-                            <hr />
-                            <div className="row">
-                                <div className="col">
-                                    <h1>{cancelledTickets.length}</h1>
-                                </div>
-                                <div className="col">
-                                    <div style={{ width: 50, height: 50 }}>
-                                        <CircularProgressbar value={cancelledTickets.length/totalTicketsCount} text={`${cancelledTickets.length/totalTicketsCount}%`} styles={buildStyles({
-                                                textColor: 'black',
-                                                pathColor: 'white',
-                                                trailColor: 'black',
-                                            })} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>   
-                    </div>
-                </div>
-                <div className="col">
-                    <div className="card bg-success" style={{width: 16+"rem"}}>
-                        <div class="card-body">
-                            <h5 class="card-title">Resolved</h5>
-                            <hr />
-                            <div className="row">
-                                <div className="col" >
-                                    <h1>{resolvedTickets.length}</h1>
-                                </div>
-                                <div className="col">
-                                    <div style={{ width: 50, height: 50 }}>
-                                        <CircularProgressbar maxValue = {resolvedTickets.length} minValue = {0} value={resolvedTickets.length} text={`${resolvedTickets.length* 100/totalTicketsCount}%`} styles={buildStyles({
-                                                textColor: 'white',
-                                                pathColor: 'white',
-                                                trailColor: 'black',
-                                            })}  />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>      
-                    </div>
-                </div>
+                    })
+                }
             </div>
-<hr style={{margin: 2+"rem"}}/>
+            <hr style={{margin: 2+"rem"}}/>
             {
                 /*user data table*/
                 <MaterialTable 
