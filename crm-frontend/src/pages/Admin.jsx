@@ -74,6 +74,13 @@ function Admin(){
         setCardsDetails(cardsData);
     }
 
+    const changeUserDetails = (event) =>{
+        const {name, value} = event.target;
+        selectedUserDetails[name]=value;
+        setSelectedUserDetails(selectedUserDetails);
+        setShowModal(event.target.value);
+    }
+
     return (
         <div>  
             <div className="row text-center" style={{marginTop: 1+'rem', marginBottom: 2+'rem'}}> <h1>Welcome {currUserName}!!!</h1></div>
@@ -107,15 +114,15 @@ function Admin(){
                         sorting: true,
                         exportMenu: [
                             {
-                            label: "Export PDF",
-                            //// You can do whatever you wish in this function. We provide the
-                            //// raw table columns and table data for you to modify, if needed.
-                            // exportFunc: (cols, datas) => console.log({ cols, datas })
-                            exportFunc: (cols, datas) => ExportPdf(cols, datas, "userDataPdf"),
+                                label: "Export PDF",
+                                //// You can do whatever you wish in this function. We provide the
+                                //// raw table columns and table data for you to modify, if needed.
+                                // exportFunc: (cols, datas) => console.log({ cols, datas })
+                                exportFunc: (cols, datas) => ExportPdf(cols, datas, "userDataPdf"),
                             },
                             {
-                            label: "Export CSV",
-                            exportFunc: (cols, datas) => ExportCsv(cols, datas, "userDataCsv"),
+                                label: "Export CSV",
+                                exportFunc: (cols, datas) => ExportCsv(cols, datas, "userDataCsv"),
                             },
                         ],
                         headerStyle: {
@@ -160,24 +167,53 @@ function Admin(){
 
         <Modal show={showModal} onHide={closeModal}>
             <Modal.Header closeButton>
-                <Modal.Title>{selectedUserDetails.name}'s Information</Modal.Title>
+                <Modal.Title>Edit user details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div>
-                    <p>Id: {selectedUserDetails._id}</p>
-                    <p>Name: {selectedUserDetails.name}</p>
-                    <p>Email: {selectedUserDetails.email}</p>
-                    <p>Tickets Assigned: {selectedUserDetails.ticketsAssigned}</p>
-                    <p>Tickets Created: {selectedUserDetails.ticketsCreated}</p>                   
-                    <p>User Status: {selectedUserDetails.userStatus}</p>
-                    <p>User Type: {selectedUserDetails.userType}</p>
-                    <p>Created At: {selectedUserDetails.createdAt}</p>
-                    <p>Updated At: {selectedUserDetails.updatedAt}</p>
-                </div>
+                <form onSubmit = {closeModal}>
+                    <h5 className='card-subtitle text-primary lead'>User Id: {selectedUserDetails._id}</h5>
+                    <hr />
+                    <div className='input-group mb-3'>
+                        <label className='label input-group-text label-md'>Name</label>
+                        <input type='text' className='form-control' name='name' value={selectedUserDetails.name} onChange={changeUserDetails}/>
+                    </div>
+                    <div className='input-group mb-3'>
+                        <label className='label input-group-text label-md'>Email</label>
+                        <input type='email' className='form-control' name='email' value={selectedUserDetails.email} onChange={changeUserDetails}/>
+                    </div>
+                    <div className='input-group mb-3'>
+                        <label className='label input-group-text label-md'>User Type</label>
+                        <select className='form-select' name="userType" value = {selectedUserDetails.userType} onChange={changeUserDetails}>
+                            <option value = "customer">Customer</option>
+                            <option value = "engineer">Engineer</option>
+                            <option value = "admin">Admin</option>
+                       </select>
+                    </div>
+                    <div className='input-group mb-3'>
+                        <label className='label input-group-text label-md'>User Status</label>
+                        <select className='form-select' name="userStatus" value = {selectedUserDetails.userStatus} onChange={changeUserDetails}>
+                            <option value = "pending">Pending</option>
+                            <option value = "approved">Approved</option>
+                            <option value = "suspended">Suspended</option>
+                            <option value = "rejected">Rejected</option>
+                       </select>
+                    </div>
+                    <div className='input-group mb-3'>
+                        <label className='label input-group-text label-md'>Tickets Created</label>
+                        <input type='text' className='form-control' name='ticketsCreated' value={selectedUserDetails.ticketsCreated} disabled/>
+                    </div>
+                    <div className='input-group mb-3'>
+                        <label className='label input-group-text label-md'>Tickets Assigned</label>
+                        <input type='text' className='form-control' name='ticketsAssigned' value={selectedUserDetails.ticketsAssigned} disabled/>
+                    </div>
+                </form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={closeModal}>
+                <Button variant="secondary" onClick={closeModal}>
                     Close
+                </Button>
+                <Button variant="primary" onClick={closeModal}>
+                    Save
                 </Button>
             </Modal.Footer>
         </Modal>
