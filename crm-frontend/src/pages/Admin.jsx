@@ -1,6 +1,7 @@
 import * as TicketService from '../services/tickets';
 import * as UserService from '../services/users';
 import { useEffect, useRef, useState } from "react";
+import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import MaterialTable from "@material-table/core";
@@ -14,9 +15,18 @@ function Admin(){
     const [ticketsData, setTicketsData] = useState({});
     const [totalTicketsCount, setTotalTicketsCount] = useState(100);
     const [cardsDetails, setCardsDetails] = useState([]);
+    const [selectedUserDetails, setSelectedUserDetails] = useState({});
     const componentMounted = useRef(true);
     const ticketStatus = ["open", "inProgress", "resolved", "cancelled", "onHold"];
     const ticketCardColor = ["primary", "info", "warning", "light", "success"];
+
+    const [showModal, setShowModal] = useState(false);
+    const showTheModal= () =>{
+        setShowModal(true);
+    }
+    const closeModal = () =>{
+        setShowModal(false);
+    }
 
     useEffect(()=>{
         (async()=>{
@@ -84,67 +94,95 @@ function Admin(){
             {
                 /*user data table*/
                 <MaterialTable 
-                title={"User Records"}
-                options={{
-                    // Allow user to hide/show
-                    // columns from Columns Button
-                    columnsButton: true,
-                    filtering: true,
-                    sorting: true,
-                    exportMenu: [
+                    onRowClick={(event, rowData) => {
+                        setSelectedUserDetails(rowData);
+                        showTheModal();
+                    }}
+                    title={"User Records"}
+                    options={{
+                        // Allow user to hide/show
+                        // columns from Columns Button
+                        columnsButton: true,
+                        filtering: true,
+                        sorting: true,
+                        exportMenu: [
+                            {
+                            label: "Export PDF",
+                            //// You can do whatever you wish in this function. We provide the
+                            //// raw table columns and table data for you to modify, if needed.
+                            // exportFunc: (cols, datas) => console.log({ cols, datas })
+                            exportFunc: (cols, datas) => ExportPdf(cols, datas, "userDataPdf"),
+                            },
+                            {
+                            label: "Export CSV",
+                            exportFunc: (cols, datas) => ExportCsv(cols, datas, "userDataCsv"),
+                            },
+                        ],
+                        headerStyle: {
+                            backgroundColor: '#01579b',
+                            color: '#FFF'
+                        },
+                        rowStyle: {
+                            backgroundColor: "#d4d4d4",
+                        },
+                    }}
+                    data={allUserData}
+                    columns={[
                         {
-                          label: "Export PDF",
-                          //// You can do whatever you wish in this function. We provide the
-                          //// raw table columns and table data for you to modify, if needed.
-                          // exportFunc: (cols, datas) => console.log({ cols, datas })
-                          exportFunc: (cols, datas) => ExportPdf(cols, datas, "userDataPdf"),
+                            field: "name",
+                            title: "Name",
                         },
                         {
-                          label: "Export CSV",
-                          exportFunc: (cols, datas) => ExportCsv(cols, datas, "userDataCsv"),
+                            field: "email",
+                            title: "Email",
                         },
-                      ],
-                      headerStyle: {
-                        backgroundColor: '#01579b',
-                        color: '#FFF'
-                      },
-                      rowStyle: {
-                        backgroundColor: "#d4d4d4",
-                      },
-                  }}
-                data={allUserData}
-                columns={[
-                    {
-                        field: "name",
-                        title: "Name",
-                    },
-                    {
-                        field: "email",
-                        title: "Email",
-                    },
-                    {
-                        field: "userType",
-                        title: "User Type",
-                        lookup:{
-                            "admin":"admin",
-                            "customer":"customer",
-                            "engineer":"engineer"
-                        }
-                    },
-                    {
-                        field: "userStatus",
-                        title: "User Status",
-                        lookup:{
-                            "approved":"approved",
-                            "pending": "pending",
-                            "rejected":"rejected"
-                        }
-                    },
-                  ]}
+                        {
+                            field: "userType",
+                            title: "User Type",
+                            lookup:{
+                                "admin":"admin",
+                                "customer":"customer",
+                                "engineer":"engineer"
+                            }
+                        },
+                        {
+                            field: "userStatus",
+                            title: "User Status",
+                            lookup:{
+                                "approved":"approved",
+                                "pending": "pending",
+                                "rejected":"rejected"
+                            }
+                        },
+                    ]}
                 />
             }
 
-        </div>
+        <Modal show={showModal} onHide={closeModal}>
+            <Modal.Header closeButton>
+                <Modal.Title>{selectedUserDetails.name}'s Information</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div>
+                    <p>Id: {selectedUserDetails._id}</p>
+                    <p>Name: {selectedUserDetails.name}</p>
+                    <p>Email: {selectedUserDetails.email}</p>
+                    <p>Tickets Assigned: {selectedUserDetails.ticketsAssigned}</p>
+                    <p>Tickets Created: {selectedUserDetails.ticketsCreated}</p>                   
+                    <p>User Status: {selectedUserDetails.userStatus}</p>
+                    <p>User Type: {selectedUserDetails.userType}</p>
+                    <p>Created At: {selectedUserDetails.createdAt}</p>
+                    <p>Updated At: {selectedUserDetails.updatedAt}</p>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="primary" onClick={closeModal}>
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
+
+        </div>    
     );
 }
 
