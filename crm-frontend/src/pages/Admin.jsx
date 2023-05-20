@@ -8,6 +8,7 @@ import MaterialTable from "@material-table/core";
 import ExportCsv from '@material-table/exporters/csv';
 import ExportPdf from '@material-table/exporters/pdf';
 import TicketCard from "../utils/ticketsCard";
+import Tickets from './Tickets';
 
 function Admin(){
     const currUserName = useState(localStorage.getItem("name"));
@@ -19,13 +20,29 @@ function Admin(){
     const componentMounted = useRef(true);
     const ticketStatus = ["open", "inProgress", "resolved", "cancelled", "onHold"];
     const ticketCardColor = ["primary", "info", "warning", "light", "success"];
-
-    const [showModal, setShowModal] = useState(false);
-    const showTheModal= () =>{
-        setShowModal(true);
+    
+    const [showAllTickets, setShowAllTickets] = useState(false);
+    const [showTicketsModal, setShowTicketsModal] = useState(false);
+    const [currentTicketsModalInfo, setCurrentTicketsModalInfo] = useState([]);
+    const [showUserModal, setShowUserModal] = useState(false);
+    const showUserModalFn= () =>{
+        setShowUserModal(true);
     }
-    const closeModal = () =>{
-        setShowModal(false);
+    const closeUserModal = () =>{
+        setShowUserModal(false);
+    }
+
+    const showTicketsModalFn =(event)=>{
+        console.log(event);
+        const cardTicketStatus = event.target.firstChild.innerText;
+        console.log("cardTicketStatus: ", cardTicketStatus);
+        console.log("ticketsData: ", ticketsData);
+        console.log("ticketsData[cardTicketStatus]: ", ticketsData[cardTicketStatus]);
+        setCurrentTicketsModalInfo(ticketsData[cardTicketStatus]);
+        setShowTicketsModal(true);
+    }
+    const closeTicketsModal =()=>{
+        setShowTicketsModal(false);
     }
 
     useEffect(()=>{
@@ -78,145 +95,262 @@ function Admin(){
         const {name, value} = event.target;
         selectedUserDetails[name]=value;
         setSelectedUserDetails(selectedUserDetails);
-        setShowModal(event.target.value);
+        setShowUserModal(event.target.value);
+    }
+
+    const updateUserDetails = async() =>{
+        const data = {
+            userId: selectedUserDetails._id,
+            updates:{
+                name: selectedUserDetails.name,
+                email: selectedUserDetails.email,
+                userType: selectedUserDetails.userType,
+                userStatus: selectedUserDetails.userStatus
+            }
+            
+        }
+        await UserService.updateUserData(data);
+        closeUserModal();
+        await fetchUsers();
+    }
+
+    const toggleShowAllTickets = () =>{
+        setShowAllTickets(!showAllTickets)
+        return <Tickets props={{ticketsData}} />
     }
 
     return (
         <div>  
+            <Button onClick={toggleShowAllTickets}> Show all tickets</Button>
+
             <div className="row text-center" style={{marginTop: 1+'rem', marginBottom: 2+'rem'}}> <h1>Welcome {currUserName}!!!</h1></div>
             <p className="text-muted text-center" style={{marginBottom: 2+'rem'}}>Take a quick look at your admin stats.</p>
             {
-                /* cards */
-            }
-            <div className="row text-center">
-                {
-                    cardsDetails.map(card => {
-                        return <div className="col">
-                            <TicketCard props ={{cardColor: card.cardColor, cardTitle: card.cardTitle, numberOfTickets : card.numberOfTickets, percentageOfTickets : card.percentageOfTickets}} />
-                        </div>
-                    })
-                }
-            </div>
-            <hr style={{margin: 2+"rem"}}/>
-            {
-                /*user data table*/
-                <MaterialTable 
-                    onRowClick={(event, rowData) => {
-                        setSelectedUserDetails(rowData);
-                        showTheModal();
-                    }}
-                    title={"User Records"}
-                    options={{
-                        // Allow user to hide/show
-                        // columns from Columns Button
-                        columnsButton: true,
-                        filtering: true,
-                        sorting: true,
-                        exportMenu: [
-                            {
-                                label: "Export PDF",
-                                //// You can do whatever you wish in this function. We provide the
-                                //// raw table columns and table data for you to modify, if needed.
-                                // exportFunc: (cols, datas) => console.log({ cols, datas })
-                                exportFunc: (cols, datas) => ExportPdf(cols, datas, "userDataPdf"),
-                            },
-                            {
-                                label: "Export CSV",
-                                exportFunc: (cols, datas) => ExportCsv(cols, datas, "userDataCsv"),
-                            },
-                        ],
-                        headerStyle: {
-                            backgroundColor: '#01579b',
-                            color: '#FFF'
-                        },
-                        rowStyle: {
-                            backgroundColor: "#d4d4d4",
-                        },
-                    }}
-                    data={allUserData}
-                    columns={[
+                showAllTickets 
+                ? 
+                    <Tickets props = {{ticketsData}} />
+                :    
+                <div>
+                    {
+                        /* cards */
+                    }
+                    <div className="row text-center">
                         {
-                            field: "name",
-                            title: "Name",
-                        },
-                        {
-                            field: "email",
-                            title: "Email",
-                        },
-                        {
-                            field: "userType",
-                            title: "User Type",
-                            lookup:{
-                                "admin":"admin",
-                                "customer":"customer",
-                                "engineer":"engineer"
-                            }
-                        },
-                        {
-                            field: "userStatus",
-                            title: "User Status",
-                            lookup:{
-                                "approved":"approved",
-                                "pending": "pending",
-                                "rejected":"rejected"
-                            }
-                        },
-                    ]}
-                />
-            }
+                            cardsDetails.map(card => {
+                                return <div className="col" onClick={showTicketsModalFn}>
+                                    <TicketCard props ={{cardColor: card.cardColor, cardTitle: card.cardTitle, numberOfTickets : card.numberOfTickets, percentageOfTickets : card.percentageOfTickets}} />
+                                </div>
+                            })
+                        }
+                    </div>
+                    <hr style={{margin: 2+"rem"}}/>
+                    {
+                        /*user data table*/
+                        <MaterialTable 
+                            onRowClick={(event, rowData) => {
+                                setSelectedUserDetails(rowData);
+                                showUserModalFn();
+                            }}
+                            title={"User Records"}
+                            options={{
+                                // Allow user to hide/show
+                                // columns from Columns Button
+                                columnsButton: true,
+                                filtering: true,
+                                sorting: true,
+                                exportMenu: [
+                                    {
+                                        label: "Export PDF",
+                                        //// You can do whatever you wish in this function. We provide the
+                                        //// raw table columns and table data for you to modify, if needed.
+                                        // exportFunc: (cols, datas) => console.log({ cols, datas })
+                                        exportFunc: (cols, datas) => ExportPdf(cols, datas, "userDataPdf"),
+                                    },
+                                    {
+                                        label: "Export CSV",
+                                        exportFunc: (cols, datas) => ExportCsv(cols, datas, "userDataCsv"),
+                                    },
+                                ],
+                                headerStyle: {
+                                    backgroundColor: '#01579b',
+                                    color: '#FFF'
+                                },
+                                rowStyle: {
+                                    backgroundColor: "#d4d4d4",
+                                },
+                            }}
+                            data={allUserData}
+                            columns={[
+                                {
+                                    field: "name",
+                                    title: "Name",
+                                },
+                                {
+                                    field: "email",
+                                    title: "Email",
+                                },
+                                {
+                                    field: "userType",
+                                    title: "User Type",
+                                    lookup:{
+                                        "admin":"admin",
+                                        "customer":"customer",
+                                        "engineer":"engineer"
+                                    }
+                                },
+                                {
+                                    field: "userStatus",
+                                    title: "User Status",
+                                    lookup:{
+                                        "approved":"approved",
+                                        "pending": "pending",
+                                        "rejected":"rejected"
+                                    }
+                                },
+                            ]}
+                        />
+                    }
 
-        <Modal show={showModal} onHide={closeModal}>
-            <Modal.Header closeButton>
-                <Modal.Title>Edit user details</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <form onSubmit = {closeModal}>
-                    <h5 className='card-subtitle text-primary lead'>User Id: {selectedUserDetails._id}</h5>
-                    <hr />
-                    <div className='input-group mb-3'>
-                        <label className='label input-group-text label-md'>Name</label>
-                        <input type='text' className='form-control' name='name' value={selectedUserDetails.name} onChange={changeUserDetails}/>
-                    </div>
-                    <div className='input-group mb-3'>
-                        <label className='label input-group-text label-md'>Email</label>
-                        <input type='email' className='form-control' name='email' value={selectedUserDetails.email} onChange={changeUserDetails}/>
-                    </div>
-                    <div className='input-group mb-3'>
-                        <label className='label input-group-text label-md'>User Type</label>
-                        <select className='form-select' name="userType" value = {selectedUserDetails.userType} onChange={changeUserDetails}>
-                            <option value = "customer">Customer</option>
-                            <option value = "engineer">Engineer</option>
-                            <option value = "admin">Admin</option>
-                       </select>
-                    </div>
-                    <div className='input-group mb-3'>
-                        <label className='label input-group-text label-md'>User Status</label>
-                        <select className='form-select' name="userStatus" value = {selectedUserDetails.userStatus} onChange={changeUserDetails}>
-                            <option value = "pending">Pending</option>
-                            <option value = "approved">Approved</option>
-                            <option value = "suspended">Suspended</option>
-                            <option value = "rejected">Rejected</option>
-                       </select>
-                    </div>
-                    <div className='input-group mb-3'>
-                        <label className='label input-group-text label-md'>Tickets Created</label>
-                        <input type='text' className='form-control' name='ticketsCreated' value={selectedUserDetails.ticketsCreated} disabled/>
-                    </div>
-                    <div className='input-group mb-3'>
-                        <label className='label input-group-text label-md'>Tickets Assigned</label>
-                        <input type='text' className='form-control' name='ticketsAssigned' value={selectedUserDetails.ticketsAssigned} disabled/>
-                    </div>
-                </form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={closeModal}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={closeModal}>
-                    Save
-                </Button>
-            </Modal.Footer>
-        </Modal>
+                    <Modal show={showUserModal} onHide={closeUserModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Edit user details</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form onSubmit = {updateUserDetails}>
+                                <h5 className='card-subtitle text-primary lead'>User Id: {selectedUserDetails._id}</h5>
+                                <hr />
+                                <div className='input-group mb-3'>
+                                    <label className='label input-group-text label-md'>Name</label>
+                                    <input type='text' className='form-control' name='name' value={selectedUserDetails.name} onChange={changeUserDetails}/>
+                                </div>
+                                <div className='input-group mb-3'>
+                                    <label className='label input-group-text label-md'>Email</label>
+                                    <input type='email' className='form-control' name='email' value={selectedUserDetails.email} onChange={changeUserDetails}/>
+                                </div>
+                                <div className='input-group mb-3'>
+                                    <label className='label input-group-text label-md'>User Type</label>
+                                    <select className='form-select' name="userType" value = {selectedUserDetails.userType} onChange={changeUserDetails}>
+                                        <option value = "customer">Customer</option>
+                                        <option value = "engineer">Engineer</option>
+                                        <option value = "admin">Admin</option>
+                                </select>
+                                </div>
+                                <div className='input-group mb-3'>
+                                    <label className='label input-group-text label-md'>User Status</label>
+                                    <select className='form-select' name="userStatus" value = {selectedUserDetails.userStatus} onChange={changeUserDetails}>
+                                        <option value = "pending">Pending</option>
+                                        <option value = "approved">Approved</option>
+                                        <option value = "suspended">Suspended</option>
+                                        <option value = "rejected">Rejected</option>
+                                </select>
+                                </div>
+                                <div className='input-group mb-3'>
+                                    <label className='label input-group-text label-md'>Tickets Created</label>
+                                    <input type='text' className='form-control' name='ticketsCreated' value={selectedUserDetails.ticketsCreated} disabled/>
+                                </div>
+                                <div className='input-group mb-3'>
+                                    <label className='label input-group-text label-md'>Tickets Assigned</label>
+                                    <input type='text' className='form-control' name='ticketsAssigned' value={selectedUserDetails.ticketsAssigned} disabled/>
+                                </div>
+                            </form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={closeUserModal}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={() => updateUserDetails()}>
+                                Save
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                    <Modal size="lg" show={showTicketsModal} onHide={closeTicketsModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Tickets Details</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <MaterialTable 
+                                title={"Tickets"}
+                                options={{
+                                    // Allow user to hide/show
+                                    // columns from Columns Button
+                                    columnsButton: true,
+                                    filtering: true,
+                                    sorting: true,
+                                    exportMenu: [
+                                        {
+                                            label: "Export PDF",
+                                            //// You can do whatever you wish in this function. We provide the
+                                            //// raw table columns and table data for you to modify, if needed.
+                                            // exportFunc: (cols, datas) => console.log({ cols, datas })
+                                            exportFunc: (cols, datas) => ExportPdf(cols, datas, "ticketsDataPdf"),
+                                        },
+                                        {
+                                            label: "Export CSV",
+                                            exportFunc: (cols, datas) => ExportCsv(cols, datas, "ticketsDataCsv"),
+                                        },
+                                    ],
+                                    headerStyle: {
+                                        backgroundColor: '#01579b',
+                                        color: '#FFF'
+                                    },
+                                    rowStyle: {
+                                        backgroundColor: "#d4d4d4",
+                                    },
+                                }}
+                                data={currentTicketsModalInfo}
+                                columns={[
+                                    {
+                                        field: "ticketPriority",
+                                        title: "Ticket Priority",
+                                    },
+                                    {
+                                        field: "title",
+                                        title: "Title",
+                                    },
+                                    {
+                                        field: "description",
+                                        title: "Description",
+                                    },
+                                    {
+                                        field: "clientName",
+                                        title: "ClientName",
+                                    },
+                                    {
+                                        field: "createdAt",
+                                        title: "Created At",
+                                    },
+                                    {
+                                        field: "createdBy",
+                                        title: "Created By",
+                                    },
+                                    {
+                                        field: "assignedTo",
+                                        title: "Assigned To",
+                                    },
+                                    {
+                                        field: "assignee",
+                                        title: "Assignee",
+                                    },
+                                    {
+                                        field: "updatedAt",
+                                        title: "Updated At",
+                                    },  
+                                ]}
+                            />
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={closeTicketsModal}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={() => closeTicketsModal()}>
+                                Save
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+                
+            }
 
         </div>    
     );
