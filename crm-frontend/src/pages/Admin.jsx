@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import '@coreui/coreui/dist/css/coreui.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import TicketCard from "../utils/ticketsCard";
 import Tickets from '../components/Tickets/Tickets';
-import TicketsModal from '../components/TicketsModal/TicketsModal';
-import UsersTable from '../components/UsersTable/UsersTable.js';
+import UsersTable from '../components/UsersTable/UsersTable';
 import UserUpdateModal from '../components/UserUpdateModal/UserUpdateModal';
 import Sidebar from '../components/Sidebar/sidebar';
+import UserProfile from '../components/UserProfile/UserProfile';
+import Dashboard from '../components/Dashboard/Dashboard';
 
 function Admin(){
     const currUserName = useState(localStorage.getItem("name"));
@@ -170,39 +170,19 @@ function Admin(){
                 />
                 <div className="row text-center" style={{marginTop: 1+'rem', marginBottom: 2+'rem'}}> <h1>Welcome {currUserName}!!!</h1></div>
                 <p className="text-muted text-center" style={{marginBottom: 2+'rem'}}>Take a quick look at your admin stats.</p>
-                {showAllTickets ? <Tickets ticketsData = {ticketsData.open} /> : ""}
-                {showDashboard ?
-                    <div>
-                        <div className="row text-center">
-                            {
-                                cardsDetails.map(card => {
-                                    return <div className="col" onClick={showTicketsModalFn}>
-                                        <TicketCard props ={{cardColor: card.cardColor, cardTitle: card.cardTitle, numberOfTickets : card.numberOfTickets, percentageOfTickets : card.percentageOfTickets}} />
-                                    </div>
-                                })
-                            }
-                        </div>
-                        <hr style={{margin: 2+"rem"}}/>
-                        {
-                            <UsersTable allUserData={allUserData} setSelectedUserDetails={setSelectedUserDetails} showUserModalFn={showUserModalFn}/>
-                        }
-                        <TicketsModal  showTicketsModal = {showTicketsModal} closeTicketsModal={closeTicketsModal} currentTicketsModalInfo={currentTicketsModalInfo} />
-                    </div> : <div></div> } 
-                {showAllUsers ?
-                    <UsersTable allUserData={allUserData} setSelectedUserDetails={setSelectedUserDetails} showUserModalFn={showUserModalFn}/>
-                    :
-                    <div></div>
-                }
-                {showUserProfle ?
-                    <div>
-                        <div><span>Name: </span> <span>{localStorage.getItem("name")}</span></div>
-                        <div><span>Email: </span> <span>{localStorage.getItem("email")}</span></div>
-                        <div><span>User Type: </span> <span>{localStorage.getItem("userType")}</span></div>
-                        <div><span>User Status: </span> <span>{localStorage.getItem("userStatus")}</span></div>
-                    </div>
-                    :
-                    <div></div>
-                }
+                {showAllTickets &&  <Tickets ticketsData = {ticketsData.open} />}
+                {showDashboard && 
+                    <Dashboard cardsDetails = {cardsDetails} 
+                        showTicketsModalFn={showTicketsModalFn}  
+                        allUserData={allUserData} 
+                        setSelectedUserDetails={setSelectedUserDetails} 
+                        showUserModalFn={showUserModalFn} 
+                        showTicketsModal = {showTicketsModal} 
+                        closeTicketsModal={closeTicketsModal} 
+                        currentTicketsModalInfo={currentTicketsModalInfo}/>    
+                } 
+                {showAllUsers && <UsersTable allUserData={allUserData} setSelectedUserDetails={setSelectedUserDetails} showUserModalFn={showUserModalFn}/> }
+                {showUserProfle && <UserProfile />}
             </div>
         </div>    
     );
