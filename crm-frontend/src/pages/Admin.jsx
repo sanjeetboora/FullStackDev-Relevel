@@ -1,16 +1,15 @@
 import * as TicketService from '../services/tickets';
 import * as UserService from '../services/users';
 import { useEffect, useRef, useState } from "react";
-import { Button, Modal } from 'react-bootstrap';
-import { CSidebar, CSidebarBrand, CSidebarNav, CNavItem, CNavTitle,CNavGroup, CBadge, CSidebarToggler } from '@coreui/react';
 import '@coreui/coreui/dist/css/coreui.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import MaterialTable from "@material-table/core";
-import ExportCsv from '@material-table/exporters/csv';
-import ExportPdf from '@material-table/exporters/pdf';
 import TicketCard from "../utils/ticketsCard";
-import Tickets from './Tickets';
+import Tickets from '../components/Tickets/Tickets';
+import TicketsModal from '../components/TicketsModal/TicketsModal';
+import UsersTable from '../components/UsersTable/UsersTable.js';
+import UserUpdateModal from '../components/UserUpdateModal/UserUpdateModal';
+import Sidebar from '../components/Sidebar/sidebar';
 
 function Admin(){
     const currUserName = useState(localStorage.getItem("name"));
@@ -118,11 +117,6 @@ function Admin(){
         await fetchUsers();
     }
 
-    const toggleShowAllTickets = () =>{
-        setShowAllTickets(!showAllTickets)
-        return <Tickets props={{ticketsData}} />
-    }
-
     const showAllTicketsFn = () =>{
         setShowAllTickets(true);
         setShowDashboard(false);
@@ -158,55 +152,27 @@ function Admin(){
     return (
         <div className='row'>  
             <div className="col-2 ">
-                <CSidebar className='vh-100' style={{position:'relative'}} visible={true}>
-                    <CSidebarBrand>CRM App</CSidebarBrand>
-                    <CSidebarNav>
-                        <div onClick={showShowDashboardFn}>
-                            <CNavItem href="#">
-                                <i class="bi bi-speedometer2 m-2"></i>
-                                <div className="mx-3">Dashboard</div> 
-                            </CNavItem>
-                        </div>
-                        <div onClick={showAllTicketsFn}>
-                            <CNavItem href="#">
-                                <i class="bi bi-ticket m-2"></i>
-                                <div className="mx-3">Tickets</div> 
-                                <CBadge color="primary ms-auto">Recommended</CBadge>
-                            </CNavItem>
-                        </div>
-                        <div onClick={showAllUsersFn}>
-                            <CNavItem href="#">
-                                <i class="bi bi-people m-2"></i>
-                                <div className="mx-3">Users</div> 
-                            </CNavItem>
-                        </div>
-                        <div onClick={showUserProfileFn}>
-                            <CNavItem href="#">
-                                <i class="bi bi-person-circle m-2"></i>
-                                <div className="mx-3">Profile</div> 
-                            </CNavItem>
-                        </div>
-                        <div onClick={logout}>
-                            <CNavItem href="#">
-                                <i class="bi bi-box-arrow-left m-2"></i>
-                                <div className="mx-3">Logout</div> 
-                            </CNavItem>
-                        </div>
-                    </CSidebarNav>
-                    <CSidebarToggler />
-                </CSidebar>
+                <Sidebar 
+                    showShowDashboardFn = {showShowDashboardFn} 
+                    showAllTicketsFn={showAllTicketsFn} 
+                    showAllUsersFn = {showAllUsersFn}
+                    showUserProfileFn={showUserProfileFn}
+                    logout = {logout}
+                />
             </div>
             <div className="container col vh-100" style={{overflow: "scroll"}}>
-                <Button onClick={toggleShowAllTickets}> Show all tickets</Button>
-
+                <UserUpdateModal 
+                    showUserModal={showUserModal} 
+                    closeUserModal={closeUserModal} 
+                    updateUserDetails={updateUserDetails} 
+                    selectedUserDetails={selectedUserDetails} 
+                    changeUserDetails = {changeUserDetails}
+                />
                 <div className="row text-center" style={{marginTop: 1+'rem', marginBottom: 2+'rem'}}> <h1>Welcome {currUserName}!!!</h1></div>
                 <p className="text-muted text-center" style={{marginBottom: 2+'rem'}}>Take a quick look at your admin stats.</p>
-                {showAllTickets ? <Tickets props = {{ticketsData}} /> : ""}
+                {showAllTickets ? <Tickets ticketsData = {ticketsData.open} /> : ""}
                 {showDashboard ?
                     <div>
-                        {
-                            /* cards */
-                        }
                         <div className="row text-center">
                             {
                                 cardsDetails.map(card => {
@@ -218,274 +184,12 @@ function Admin(){
                         </div>
                         <hr style={{margin: 2+"rem"}}/>
                         {
-                            /*user data table*/
-                            <MaterialTable 
-                                onRowClick={(event, rowData) => {
-                                    setSelectedUserDetails(rowData);
-                                    showUserModalFn();
-                                }}
-                                title={"User Records"}
-                                options={{
-                                    // Allow user to hide/show
-                                    // columns from Columns Button
-                                    columnsButton: true,
-                                    filtering: true,
-                                    sorting: true,
-                                    exportMenu: [
-                                        {
-                                            label: "Export PDF",
-                                            //// You can do whatever you wish in this function. We provide the
-                                            //// raw table columns and table data for you to modify, if needed.
-                                            // exportFunc: (cols, datas) => console.log({ cols, datas })
-                                            exportFunc: (cols, datas) => ExportPdf(cols, datas, "userDataPdf"),
-                                        },
-                                        {
-                                            label: "Export CSV",
-                                            exportFunc: (cols, datas) => ExportCsv(cols, datas, "userDataCsv"),
-                                        },
-                                    ],
-                                    headerStyle: {
-                                        backgroundColor: '#01579b',
-                                        color: '#FFF'
-                                    },
-                                    rowStyle: {
-                                        backgroundColor: "#d4d4d4",
-                                    },
-                                }}
-                                data={allUserData}
-                                columns={[
-                                    {
-                                        field: "name",
-                                        title: "Name",
-                                    },
-                                    {
-                                        field: "email",
-                                        title: "Email",
-                                    },
-                                    {
-                                        field: "userType",
-                                        title: "User Type",
-                                        lookup:{
-                                            "admin":"admin",
-                                            "customer":"customer",
-                                            "engineer":"engineer"
-                                        }
-                                    },
-                                    {
-                                        field: "userStatus",
-                                        title: "User Status",
-                                        lookup:{
-                                            "approved":"approved",
-                                            "pending": "pending",
-                                            "rejected":"rejected"
-                                        }
-                                    },
-                                ]}
-                            />
+                            <UsersTable allUserData={allUserData} setSelectedUserDetails={setSelectedUserDetails} showUserModalFn={showUserModalFn}/>
                         }
-
-                        <Modal show={showUserModal} onHide={closeUserModal}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Edit user details</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <form onSubmit = {updateUserDetails}>
-                                    <h5 className='card-subtitle text-primary lead'>User Id: {selectedUserDetails._id}</h5>
-                                    <hr />
-                                    <div className='input-group mb-3'>
-                                        <label className='label input-group-text label-md'>Name</label>
-                                        <input type='text' className='form-control' name='name' value={selectedUserDetails.name} onChange={changeUserDetails}/>
-                                    </div>
-                                    <div className='input-group mb-3'>
-                                        <label className='label input-group-text label-md'>Email</label>
-                                        <input type='email' className='form-control' name='email' value={selectedUserDetails.email} onChange={changeUserDetails}/>
-                                    </div>
-                                    <div className='input-group mb-3'>
-                                        <label className='label input-group-text label-md'>User Type</label>
-                                        <select className='form-select' name="userType" value = {selectedUserDetails.userType} onChange={changeUserDetails}>
-                                            <option value = "customer">Customer</option>
-                                            <option value = "engineer">Engineer</option>
-                                            <option value = "admin">Admin</option>
-                                    </select>
-                                    </div>
-                                    <div className='input-group mb-3'>
-                                        <label className='label input-group-text label-md'>User Status</label>
-                                        <select className='form-select' name="userStatus" value = {selectedUserDetails.userStatus} onChange={changeUserDetails}>
-                                            <option value = "pending">Pending</option>
-                                            <option value = "approved">Approved</option>
-                                            <option value = "suspended">Suspended</option>
-                                            <option value = "rejected">Rejected</option>
-                                    </select>
-                                    </div>
-                                    <div className='input-group mb-3'>
-                                        <label className='label input-group-text label-md'>Tickets Created</label>
-                                        <input type='text' className='form-control' name='ticketsCreated' value={selectedUserDetails.ticketsCreated} disabled/>
-                                    </div>
-                                    <div className='input-group mb-3'>
-                                        <label className='label input-group-text label-md'>Tickets Assigned</label>
-                                        <input type='text' className='form-control' name='ticketsAssigned' value={selectedUserDetails.ticketsAssigned} disabled/>
-                                    </div>
-                                </form>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={closeUserModal}>
-                                    Close
-                                </Button>
-                                <Button variant="primary" onClick={() => updateUserDetails()}>
-                                    Save
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
-
-                        <Modal size="lg" show={showTicketsModal} onHide={closeTicketsModal}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Tickets Details</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <MaterialTable 
-                                    title={"Tickets"}
-                                    options={{
-                                        // Allow user to hide/show
-                                        // columns from Columns Button
-                                        columnsButton: true,
-                                        filtering: true,
-                                        sorting: true,
-                                        exportMenu: [
-                                            {
-                                                label: "Export PDF",
-                                                //// You can do whatever you wish in this function. We provide the
-                                                //// raw table columns and table data for you to modify, if needed.
-                                                // exportFunc: (cols, datas) => console.log({ cols, datas })
-                                                exportFunc: (cols, datas) => ExportPdf(cols, datas, "ticketsDataPdf"),
-                                            },
-                                            {
-                                                label: "Export CSV",
-                                                exportFunc: (cols, datas) => ExportCsv(cols, datas, "ticketsDataCsv"),
-                                            },
-                                        ],
-                                        headerStyle: {
-                                            backgroundColor: '#01579b',
-                                            color: '#FFF'
-                                        },
-                                        rowStyle: {
-                                            backgroundColor: "#d4d4d4",
-                                        },
-                                    }}
-                                    data={currentTicketsModalInfo}
-                                    columns={[
-                                        {
-                                            field: "ticketPriority",
-                                            title: "Ticket Priority",
-                                        },
-                                        {
-                                            field: "title",
-                                            title: "Title",
-                                        },
-                                        {
-                                            field: "description",
-                                            title: "Description",
-                                        },
-                                        {
-                                            field: "clientName",
-                                            title: "ClientName",
-                                        },
-                                        {
-                                            field: "createdAt",
-                                            title: "Created At",
-                                        },
-                                        {
-                                            field: "createdBy",
-                                            title: "Created By",
-                                        },
-                                        {
-                                            field: "assignedTo",
-                                            title: "Assigned To",
-                                        },
-                                        {
-                                            field: "assignee",
-                                            title: "Assignee",
-                                        },
-                                        {
-                                            field: "updatedAt",
-                                            title: "Updated At",
-                                        },  
-                                    ]}
-                                />
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={closeTicketsModal}>
-                                    Close
-                                </Button>
-                                <Button variant="primary" onClick={() => closeTicketsModal()}>
-                                    Save
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
+                        <TicketsModal  showTicketsModal = {showTicketsModal} closeTicketsModal={closeTicketsModal} currentTicketsModalInfo={currentTicketsModalInfo} />
                     </div> : <div></div> } 
                 {showAllUsers ?
-                    <MaterialTable 
-                        onRowClick={(event, rowData) => {
-                            setSelectedUserDetails(rowData);
-                            showUserModalFn();
-                        }}
-                        title={"User Records"}
-                        options={{
-                            // Allow user to hide/show
-                            // columns from Columns Button
-                            columnsButton: true,
-                            filtering: true,
-                            sorting: true,
-                            exportMenu: [
-                                {
-                                    label: "Export PDF",
-                                    //// You can do whatever you wish in this function. We provide the
-                                    //// raw table columns and table data for you to modify, if needed.
-                                    // exportFunc: (cols, datas) => console.log({ cols, datas })
-                                    exportFunc: (cols, datas) => ExportPdf(cols, datas, "userDataPdf"),
-                                },
-                                {
-                                    label: "Export CSV",
-                                    exportFunc: (cols, datas) => ExportCsv(cols, datas, "userDataCsv"),
-                                },
-                            ],
-                            headerStyle: {
-                                backgroundColor: '#01579b',
-                                color: '#FFF'
-                            },
-                            rowStyle: {
-                                backgroundColor: "#d4d4d4",
-                            },
-                        }}
-                        data={allUserData}
-                        columns={[
-                            {
-                                field: "name",
-                                title: "Name",
-                            },
-                            {
-                                field: "email",
-                                title: "Email",
-                            },
-                            {
-                                field: "userType",
-                                title: "User Type",
-                                lookup:{
-                                    "admin":"admin",
-                                    "customer":"customer",
-                                    "engineer":"engineer"
-                                }
-                            },
-                            {
-                                field: "userStatus",
-                                title: "User Status",
-                                lookup:{
-                                    "approved":"approved",
-                                    "pending": "pending",
-                                    "rejected":"rejected"
-                                }
-                            },
-                        ]}
-                    />
+                    <UsersTable allUserData={allUserData} setSelectedUserDetails={setSelectedUserDetails} showUserModalFn={showUserModalFn}/>
                     :
                     <div></div>
                 }
