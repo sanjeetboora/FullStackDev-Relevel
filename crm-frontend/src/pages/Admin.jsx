@@ -10,24 +10,35 @@ import UserUpdateModal from '../components/UserUpdateModal/UserUpdateModal';
 import Sidebar from '../components/Sidebar/sidebar';
 import UserProfile from '../components/UserProfile/UserProfile';
 import Dashboard from '../components/Dashboard/Dashboard';
+import constants from '../utils/constants';
+import EditTicketModal from '../components/TicketsModal/EditTicketsModal';
+import Welcome from '../components/Welcome/Welcome';
 
 function Admin(){
-    const currUserName = useState(localStorage.getItem("name"));
+    const {ticketStatus, ticketCardColor} = constants;
     const [allUserData, setAllUserData] = useState([]);
     const [ticketsData, setTicketsData] = useState({});
     const [totalTicketsCount, setTotalTicketsCount] = useState(100);
     const [cardsDetails, setCardsDetails] = useState([]);
     const [selectedUserDetails, setSelectedUserDetails] = useState({});
     const componentMounted = useRef(true);
-    const ticketStatus = ["open", "inProgress", "resolved", "cancelled", "onHold"];
-    const ticketCardColor = ["primary", "info", "warning", "light", "success"];
     const [showDashboard, setShowDashboard] = useState(false);
     const [showAllUsers, setShowAllUsers] = useState(false);
-    const [showUserProfle, setShowUserProfle] = useState(false);
+    const [showUserProfile, setShowUserProfile] = useState(false);
     const [showAllTickets, setShowAllTickets] = useState(false);
     const [showTicketsModal, setShowTicketsModal] = useState(false);
     const [currentTicketsModalInfo, setCurrentTicketsModalInfo] = useState([]);
     const [showUserModal, setShowUserModal] = useState(false);
+    const [showEditTicketModal, setShowEditTicketModal] = useState(false);
+    const [editTicketModalData, setEditTicketModalData] = useState({});
+
+    const closeEditTicketModal = () =>{
+        setShowEditTicketModal(false);
+    }
+    const showEditTicketModalFn = () =>{
+        setShowEditTicketModal(true);
+    }
+
     const showUserModalFn= () =>{
         setShowUserModal(true);
     }
@@ -38,9 +49,6 @@ function Admin(){
     const showTicketsModalFn =(event)=>{
         console.log(event);
         const cardTicketStatus = event.target.firstChild.innerText;
-        console.log("cardTicketStatus: ", cardTicketStatus);
-        console.log("ticketsData: ", ticketsData);
-        console.log("ticketsData[cardTicketStatus]: ", ticketsData[cardTicketStatus]);
         setCurrentTicketsModalInfo(ticketsData[cardTicketStatus]);
         setShowTicketsModal(true);
     }
@@ -94,6 +102,28 @@ function Admin(){
         setCardsDetails(cardsData);
     }
 
+    const updateTicketData = async() =>{
+        const data = {
+            title: editTicketModalData.title,
+            description: editTicketModalData.description,
+            ticketPriority: editTicketModalData.ticketPriority,
+            status: editTicketModalData.status,
+            assignedTo: editTicketModalData.assignedTo,
+            clientName: editTicketModalData.clientName,
+        }
+        
+        await TicketService.updateTicketById(editTicketModalData._id, data);
+        closeEditTicketModal();
+        await updateTicketCardsData();
+    }
+
+    const changeTicketDetails= (event) =>{
+        const {name, value} = event.target;
+        editTicketModalData[name] = value;
+        setEditTicketModalData(editTicketModalData);
+        setShowEditTicketModal(event.target.value);
+    }
+
     const changeUserDetails = (event) =>{
         const {name, value} = event.target;
         selectedUserDetails[name]=value;
@@ -114,50 +144,45 @@ function Admin(){
         }
         await UserService.updateUserData(data);
         closeUserModal();
-        await fetchUsers();
+        await updateTicketCardsData();
     }
 
     const showAllTicketsFn = () =>{
         setShowAllTickets(true);
         setShowDashboard(false);
         setShowAllUsers(false);
-        setShowUserProfle(false);
+        setShowUserProfile(false);
     }
 
     const showShowDashboardFn = () =>{
         setShowAllTickets(false);
         setShowDashboard(true);
         setShowAllUsers(false);
-        setShowUserProfle(false);
+        setShowUserProfile(false);
     }
 
     const showAllUsersFn = () =>{
         setShowAllTickets(false);
         setShowDashboard(false);
         setShowAllUsers(true);
-        setShowUserProfle(false);
+        setShowUserProfile(false);
     }
 
     const showUserProfileFn = () =>{
-        setShowUserProfle(true);
+        setShowUserProfile(true);
         setShowAllTickets(false);
         setShowDashboard(false);
         setShowAllUsers(false);
-    }
-    const logout = () =>{
-        localStorage.clear();
-        window.location.href = '/';
     }
 
     return (
         <div className='row'>  
             <div className="col-2 ">
                 <Sidebar 
-                    showShowDashboardFn = {showShowDashboardFn} 
-                    showAllTicketsFn={showAllTicketsFn} 
-                    showAllUsersFn = {showAllUsersFn}
-                    showUserProfileFn={showUserProfileFn}
-                    logout = {logout}
+                    showDashboard = {showShowDashboardFn} 
+                    showTickets={showAllTicketsFn} 
+                    showUsers = {showAllUsersFn}
+                    showUserProfile={showUserProfileFn}
                 />
             </div>
             <div className="container col vh-100" style={{overflow: "scroll"}}>
@@ -168,9 +193,15 @@ function Admin(){
                     selectedUserDetails={selectedUserDetails} 
                     changeUserDetails = {changeUserDetails}
                 />
-                <div className="row text-center" style={{marginTop: 1+'rem', marginBottom: 2+'rem'}}> <h1>Welcome {currUserName}!!!</h1></div>
-                <p className="text-muted text-center" style={{marginBottom: 2+'rem'}}>Take a quick look at your admin stats.</p>
-                {showAllTickets &&  <Tickets ticketsData = {ticketsData.open} />}
+                <EditTicketModal 
+                    show = {showEditTicketModal} 
+                    close = {closeEditTicketModal} 
+                    data={editTicketModalData} 
+                    changeTicketDetails = {changeTicketDetails}
+                    updateTicket = {updateTicketData}
+                />
+                <Welcome />
+                {showAllTickets &&  <Tickets ticketsData = {ticketsData.open} showEditTicketModalFn= {showEditTicketModalFn} setEditTicketModalData={setEditTicketModalData} />}
                 {showDashboard && 
                     <Dashboard cardsDetails = {cardsDetails} 
                         showTicketsModalFn={showTicketsModalFn}  
@@ -182,7 +213,7 @@ function Admin(){
                         currentTicketsModalInfo={currentTicketsModalInfo}/>    
                 } 
                 {showAllUsers && <UsersTable allUserData={allUserData} setSelectedUserDetails={setSelectedUserDetails} showUserModalFn={showUserModalFn}/> }
-                {showUserProfle && <UserProfile />}
+                {showUserProfile && <UserProfile />}
             </div>
         </div>    
     );

@@ -10,11 +10,8 @@ function TicketsModal(props){
                     <Tickets ticketsData = {props.currentTicketsModalInfo} />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={props.closeTicketsModal}>
-                        Close
-                    </Button>
                     <Button variant="primary" onClick={() => props.closeTicketsModal()}>
-                        Save
+                        Close
                     </Button>
                 </Modal.Footer>
             </Modal>

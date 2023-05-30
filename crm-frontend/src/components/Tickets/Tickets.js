@@ -9,6 +9,10 @@ const Tickets = (props)=>{
     return(
         <div>
             <MaterialTable 
+                    onRowClick={(event, rowData)=>{
+                        props.setEditTicketModalData(rowData);
+                        props.showEditTicketModalFn();
+                    }}
                     title={"Tickets"}
                     options={{
                         // Allow user to hide/show
