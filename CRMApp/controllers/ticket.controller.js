@@ -35,7 +35,7 @@ const getOneTicket =  async(req, res)=>{
 
 const getAllTicktes = async(req, res) =>{
     try{
-        const response = await ticketService.getAllTicktes();
+        const response = await ticketService.getAllTicktes(req.user);
         if(response.error){
             res.status(401).send({
                 result: response.error

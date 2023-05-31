@@ -11,8 +11,8 @@ module.exports = function(app){
     //get all tickets created by current user
     app.get('/crmapp/api/v1/getMyCreatedTickets/', authValidators.isUserAuthenticated, ticketController.getMyAllCreatedTickets);
 
-    //get all //only admin and engineer can get all the tickets
-    app.get('/crmapp/api/v1/ticket/', authValidators.isUserAuthenticated, authValidators.isAdminOrEngineer, ticketController.getAllTicktes);
+    //get all //every type of user can get all the tickets, but customer will get all the tickets which has clientName as user's clientName
+    app.get('/crmapp/api/v1/ticket/', authValidators.isUserAuthenticated, ticketController.getAllTicktes);
 
 
     //get all tickets by status //only admin and engineer can get all the tickets

@@ -81,9 +81,14 @@ const getOneTicket = async(data) => {
 
 }
 
-const getAllTicktes = async() =>{
+const getAllTicktes = async(userInfo) =>{
     try{
-        const response = await Ticket.find();
+        var response;
+        if(userInfo.userType === "customer"){
+            response = await Ticket.find({clientName: userInfo.clientName});
+            return response;
+        }
+        response = await Ticket.find();
         return response;
     }
     catch(err){
