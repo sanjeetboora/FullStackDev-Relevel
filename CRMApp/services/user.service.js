@@ -12,6 +12,7 @@ const createUser = async(data) =>{
             userType: data.userType,
             password: data.password,
             userStatus: data.userStatus,
+            clientName: data.clientName
         }
         response.user = await User.create(userObj);
         return response;
@@ -37,6 +38,7 @@ const verifyUser = async(data) =>{
                     name: userData.name,
                     userType: userData.userType,
                     userStatus: userData.userStatus,
+                    clientName: userData.clientName
                 };
             }else{
                 response.error = "Invalid Password";
@@ -153,7 +155,8 @@ const updateUser =  async(data) =>{
                 {   userType: data.updates.userType, 
                     userStatus: data.updates.userStatus,
                     name: data.updates.name,
-                    email: data.updates.email
+                    email: data.updates.email,
+                    clientName: data.updates.clientName
                 });
             result = await User.findOne({_id:data.userId});
         }
@@ -163,7 +166,8 @@ const updateUser =  async(data) =>{
                 {   userType: data.updates.userType, 
                     userStatus: data.updates.userStatus,
                     name: data.updates.name,
-                    email: data.updates.email
+                    email: data.updates.email,
+                    clientName: data.updates.clientName
                 });
             result = await User.findOne({email:data.email});
         }

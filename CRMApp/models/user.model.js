@@ -20,6 +20,10 @@ const userSchema = new Schema({
         match: /\S+@\S+\.\S+/,
         lowercase: true
     },
+    clientName:{ //company's name by/for which this ticket is created
+        type: String,
+        required: true
+    },
     createdAt:{
         type: Date,
         immutable: true,
