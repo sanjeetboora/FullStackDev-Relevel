@@ -4,6 +4,8 @@ require('dotenv').config();
 
 exports.signup = async (req, res) =>{
     try{
+        console.log("==============in auth controller===========");
+        console.log(req);
         const result = await userService.createUser(req.body);
         let statusCode;
         let response;
@@ -35,7 +37,8 @@ exports.signin = async(req, res) =>{
             const token = jwt.sign({email: req.body.email}, process.env.JWT_SECRET_KEY);
             response = {
                 message: "user validated",
-                token: token
+                token: token,
+                userData: result.userData
             };
 
         }

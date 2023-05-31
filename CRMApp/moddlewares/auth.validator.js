@@ -20,15 +20,23 @@ const isUserAuthenticated = async (req, res, next) =>{
         })
     }
      //token is valid
-    const userInfo = await userService.getUserByEmail({email:isVerifiedToken.email});
-    console.log("=========userInfo==========",userInfo)
-    if(!userInfo){
-        return res.status(401).send({
-            message: "email is invalid"
-        })
+     try{
+        const userInfo = await userService.getUserByEmail({email:isVerifiedToken.email});
+        console.log("=========userInfo==========",userInfo)
+        if(!userInfo){
+            return res.status(401).send({
+                message: "email is invalid"
+            })
+        }
+        req.user = userInfo;
+        next();
     }
-    req.user = userInfo;
-    next();
+     catch(err){
+        return res.status(401).send({
+            message: "userdata is invalid"
+        })
+     }
+    
 }
 
 const isAdmin = (req, res, next) =>{
@@ -48,4 +56,22 @@ const isAdmin = (req, res, next) =>{
     next();
 }
 
-module.exports = {isUserAuthenticated, isAdmin};
+
+const isAdminOrEngineer = (req, res, next) =>{
+    if(!req.user){
+        return res.status(401).send({
+            message: "user is invalid"
+        })
+    }
+    console.log("==================", req.user);
+    if(req.user.userType !== "admin" &&  req.user.userType !== "engineer"){
+        return res.status(401).send({
+            message: "user doesn't have required permissions"
+        })
+    }
+
+    //user is admin or engineer
+    next();
+}
+
+module.exports = {isUserAuthenticated, isAdmin, isAdminOrEngineer};

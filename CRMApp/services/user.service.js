@@ -32,6 +32,12 @@ const verifyUser = async(data) =>{
             const result = bcrypt.compareSync(data.password, userData.password);
             if(result){
                 response.success = true;
+                response.userData = {
+                    email: userData.email,
+                    name: userData.name,
+                    userType: userData.userType,
+                    userStatus: userData.userStatus,
+                };
             }else{
                 response.error = "Invalid Password";
             }
@@ -131,6 +137,50 @@ const updateUserType =  async(data) =>{
     }
 }
 
+const updateUser =  async(data) =>{
+    try{
+        let result;
+        if(!(Object.values(userConstants.userTypes).indexOf(data.updates.userType) >= 0)){
+            result = {
+                error: "invalid user type provided",
+            }
+            return result;
+        }
+        
+        if(data.userId){
+            //update the user status on basis of user id
+            await User.findOneAndUpdate({_id:data.userId}, 
+                {   userType: data.updates.userType, 
+                    userStatus: data.updates.userStatus,
+                    name: data.updates.name,
+                    email: data.updates.email
+                });
+            result = await User.findOne({_id:data.userId});
+        }
+        else if(data.email){
+            //update the user information on basis of email
+            await User.findOneAndUpdate({email:data.email},
+                {   userType: data.updates.userType, 
+                    userStatus: data.updates.userStatus,
+                    name: data.updates.name,
+                    email: data.updates.email
+                });
+            result = await User.findOne({email:data.email});
+        }
+        else{
+            //return error, required fields not provided
+            result = {
+                error: "required fields are not provided to update the user information",
+            }
+        }
+        return result;
+    }
+    catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+
 const validateTicketId = async(ticketId) =>{
     try{
         const response = await Ticket.findOne({_id: ticketId});
@@ -207,9 +257,29 @@ const getAllAssignedTicketsOfUser  = async(userInfo) =>{
     }
 }
 
+const getAllCreatedTicketsOfUser = async(userInfo) =>{
+    try{
+        const validatedUser = await isValidActiveUser(userInfo);
+       if(!validatedUser || validatedUser.error){
+            return {
+                error: "Invalid User"
+            }
+        }
+        const tickets = [];
+        for(const ticketId of userInfo.ticketsCreated){
+           const ticket =  await Ticket.findOne({_id: ticketId});
+           tickets.push(ticket)
+        }
+        return tickets; 
+    } catch(err){
+        console.log(err);
+        return err.message;
+    }
+}
+
 module.exports = {createUser, 
     verifyUser, getUserByEmail, 
     getAllUsers, getUserByUserId, 
     updateUserType, isValidActiveUser, 
     addNewTicketCreatedByUser, addTicketAssignedToUser, 
-    validateTicketId, getAllAssignedTicketsOfUser}
+    validateTicketId, getAllAssignedTicketsOfUser, getAllCreatedTicketsOfUser, updateUser}
