@@ -7,7 +7,6 @@ import Dashboard from '../components/Dashboard/Dashboard';
 import Tickets from '../components/Tickets/Tickets';
 import EditTicketModal from '../components/TicketsModal/EditTicketsModal';
 import UserProfile from '../components/UserProfile/UserProfile';
-import TicketsTypeButton from '../components/TicketsTypeButton/TicketsTypeButton'
 import CreateTicketModal from '../components/TicketsModal/CreateTicketModal'
 import TicketsButton from '../components/TicketsButton/TicketsButton';
 

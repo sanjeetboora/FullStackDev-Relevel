@@ -4,6 +4,8 @@ import constants from '../../utils/constants';
 
 function CreateTicketModal(props){
     const {ticketStatus} = constants;
+    const disableUpdateClientName = localStorage.getItem('userType') === "customer";
+    const clientName = disableUpdateClientName ? localStorage.getItem('clientName') :  props.clientName;
     return (
         <Modal size="lg" show={props.show} onHide={props.close}>
             <Modal.Header closeButton>
@@ -41,7 +43,7 @@ function CreateTicketModal(props){
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Client Name</label>
-                            <input type='text' className='form-control' name='clientName' value={props.data.clientName} onChange={props.addTicketDetails}/>
+                            <input type='text' className='form-control' name='clientName' value={clientName} onChange={props.addTicketDetails} disabled={disableUpdateClientName} />
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Assigned To</label>

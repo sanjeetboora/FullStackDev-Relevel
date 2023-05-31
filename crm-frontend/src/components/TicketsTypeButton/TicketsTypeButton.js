@@ -15,7 +15,7 @@ function TicketsTypeButton(props){
             <Dropdown.Menu>
                 <Dropdown.Item eventKey = {ticketsType.AssignedToMe}>Assigned To Me</Dropdown.Item>
                 <Dropdown.Item eventKey = {ticketsType.CreatedByMe}>Created By Me</Dropdown.Item>
-                <Dropdown.Item eventKey = {ticketsType.All}>All</Dropdown.Item>
+                <Dropdown.Item eventKey = {ticketsType.All}>All Tickets</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     )

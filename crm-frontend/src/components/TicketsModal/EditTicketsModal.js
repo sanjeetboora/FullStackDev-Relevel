@@ -3,6 +3,7 @@ import constants from '../../utils/constants';
 
 function EditTicketModal(props){
     const {ticketStatus} = constants;
+    const disableUpdateClientName = localStorage.getItem('userType') === "customer";
     return <Modal size="lg" show={props.show} onHide={props.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Ticket Details</Modal.Title>
@@ -45,7 +46,7 @@ function EditTicketModal(props){
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Client Name</label>
-                            <input type='text' className='form-control' name='clientName' value={props.data.clientName} onChange={props.changeTicketDetails}/>
+                            <input type='text' className='form-control' name='clientName' value={props.data.clientName} onChange={props.changeTicketDetails} disabled={disableUpdateClientName}/>
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Created By</label>
