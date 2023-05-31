@@ -8,6 +8,8 @@ import Tickets from '../components/Tickets/Tickets';
 import EditTicketModal from '../components/TicketsModal/EditTicketsModal';
 import UserProfile from '../components/UserProfile/UserProfile';
 import TicketsTypeButton from '../components/TicketsTypeButton/TicketsTypeButton'
+import CreateTicketModal from '../components/TicketsModal/CreateTicketModal'
+import TicketsButton from '../components/TicketsButton/TicketsButton';
 
 function Engineer(){
 
@@ -22,7 +24,9 @@ function Engineer(){
     const [showTicketsModal, setShowTicketsModal] = useState(false);
     const [currentTicketsModalInfo, setCurrentTicketsModalInfo] = useState([]);
     const [showEditTicketModal, setShowEditTicketModal] = useState(false);
+    const [showNewTicketModal, setShowNewTicketModal] = useState(false);
     const [editTicketModalData, setEditTicketModalData] = useState({});
+    const [newTicketModalData, setNewTicketModalData] = useState({});
     const [currentTicketsType, setCurrentTicketsType] = useState(ticketsType.AssignedToMe);
 
     const closeEditTicketModal = () =>{
@@ -106,7 +110,7 @@ function Engineer(){
                 cardColor: ticketCardColor[i], 
                 cardTitle: ticketStatus[i], 
                 numberOfTickets : ticketsData[ticketStatus[i]].length, 
-                percentageOfTickets : ticketsData[ticketStatus[i]].length*100/totalTickets,
+                percentageOfTickets : parseInt(ticketsData[ticketStatus[i]].length*100/totalTickets),
             }
             cardsData.push(data);
         }
@@ -125,7 +129,8 @@ function Engineer(){
         
         await TicketService.updateTicketById(editTicketModalData._id, data);
         closeEditTicketModal();
-        await updateTicketCardsData();
+        const tickets = await getTickets();
+        await updateTicketCardsData(tickets);
     }
 
     const changeTicketDetails= (event) =>{
@@ -133,6 +138,28 @@ function Engineer(){
         editTicketModalData[name] = value;
         setEditTicketModalData(editTicketModalData);
         setShowEditTicketModal(event.target.value);
+    }
+
+    const addTicketDetails= (event) =>{
+        const {name, value} = event.target;
+        newTicketModalData[name] = value;
+        setNewTicketModalData(newTicketModalData);
+        setShowNewTicketModal(event.target.value);
+    }
+
+    const createTicket = async() => {
+        const data = {
+            title: newTicketModalData.title,
+            description: newTicketModalData.description,
+            ticketPriority: newTicketModalData.ticketPriority,
+            status: newTicketModalData.status,
+            assignedTo: newTicketModalData.assignedTo,
+            clientName: newTicketModalData.clientName,
+        }
+        await TicketService.createTicket(data);
+        closeNewTicketModal();
+        const tickets = await getTickets();
+        await updateTicketCardsData(tickets);
     }
 
     const showDashboardFn = () =>{
@@ -157,6 +184,12 @@ function Engineer(){
         const response = await getTickets(eventKey);
         updateTicketCardsData(response);
     }
+    const showNewTicketModalFn = () =>{
+        setShowNewTicketModal(true);
+    }
+    const closeNewTicketModal = () =>{
+        setShowNewTicketModal(false);
+    }
 
     return (
         <div className = "row">
@@ -175,10 +208,17 @@ function Engineer(){
                         changeTicketDetails = {changeTicketDetails}
                         updateTicket = {updateTicketData}
                 />
+                <CreateTicketModal 
+                    show = {showNewTicketModal} 
+                    close = {closeNewTicketModal} 
+                    addTicketDetails={addTicketDetails} 
+                    createTicket={createTicket} 
+                    data = {newTicketModalData} 
+                />
                 <Welcome />
                 {showDashboard && 
                     <div>
-                        <TicketsTypeButton getTicketsAndUpdateCards={getTicketsAndUpdateCards} currentTicketsType={currentTicketsType} />
+                        <TicketsButton showNewTicketModalFn={showNewTicketModalFn} getTicketsAndUpdateCards={getTicketsAndUpdateCards} currentTicketsType={currentTicketsType}/>
                         <Dashboard 
                             cardsDetails = {cardsDetails} 
                             showTicketsModalFn={showTicketsModalFn}  
@@ -190,8 +230,8 @@ function Engineer(){
                 } 
                 {showAllTickets &&  
                     <div>
-                        <TicketsTypeButton getTicketsAndUpdateCards={getTicketsAndUpdateCards} currentTicketsType={currentTicketsType} />
-                        <Tickets ticketsData = {ticketsData.open} showEditTicketModalFn= {showEditTicketModalFn} setEditTicketModalData={setEditTicketModalData} />
+                        <TicketsButton showNewTicketModalFn={showNewTicketModalFn} getTicketsAndUpdateCards={getTicketsAndUpdateCards} currentTicketsType={currentTicketsType}/>
+                        <Tickets ticketsData = {[].concat(...Object.values(ticketsData))} showEditTicketModalFn= {showEditTicketModalFn} setEditTicketModalData={setEditTicketModalData} />
                     </div>
                 }
                 {showUserProfile && <UserProfile />}
@@ -200,4 +240,18 @@ function Engineer(){
     );
 }
 
+/** 
+    How [].concat(...Object.values(ticketsData)) works??
+    * ticketsData = {
+        open: [{1}, {2}, {3}]
+        close: [{11}, {12}, {13}]
+        resolved: [{21}, {22}, {23}]
+      }
+    * Object.values(ticketsData)=> [[{1}, {2}, {3}], [{11}, {12}, {13}], [{21}, {22}, {23}]] 
+    * [].concat(...Object.values(ticketsData))
+    * [].concat(...[[{1}, {2}, {3}], [{11}, {12}, {13}], [{21}, {22}, {23}]] )
+    * [].concat([{1}, {2}, {3}], [{11}, {12}, {13}], [{21}, {22}, {23}])
+    * [{1}, {2}, {3}, {11}, {12}, {13}, {21}, {22}, {23}]
+
+*/
 export default Engineer;

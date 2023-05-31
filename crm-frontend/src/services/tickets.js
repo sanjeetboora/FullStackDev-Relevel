@@ -29,3 +29,8 @@ export const getTicketsAssignedToMe = async() =>{
     const res = await axios.get(BASE_URL+'getMyAssignedTickets/');
     return res;
 }
+
+export const createTicket = async(data) =>{
+    const res = await axios.post(BASE_URL+'ticket/', data);
+    return res;
+}

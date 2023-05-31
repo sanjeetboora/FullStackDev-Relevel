@@ -6,8 +6,7 @@ function TicketsTypeButton(props){
     return(
         <Dropdown onSelect = {props.getTicketsAndUpdateCards} style = {{
             "text-align": "end",
-            "margin": "1rem",
-            "margin-bottom": "2rem",
+            "width": "10rem",
         }}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
                 {props.currentTicketsType}

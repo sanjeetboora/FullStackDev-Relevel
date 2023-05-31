@@ -1,6 +1,8 @@
 import { Button, Modal } from 'react-bootstrap';
+import constants from '../../utils/constants';
 
 function EditTicketModal(props){
+    const {ticketStatus} = constants;
     return <Modal size="lg" show={props.show} onHide={props.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Ticket Details</Modal.Title>
@@ -21,7 +23,17 @@ function EditTicketModal(props){
                                 <option value = "2">2</option>
                                 <option value = "3">3</option>
                                 <option value = "4">4 lowest</option>
-                        </select>
+                            </select>
+                        </div>
+                        <div className='input-group mb-3'>
+                            <label className='label input-group-text label-md'>Ticket Status</label>
+                            <select className='form-select' name="status" value = {props.data.status} onChange={props.changeTicketDetails}>
+                                <option value = {ticketStatus[0]}>{ticketStatus[0]}</option>
+                                <option value = {ticketStatus[1]}>{ticketStatus[1]}</option>
+                                <option value = {ticketStatus[2]}>{ticketStatus[2]}</option>
+                                <option value = {ticketStatus[3]}>{ticketStatus[3]}</option>
+                                <option value = {ticketStatus[4]}>{ticketStatus[4]}</option>
+                            </select>
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Description</label>
