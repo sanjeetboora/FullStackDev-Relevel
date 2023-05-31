@@ -28,6 +28,7 @@ function Login(){
                 localStorage.setItem("name",response.data.userData.name);
                 localStorage.setItem("userType",response.data.userData.userType);
                 localStorage.setItem("userStatus",response.data.userData.userStatus);
+                localStorage.setItem("clientName",response.data.userData.clientName);
             }
             switch (response.data.userData.userType) {
                 case "engineer":
@@ -51,11 +52,10 @@ function Login(){
         const name  = document.getElementById("name").value;
         const email  = document.getElementById("email").value;
         const password  = document.getElementById("password").value;
+        const clientName  = document.getElementById("clientName").value;
         
-        const userData = {name, email, password, userType};
+        const userData = {name, email, password, clientName, userType};
         event.preventDefault();
-        console.log(event);
-        console.log(userData);
         
         axios.post(BASE_URL + 'auth/signup', userData)
           .then(function (response) {  
@@ -105,6 +105,14 @@ function Login(){
                                                                     <div class="input-group">
                                                                         <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
                                                                         <input type="password" className="form-control" name="Password" id="password" placeholder='Enter password' />  
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-12">
+                                                                    <label>Organization<span class="text-danger">*</span></label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-text"><i class="bi bi-building-fill"></i></div>
+                                                                        <input type="text" className="form-control" name="clientName" id="clientName" placeholder='Enter Organization' />  
                                                                     </div>
                                                                 </div>
 
