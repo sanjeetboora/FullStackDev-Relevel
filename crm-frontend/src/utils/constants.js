@@ -5,6 +5,16 @@ const ticketsType = {
     CreatedByMe:"CreatedByMe",
     All:"All"
 }
-const constants = {ticketCardColor, ticketStatus, ticketsType}
+const userType = {
+    customer:"customer",
+    engineer:"engineer",
+    admin:"admin,"
+}
+const userStatus = {
+    approved:"approved", 
+    suspended:"suspended", 
+    rejected:"rejected"
+}
+const constants = {ticketCardColor, ticketStatus, ticketsType, userType, userStatus}
 
 export default constants;

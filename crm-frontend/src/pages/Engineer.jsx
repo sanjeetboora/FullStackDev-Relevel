@@ -1,4 +1,5 @@
 import * as TicketService from '../services/tickets';
+import * as UserService from '../services/users';
 import Welcome from '../components/Welcome/Welcome';
 import Sidebar from '../components/Sidebar/sidebar';
 import { useEffect,useRef, useState } from 'react';
@@ -9,6 +10,8 @@ import EditTicketModal from '../components/TicketsModal/EditTicketsModal';
 import UserProfile from '../components/UserProfile/UserProfile';
 import CreateTicketModal from '../components/TicketsModal/CreateTicketModal'
 import TicketsButton from '../components/TicketsButton/TicketsButton';
+import EditUserProfileModal from '../components/EditUserProfileModal/EditUserProfileModal'
+import userInfo from '../utils/currentUserInfo'
 
 function Engineer(){
 
@@ -27,6 +30,8 @@ function Engineer(){
     const [editTicketModalData, setEditTicketModalData] = useState({});
     const [newTicketModalData, setNewTicketModalData] = useState({});
     const [currentTicketsType, setCurrentTicketsType] = useState(ticketsType.AssignedToMe);
+    const [showEditUserProfileModal, setShowEditUserProfileModal] = useState(false);
+    const [userEditModalData, setUserEditModalData] = useState(userInfo);
 
     const closeEditTicketModal = () =>{
         setShowEditTicketModal(false);
@@ -190,6 +195,48 @@ function Engineer(){
         setShowNewTicketModal(false);
     }
 
+    const changeUserDetails = (event) =>{
+        const {name, value} = event.target;
+        userEditModalData[name] = value;
+        setUserEditModalData(userEditModalData);
+        setShowTicketsModal(event.target.value);
+    }
+
+    const updateUserProfile = async() =>{
+        const data = {
+            userId:userEditModalData._id,
+            updates:{
+                _id: userEditModalData._id,
+                userType: userEditModalData.userType, 
+                userStatus: userEditModalData.userStatus,
+                name: userEditModalData.name,
+                email: userEditModalData.email,
+                clientName: userEditModalData.clientName
+            }
+        }
+        const updatedUserData = await UserService.updateUserData(data);
+        const updatedData = updatedUserData.data.result;
+        console.log("======updatedData=====", updatedData);
+        localStorage.setItem("email",updatedData.email);
+        localStorage.setItem("name",updatedData.name);
+        localStorage.setItem("userType",updatedData.userType);
+        localStorage.setItem("userStatus",updatedData.userStatus);
+        localStorage.setItem("clientName",updatedData.clientName);
+        localStorage.setItem("_id",updatedData._id);
+        localStorage.setItem("createdAt",updatedData.createdAt);
+        localStorage.setItem("updatedAt",updatedData.updatedAt);
+        localStorage.setItem("token",updatedData.token);
+        closeEditUserProfileModal();
+    }
+
+    const showEditUserProfileModalFn = () =>{
+        setShowEditUserProfileModal(true);
+    }
+
+    const closeEditUserProfileModal = () =>{
+        setShowEditUserProfileModal(false);
+    }
+
     return (
         <div className = "row">
             <div className = "col-2">
@@ -200,6 +247,13 @@ function Engineer(){
                 />
             </div>
             <div className="container col vh-100" style={{overflow: "scroll"}}>
+                <EditUserProfileModal 
+                    show={showEditUserProfileModal}
+                    close = {closeEditUserProfileModal}
+                    changeUserDetails= {changeUserDetails}
+                    data = {userEditModalData}
+                    updateUserProfile={updateUserProfile}
+                />
                 <EditTicketModal 
                         show = {showEditTicketModal} 
                         close = {closeEditTicketModal} 
@@ -233,7 +287,7 @@ function Engineer(){
                         <Tickets ticketsData = {[].concat(...Object.values(ticketsData))} showEditTicketModalFn= {showEditTicketModalFn} setEditTicketModalData={setEditTicketModalData} />
                     </div>
                 }
-                {showUserProfile && <UserProfile />}
+                {showUserProfile &&  <UserProfile updateProfile = {showEditUserProfileModalFn}/>}
             </div>  
         </div>
     );

@@ -1,12 +1,39 @@
+import { Button } from "react-bootstrap";
+import userInfo from '../../utils/currentUserInfo'
+import UserProfileRow from "./UserProfileRow";
 
 function UserProfile(props){
-    return <div>
-            <div><span>Name: </span> <span>{localStorage.getItem("name")}</span></div>
-            <div><span>Email: </span> <span>{localStorage.getItem("email")}</span></div>
-            <div><span>User Type: </span> <span>{localStorage.getItem("userType")}</span></div>
-            <div><span>User Status: </span> <span>{localStorage.getItem("userStatus")}</span></div>
-            <div><span>Organization: </span> <span>{localStorage.getItem("clientName")}</span></div>
-        </div>
+    return (
+        <section style={{"background-color": "#eee"}}>
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card mb-4">
+                        <div class="card-body">
+                            <UserProfileRow field = "Name" value = {userInfo.name}/>
+                            <hr />
+                            <UserProfileRow field = "Email" value = {userInfo.email}/>
+                            <hr />
+                            <UserProfileRow field = "Type" value = {userInfo.userType}/> 
+                            <hr />
+                            <UserProfileRow field = "Status" value = {userInfo.userStatus}/>
+                            <hr />
+                            <UserProfileRow field = "Organization" value = {userInfo.clientName}/>
+                            <hr />
+                            <UserProfileRow field = "Joined on" value = {userInfo.createdAt}/>
+                            <hr />
+                            <UserProfileRow field = "Updated on" value = {userInfo.updatedAt}/>
+                            <hr />
+                            <Button variant="primary" onClick={() => props.updateProfile()}>
+                                Edit Profile
+                            </Button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
 }
 
 export default UserProfile;

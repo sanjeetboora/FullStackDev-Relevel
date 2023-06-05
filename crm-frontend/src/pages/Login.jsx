@@ -29,6 +29,9 @@ function Login(){
                 localStorage.setItem("userType",response.data.userData.userType);
                 localStorage.setItem("userStatus",response.data.userData.userStatus);
                 localStorage.setItem("clientName",response.data.userData.clientName);
+                localStorage.setItem("_id",response.data.userData._id);
+                localStorage.setItem("createdAt",response.data.userData.createdAt);
+                localStorage.setItem("updatedAt",response.data.userData.updatedAt);
             }
             switch (response.data.userData.userType) {
                 case "engineer":
