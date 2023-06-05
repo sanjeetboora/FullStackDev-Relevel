@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 const Ticket = require("../models/ticket.model");
 const userConstants = require('../constants/user.constant');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const createUser = async(data) =>{
     const response = {};
@@ -34,11 +36,14 @@ const verifyUser = async(data) =>{
             if(result){
                 response.success = true;
                 response.userData = {
+                    _id: userData._id,
                     email: userData.email,
                     name: userData.name,
                     userType: userData.userType,
                     userStatus: userData.userStatus,
-                    clientName: userData.clientName
+                    clientName: userData.clientName,
+                    createdAt:userData.createdAt,
+                    updatedAt:userData.updatedAt,
                 };
             }else{
                 response.error = "Invalid Password";
@@ -141,7 +146,7 @@ const updateUserType =  async(data) =>{
 
 const updateUser =  async(data) =>{
     try{
-        let result;
+        var result = {};
         if(!(Object.values(userConstants.userTypes).indexOf(data.updates.userType) >= 0)){
             result = {
                 error: "invalid user type provided",
@@ -152,24 +157,56 @@ const updateUser =  async(data) =>{
         if(data.userId){
             //update the user status on basis of user id
             await User.findOneAndUpdate({_id:data.userId}, 
-                {   userType: data.updates.userType, 
-                    userStatus: data.updates.userStatus,
-                    name: data.updates.name,
-                    email: data.updates.email,
-                    clientName: data.updates.clientName
-                });
-            result = await User.findOne({_id:data.userId});
+            {   userType: data.updates.userType, 
+                userStatus: data.updates.userStatus,
+                name: data.updates.name,
+                email: data.updates.email,
+                clientName: data.updates.clientName
+            });
+
+            await User.findOne({_id:data.userId}).then((response) =>{
+                result = {
+                    token : jwt.sign({email: response.email}, process.env.JWT_SECRET_KEY),
+                    email : response.email,
+                    name:response.name,
+                    userType:response.userType,
+                    userStatus :response.userStatus,
+                    clientName :response.clientName,
+                    _id :response._id,
+                    createdAt :response.createdAt,
+                    updatedAt :response.updatedAt
+                }
+                console.log("========after token=====", result);
+            });
+            /**  result = await User.findOne({_id:data.userId});
+          
+            // result[token] = jwt.sign({email: result.email}, process.env.JWT_SECRET_KEY);
+            // console.log("token", jwt.sign({email: result.email}, process.env.JWT_SECRET_KEY));
+            */
         }
         else if(data.email){
             //update the user information on basis of email
             await User.findOneAndUpdate({email:data.email},
-                {   userType: data.updates.userType, 
-                    userStatus: data.updates.userStatus,
-                    name: data.updates.name,
-                    email: data.updates.email,
-                    clientName: data.updates.clientName
-                });
-            result = await User.findOne({email:data.email});
+            {   userType: data.updates.userType, 
+                userStatus: data.updates.userStatus,
+                name: data.updates.name,
+                email: data.updates.email,
+                clientName: data.updates.clientName
+            });
+            await User.findOne({_id:data.userId}).then((response) =>{
+                result = {
+                    token : jwt.sign({email: response.email}, process.env.JWT_SECRET_KEY),
+                    email : response.email,
+                    name:response.name,
+                    userType:response.userType,
+                    userStatus :response.userStatus,
+                    clientName :response.clientName,
+                    _id :response._id,
+                    createdAt :response.createdAt,
+                    updatedAt :response.updatedAt
+                }
+                console.log("========after token=====", result);
+            });
         }
         else{
             //return error, required fields not provided
@@ -177,6 +214,7 @@ const updateUser =  async(data) =>{
                 error: "required fields are not provided to update the user information",
             }
         }
+        console.log("========result======", result);
         return result;
     }
     catch(err){

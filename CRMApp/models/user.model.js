@@ -42,7 +42,8 @@ const userSchema = new Schema({
    userStatus:{
     type: String,
     required: true,
-    default: "approved"
+    default: "approved",
+    enum: ["approved", "suspended", "rejected"]
    },
    ticketsCreated:{
     type: [mongoose.Types.ObjectId],
