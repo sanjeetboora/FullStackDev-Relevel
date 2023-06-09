@@ -12,14 +12,13 @@ import CreateTicketModal from '../components/TicketsModal/CreateTicketModal'
 import TicketsButton from '../components/TicketsButton/TicketsButton';
 import EditUserProfileModal from '../components/EditUserProfileModal/EditUserProfileModal'
 import userInfo from '../utils/currentUserInfo'
-
 function Engineer(){
 
     const [showDashboard, setShowDashboard] = useState(false);
     const [showAllTickets, setShowAllTickets] = useState(false);
     const [showUserProfile, setShowUserProfle] = useState(false);
     const [cardsDetails, setCardsDetails] = useState([]);
-    const {ticketStatus, ticketCardColor, ticketsType} = constants;
+    const {ticketStatus, ticketCardColor, ticketsType, userType, userStatus} = constants;
     const [ticketsData, setTicketsData] = useState({});
     const [totalTicketsCount, setTotalTicketsCount] = useState(100);
     const componentMounted = useRef(true);
@@ -196,6 +195,14 @@ function Engineer(){
     }
 
     const changeUserDetails = (event) =>{
+        if(typeof event === 'string' || event instanceof String){
+            if(event in userType){
+                event = {target:{name:"userType", value: event}};
+            }else if(event in userStatus){
+                event = {target:{name:"userStatus", value: event}};
+            }
+        }
+        console.log("=====event====",event);
         const {name, value} = event.target;
         userEditModalData[name] = value;
         setUserEditModalData(userEditModalData);

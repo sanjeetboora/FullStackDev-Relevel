@@ -1,11 +1,14 @@
 import MaterialTable from "@material-table/core";
 import ExportCsv from '@material-table/exporters/csv';
 import ExportPdf from '@material-table/exporters/pdf';
+import constants from '../../utils/constants';
 
 function UsersTable(props){
+    const {userType, userStatus} = constants;
     return <MaterialTable 
                 onRowClick={(event, rowData) => {
-                    props.setSelectedUserDetails(rowData);
+                    const data = {...rowData, selfUpdate:false};
+                    props.setUserEditModalData(data);
                     props.showUserModalFn();
                 }}
                 title={"User Records"}
@@ -49,20 +52,12 @@ function UsersTable(props){
                     {
                         field: "userType",
                         title: "User Type",
-                        lookup:{
-                            "admin":"admin",
-                            "customer":"customer",
-                            "engineer":"engineer"
-                        }
+                        lookup: userType
                     },
                     {
                         field: "userStatus",
                         title: "User Status",
-                        lookup:{
-                            "approved":"approved",
-                            "pending": "pending",
-                            "rejected":"rejected"
-                        }
+                        lookup: userStatus
                     },
                 ]}
             />

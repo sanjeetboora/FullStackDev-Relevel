@@ -24,7 +24,11 @@ function UserProfile(props){
                             <hr />
                             <UserProfileRow field = "Updated on" value = {userInfo.updatedAt}/>
                             <hr />
-                            <Button variant="primary" onClick={() => props.updateProfile()}>
+                            <Button variant="primary" onClick={() => {
+                                const data = {...userInfo, selfUpdate:true};
+                                props.showInfo(data);
+                                props.updateProfile();
+                            }}>
                                 Edit Profile
                             </Button>
                         </div>

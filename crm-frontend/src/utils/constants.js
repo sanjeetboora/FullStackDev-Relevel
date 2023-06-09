@@ -8,7 +8,7 @@ const ticketsType = {
 const userType = {
     customer:"customer",
     engineer:"engineer",
-    admin:"admin,"
+    admin:"admin"
 }
 const userStatus = {
     approved:"approved", 
