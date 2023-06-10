@@ -9,6 +9,7 @@
     "@coreui/react": "^4.8.0",
     "@material-table/core": "^6.1.15",
     "@material-table/exporters": "^1.0.4",
+    "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -20,8 +21,10 @@
     "react-bootstrap": "^2.7.4",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.7",
     "react-router-dom": "^6.11.1",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

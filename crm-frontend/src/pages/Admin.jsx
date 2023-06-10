@@ -17,8 +17,13 @@ import TicketsButton from '../components/TicketsButton/TicketsButton';
 import userInfo from '../utils/currentUserInfo';
 import CreateTicketModal from '../components/TicketsModal/CreateTicketModal';
 import EditUserProfileModal from '../components/EditUserProfileModal/EditUserProfileModal';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateAllTickets, updateAssignedToMeTickets, updateCreatedByMeTickets } from '../redux/slices/ticketsSlice';
+import store from '../redux/store';
 
 function Admin(){
+    const dispatch = useDispatch();
+    const currentState = store.getState();
     const {ticketStatus, ticketCardColor, ticketsType, userType, userStatus} = constants;
      const [allUserData, setAllUserData] = useState([]);
     const [ticketsData, setTicketsData] = useState({});
@@ -61,15 +66,19 @@ function Admin(){
         switch(currTicketType){
             case ticketsType.AssignedToMe:
                 response = await fetchAssignedToMeTickets();
+                dispatch(updateAssignedToMeTickets(response.data.result));
                 break;
             case ticketsType.All:
                 response = await fetchAllTickets();
+                dispatch(updateAllTickets(response.data.result));
             break;
             case ticketsType.CreatedByMe:
                 response = await fetchCreatedByMeTickets();
+                dispatch(updateCreatedByMeTickets(response.data.result));
                 break;
             default:
                 response = await fetchAssignedToMeTickets();
+                updateAssignedToMeTickets(response.data.result);
         }
         return response.data.result;
     }
@@ -123,7 +132,6 @@ function Admin(){
             const currentTicket = tickets[i];
             ticketsData[currentTicket.status].push(currentTicket);
         }
-        
         setTicketsData(ticketsData);
         let totalTickets = tickets.length;
         setTotalTicketsCount(totalTickets);
@@ -335,7 +343,7 @@ function Admin(){
                 {showAllTickets && 
                     <div>
                         <TicketsButton showNewTicketModalFn={showNewTicketModalFn} getTicketsAndUpdateCards={getTicketsAndUpdateCards} currentTicketsType={currentTicketsType}/> 
-                        <Tickets ticketsData = {[].concat(...Object.values(ticketsData))} showEditTicketModalFn= {showEditTicketModalFn} setEditTicketModalData={setEditTicketModalData} />
+                        <Tickets ticketsData = {currentState.tickets[currentTicketsType]} showEditTicketModalFn= {showEditTicketModalFn} setEditTicketModalData={setEditTicketModalData} />
                     </div>
 }
                 {showDashboard && 
