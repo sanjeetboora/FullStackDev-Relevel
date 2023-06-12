@@ -19,6 +19,11 @@ const initalTicketsState = {
         ViewTicketsModal: false,
         EditTicketModal:false,
         NewTicketModal: false,
+    },
+    CurrentModalData:{
+        ViewTicketsModal: {},
+        EditTicketModal:{},
+        NewTicketModal: {},
     }
 }
 
@@ -50,11 +55,22 @@ export const ticketsSlice = createSlice({
                 }
             */
             state.ShowTicketsModal[action.payload.modalType] = action.payload.show;
+        },
+        updateCurrentModalData:(state, action)=>{
+            /** 
+                Expected type of payload here
+                payload = {
+                    modalType: "ViewTicketsModal",
+                    data: {} 
+                }
+            */
+            state.CurrentModalData[action.payload.modalType] = action.payload.data;
         }
+        
     },
 });
 
-export const {updateAllTickets, updateAssignedToMeTickets, updateCreatedByMeTickets, updateTicketsByStatus, updateTicketsCardsDetails, updateShowTicketsModal} = ticketsSlice.actions;
+export const {updateAllTickets, updateAssignedToMeTickets, updateCreatedByMeTickets, updateTicketsByStatus, updateTicketsCardsDetails, updateShowTicketsModal, updateCurrentModalData} = ticketsSlice.actions;
 export default ticketsSlice.reducer;
 
 

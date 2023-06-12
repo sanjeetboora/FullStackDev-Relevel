@@ -3,14 +3,19 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import MaterialTable from "@material-table/core";
 import ExportCsv from '@material-table/exporters/csv';
 import ExportPdf from '@material-table/exporters/pdf';
+import {useDispatch } from 'react-redux';
+import constants from '../../utils/constants';
+import { updateCurrentModalData, updateShowTicketsModal } from '../../redux/slices/ticketsSlice';
 
 const Tickets = (props)=>{
+   const dispatch = useDispatch();
+   const {ticketsModalType} = constants;
     return(
         <div>
             <MaterialTable 
                     onRowClick={(event, rowData)=>{
-                        props.setEditTicketModalData(rowData);
-                        props.showEditTicketModalFn();
+                        dispatch(updateCurrentModalData({modalType: ticketsModalType.EditTicketModal, data: rowData}));
+                        dispatch(updateShowTicketsModal({modalType: ticketsModalType.EditTicketModal, show: true}));
                     }}
                     title={"Tickets"}
                     options={{

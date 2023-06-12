@@ -32,34 +32,15 @@ const fetchTickets = async(ticketStatus) =>{
 const useUpdateTicketCards = async() =>{
     const {ticketStatus} = constants;
     const [ticketsData, setTicketsData] = useState({});
-    //const [totalTicketsCount, setTotalTicketsCount] = useState(0);
     const [cardsDetails, setCardsDetails] = useState([]);
     let response = useRef();
-    // useEffect(()=>{        
-    //     (async()=>{
-    //         response.current = await fetchTickets(ticketStatus);
-    //     })();
-    // }, []);
     response.current = await fetchTickets(ticketStatus);
     setTicketsData(response.current);
     let totalTickets = 0;
     for(const ele in response.current){
         totalTickets += response.current[ele].length;
     }
-    //setTotalTicketsCount(totalTickets);
     const cardsData = updateCardsData(response.current, totalTickets);
-    // console.log(ticketStatus);
-    // console.log(response);
-    // for(let i=0; i<ticketStatus.length; i++){
-    //     console.log(ticketStatus[i]);
-    //     const data = {
-    //         cardColor: ticketCardColor[i], 
-    //         cardTitle: ticketStatus[i], 
-    //         numberOfTickets : response[ticketStatus[i]].length, 
-    //         percentageOfTickets : response[ticketStatus[i]].length*100/totalTickets,
-    //     }
-    //     cardsData.push(data);
-    // }
     setCardsDetails(cardsData);
     const result = {ticketsData, cardsDetails};
     return result;

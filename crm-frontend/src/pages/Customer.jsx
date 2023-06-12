@@ -69,7 +69,6 @@ function Customer(){
     },[]);
     const fetchAllTickets = async() =>{
         const result = await TicketService.getAllTickets();
-        console.log(result);
        return result;
     }
 
@@ -84,7 +83,6 @@ function Customer(){
     }
 
     const showTicketsModalFn =(event)=>{
-        console.log(event);
         const cardTicketStatus = event.target.firstChild.innerText;
         setCurrentTicketsModalInfo(ticketsData[cardTicketStatus]);
         setShowTicketsModal(true);
@@ -196,7 +194,6 @@ function Customer(){
         }
         const updatedUserData = await UserService.updateUserData(data);
         const updatedData = updatedUserData.data.result;
-        console.log("======updatedData=====", updatedData);
         localStorage.setItem("email",updatedData.email);
         localStorage.setItem("name",updatedData.name);
         localStorage.setItem("userType",updatedData.userType);
@@ -234,7 +231,6 @@ function Customer(){
     }
 
     const getTicketsAndUpdateCards = async(eventKey) =>{
-        console.log("eventKey", eventKey);
         setCurrentTicketsType(eventKey);
         const response = await getTickets(eventKey);
         updateTicketCardsData(response);

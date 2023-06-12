@@ -16,5 +16,4 @@ const userInfo = {
     createdAt,
     updatedAt
 }
-console.log("===========userInfo====", userInfo);
 export default userInfo;

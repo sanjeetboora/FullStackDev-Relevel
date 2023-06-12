@@ -1,15 +1,18 @@
 
 import { Button, Modal } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import constants from '../../utils/constants';
-import { useSelector } from 'react-redux';
+import { updateShowTicketsModal } from '../../redux/slices/ticketsSlice';
 
 function CreateTicketModal(props){
+    const dispatch = useDispatch();
     const {ticketStatus, ticketsModalType} = constants;
     const showModal = useSelector((state) => state.tickets.ShowTicketsModal[ticketsModalType.NewTicketModal]);
+    const closeModal = () => dispatch(updateShowTicketsModal({modalType: ticketsModalType.NewTicketModal, show: false}));
     const disableUpdateClientName = localStorage.getItem('userType') === "customer";
     const clientName = disableUpdateClientName ? localStorage.getItem('clientName') :  props.clientName;
     return (
-        <Modal size="lg" show={showModal} onHide={props.close}>
+        <Modal size="lg" show={showModal} onHide={closeModal}>
             <Modal.Header closeButton>
                 <Modal.Title>{"Create New Ticket"}</Modal.Title>
             </Modal.Header>
@@ -54,10 +57,13 @@ function CreateTicketModal(props){
                     </form>
                 </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.close}>
+                <Button variant="secondary" onClick={closeModal}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() =>props.createTicket()}>
+                <Button variant="primary" onClick={() =>{
+                        props.createTicket();
+                        closeModal();
+                    }}>
                     Save
                 </Button>
             </Modal.Footer>

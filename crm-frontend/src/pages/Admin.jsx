@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Tickets from '../components/Tickets/Tickets';
 import UsersTable from '../components/UsersTable/UsersTable';
-import UserUpdateModal from '../components/UserUpdateModal/UserUpdateModal';
 import Sidebar from '../components/Sidebar/sidebar';
 import UserProfile from '../components/UserProfile/UserProfile';
 import Dashboard from '../components/Dashboard/Dashboard';
@@ -14,11 +13,10 @@ import constants from '../utils/constants';
 import EditTicketModal from '../components/TicketsModal/EditTicketsModal';
 import Welcome from '../components/Welcome/Welcome';
 import TicketsButton from '../components/TicketsButton/TicketsButton';
-import userInfo from '../utils/currentUserInfo';
 import CreateTicketModal from '../components/TicketsModal/CreateTicketModal';
 import EditUserProfileModal from '../components/EditUserProfileModal/EditUserProfileModal';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateAllTickets, updateAssignedToMeTickets, updateCreatedByMeTickets, updateTicketsByStatus, updateTicketsCardsDetails, updateShowTicketsModal } from '../redux/slices/ticketsSlice';
+import { updateAllTickets, updateAssignedToMeTickets, updateCreatedByMeTickets, updateTicketsByStatus, updateTicketsCardsDetails, updateShowTicketsModal, updateCurrentModalData } from '../redux/slices/ticketsSlice';
 
 function Admin(){
     const dispatch = useDispatch();
@@ -29,8 +27,6 @@ function Admin(){
     const [showAllUsers, setShowAllUsers] = useState(false);
     const [showUserProfile, setShowUserProfile] = useState(false);
     const [showAllTickets, setShowAllTickets] = useState(false);
-    const [currentTicketsViewModalInfo, setCurrentTicketsViewModalInfo] = useState([]);
-    const [editTicketModalData, setEditTicketModalData] = useState({});
     const [newTicketModalData, setNewTicketModalData] = useState({});
     const [currentTicketsType, setCurrentTicketsType] = useState(ticketsType.AssignedToMe);
     const [showEditUserProfileModal, setShowEditUserProfileModal] = useState(false);
@@ -38,7 +34,7 @@ function Admin(){
    
     /* useSelector*/
     const selectedTicketsTypeData = useSelector((state) => state.tickets[currentTicketsType]);
-    const ticketsData = useSelector((state) => state.tickets.TicketsByStatus);
+    const editTicketModalData= useSelector((state) => state.tickets.CurrentModalData[ticketsModalType.EditTicketModal]);
 
     const fetchAllTickets = async() =>{
         const result = await TicketService.getAllTickets();
@@ -54,6 +50,7 @@ function Admin(){
         const result = await TicketService.getTicketsAssignedToMe();
         return result;
     }
+
     const getTickets = async(type) =>{
         let response = [];
         const currTicketType = type ? type: currentTicketsType;
@@ -75,22 +72,6 @@ function Admin(){
                 dispatch(updateAssignedToMeTickets(response.data.result));
         }
         return response.data.result;
-    }
-    const closeEditTicketModal = () =>{
-        dispatch(updateShowTicketsModal({modalType: ticketsModalType.EditTicketModal, show: false}));
-    }
-    const showEditTicketModalFn = () =>{
-        dispatch(updateShowTicketsModal({modalType: ticketsModalType.EditTicketModal, show: true}));
-    }
-
-    const showTicketsViewModalFn =(event)=>{
-        console.log(event);
-        const cardTicketStatus = event.target.firstChild.innerText;
-        setCurrentTicketsViewModalInfo(ticketsData[cardTicketStatus]);
-        dispatch(updateShowTicketsModal({modalType: ticketsModalType.ViewTicketsModal, show: true}));
-    }
-    const closeTicketsViewModal =()=>{
-        dispatch(updateShowTicketsModal({modalType: ticketsModalType.ViewTicketsModal, show: false}));
     }
 
     useEffect(()=>{
@@ -189,6 +170,7 @@ function Admin(){
         setUserEditModalData(userEditModalData);
         setShowEditUserProfileModal(event.target.value);
     }
+
     const createTicket = async() => {
         const data = {
             title: newTicketModalData.title,
@@ -199,7 +181,6 @@ function Admin(){
             clientName: newTicketModalData.clientName,
         }
         await TicketService.createTicket(data);
-        closeNewTicketModal();
         const tickets = await getTickets();
         await updateTicketCardsData(tickets);
     }
@@ -231,19 +212,13 @@ function Admin(){
         setShowDashboard(false);
         setShowAllUsers(false);
     }
-    const showNewTicketModalFn = () =>{
-        dispatch(updateShowTicketsModal({modalType: ticketsModalType.NewTicketModal, show: true}));
-    }
-    const closeNewTicketModal = () =>{
-        dispatch(updateShowTicketsModal({modalType: ticketsModalType.NewTicketModal, show: false}));
-    }
 
     const getTicketsAndUpdateCards = async(eventKey) =>{
-        console.log("eventKey", eventKey);
         setCurrentTicketsType(eventKey);
         const response = await getTickets(eventKey);
         updateTicketCardsData(response);
     }
+    
     const updateUserProfile = async() =>{
         const data = {
             userId:userEditModalData._id,
@@ -259,7 +234,6 @@ function Admin(){
         const updatedUserData = await UserService.updateUserData(data);
         const updatedData = updatedUserData.data.result;
        if(userEditModalData.selfUpdate){
-            console.log("======updatedData=====", updatedData);
             localStorage.setItem("email",updatedData.email);
             localStorage.setItem("name",updatedData.name);
             localStorage.setItem("userType",updatedData.userType);
@@ -285,8 +259,9 @@ function Admin(){
 
     const changeTicketDetails= (event) =>{
         const {name, value} = event.target;
-        editTicketModalData[name] = value;
-        setEditTicketModalData(editTicketModalData);
+        const data = {...editTicketModalData};
+        data[name] = value;
+        dispatch(updateCurrentModalData({modalType: ticketsModalType.EditTicketModal, data: data}));
         dispatch(updateShowTicketsModal({modalType: ticketsModalType.EditTicketModal, show: event.target.value}));
     }
 
@@ -316,13 +291,11 @@ function Admin(){
                     updateUserProfile={updateUserProfile}
                 />
                 <EditTicketModal
-                        close = {closeEditTicketModal} 
                         data={editTicketModalData} 
                         changeTicketDetails = {changeTicketDetails}
                         updateTicket = {updateTicketData}
                 />
                 <CreateTicketModal 
-                    close = {closeNewTicketModal} 
                     addTicketDetails={addTicketDetails} 
                     createTicket={createTicket} 
                     data = {newTicketModalData} 
@@ -330,20 +303,18 @@ function Admin(){
                 <Welcome />
                 {showAllTickets && 
                     <div>
-                        <TicketsButton showNewTicketModalFn={showNewTicketModalFn} getTicketsAndUpdateCards={getTicketsAndUpdateCards} currentTicketsType={currentTicketsType}/> 
-                        <Tickets ticketsData = {selectedTicketsTypeData} showEditTicketModalFn= {showEditTicketModalFn} setEditTicketModalData={setEditTicketModalData} />
+                        <TicketsButton getTicketsAndUpdateCards={getTicketsAndUpdateCards} currentTicketsType={currentTicketsType}/> 
+                        <Tickets ticketsData = {selectedTicketsTypeData} />
                     </div>
 }
                 {showDashboard && 
                     <div>
-                        <TicketsButton showNewTicketModalFn={showNewTicketModalFn} getTicketsAndUpdateCards={getTicketsAndUpdateCards} currentTicketsType={currentTicketsType}/>
+                        <TicketsButton getTicketsAndUpdateCards={getTicketsAndUpdateCards} currentTicketsType={currentTicketsType}/>
                         <Dashboard
-                            showTicketsModalFn={showTicketsViewModalFn}  
                             allUserData={allUserData} 
                             setSelectedUserDetails={setUserEditModalData} 
                             showUserModalFn={showEditUserProfileModalFn} 
-                            closeTicketsModal={closeTicketsViewModal} 
-                            currentTicketsModalInfo={currentTicketsViewModalInfo}/> 
+                        /> 
                     </div>   
                 } 
                 {showAllUsers && <UsersTable allUserData={allUserData} setUserEditModalData={setUserEditModalData} showUserModalFn={showEditUserProfileModalFn}/> }
