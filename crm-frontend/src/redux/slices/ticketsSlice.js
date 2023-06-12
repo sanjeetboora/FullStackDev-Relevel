@@ -6,7 +6,20 @@ const {ticketsType} = constants;
 const initalTicketsState = {
     AssignedToMe : [],
     CreatedByMe: [],
-    All:[]
+    All:[],
+    TicketsByStatus:{
+        open:[],
+        inProgress: [], 
+        resolved: [],
+        cancelled: [],
+        onHold: [],
+    },
+    TicketsCardsDetails: [],
+    ShowTicketsModal:{
+        ViewTicketsModal: false,
+        EditTicketModal:false,
+        NewTicketModal: false,
+    }
 }
 
 export const ticketsSlice = createSlice({
@@ -21,11 +34,27 @@ export const ticketsSlice = createSlice({
         },
         updateAllTickets: (state, action) =>{
             state[ticketsType.All] = action.payload;
+        },
+        updateTicketsByStatus:(state, action)=>{
+            state.TicketsByStatus = action.payload;
+        },
+        updateTicketsCardsDetails:(state, action)=>{
+            state.TicketsCardsDetails = action.payload;
+        },
+        updateShowTicketsModal:(state, action)=>{
+            /** 
+                Expected type of payload here
+                payload = {
+                    modalType: "ViewTicketsModal",
+                    show: false
+                }
+            */
+            state.ShowTicketsModal[action.payload.modalType] = action.payload.show;
         }
     },
 });
 
-export const {updateAllTickets, updateAssignedToMeTickets, updateCreatedByMeTickets} = ticketsSlice.actions;
+export const {updateAllTickets, updateAssignedToMeTickets, updateCreatedByMeTickets, updateTicketsByStatus, updateTicketsCardsDetails, updateShowTicketsModal} = ticketsSlice.actions;
 export default ticketsSlice.reducer;
 
 

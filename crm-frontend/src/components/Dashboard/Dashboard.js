@@ -4,12 +4,12 @@ import TicketCardsRow from "../TicketCardsRow/TicketCardsRow";
 
 function Dashboard (props){
     return <div>
-                <TicketCardsRow cardsDetails = {props.cardsDetails} showTicketsModal ={props.showTicketsModalFn}/>
+                <TicketCardsRow showTicketsModal ={props.showTicketsModalFn}/>
                 <hr style={{margin: 2+"rem"}}/>
                 {
                     props.allUserData && <UsersTable allUserData={props.allUserData} setSelectedUserDetails={props.setSelectedUserDetails} showUserModalFn={props.showUserModalFn}/>
                 }
-                <TicketsModal  showTicketsModal = {props.showTicketsModal} closeTicketsModal={props.closeTicketsModal} currentTicketsModalInfo={props.currentTicketsModalInfo} /> 
+                <TicketsModal closeTicketsModal={props.closeTicketsModal} currentTicketsModalInfo={props.currentTicketsModalInfo} /> 
             </div>
 }
 

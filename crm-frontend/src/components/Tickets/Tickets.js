@@ -5,7 +5,6 @@ import ExportCsv from '@material-table/exporters/csv';
 import ExportPdf from '@material-table/exporters/pdf';
 
 const Tickets = (props)=>{
-    console.log(props);
     return(
         <div>
             <MaterialTable 

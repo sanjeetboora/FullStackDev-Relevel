@@ -1,10 +1,13 @@
 import { Button, Modal } from 'react-bootstrap';
 import constants from '../../utils/constants';
+import { useSelector } from 'react-redux';
 
 function EditTicketModal(props){
-    const {ticketStatus} = constants;
+    const {ticketStatus, ticketsModalType} = constants;
+    const showModal = useSelector((state) => state.tickets.ShowTicketsModal[ticketsModalType.EditTicketModal]);
     const disableUpdateClientName = localStorage.getItem('userType') === "customer";
-    return <Modal size="lg" show={props.show} onHide={props.close}>
+
+    return <Modal size="lg" show={showModal} onHide={props.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Ticket Details</Modal.Title>
                 </Modal.Header>
@@ -70,7 +73,10 @@ function EditTicketModal(props){
                     <Button variant="secondary" onClick={props.close}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => props.updateTicket()}>
+                    <Button variant="primary" onClick={() =>{
+                         props.updateTicket();
+                         props.close();
+                    }}>
                         Save
                     </Button>
                 </Modal.Footer>

@@ -1,11 +1,11 @@
 import { Button, Dropdown, Modal } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/DropdownItem'
 import constants from '../../utils/constants';
-import userInfo from '../../utils/currentUserInfo'
+import userInfo from '../../utils/currentUserInfo';
 
 function EditUserProfileModal(props){
     const {userType, userStatus} = constants;
-    return <Modal size="lg" show={props.show} onHide={props.close}>
+     return <Modal size="lg" show={props.show} onHide={props.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit User Information</Modal.Title>
                 </Modal.Header>

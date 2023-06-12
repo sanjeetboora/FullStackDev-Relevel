@@ -1,13 +1,15 @@
 
 import { Button, Modal } from 'react-bootstrap';
 import constants from '../../utils/constants';
+import { useSelector } from 'react-redux';
 
 function CreateTicketModal(props){
-    const {ticketStatus} = constants;
+    const {ticketStatus, ticketsModalType} = constants;
+    const showModal = useSelector((state) => state.tickets.ShowTicketsModal[ticketsModalType.NewTicketModal]);
     const disableUpdateClientName = localStorage.getItem('userType') === "customer";
     const clientName = disableUpdateClientName ? localStorage.getItem('clientName') :  props.clientName;
     return (
-        <Modal size="lg" show={props.show} onHide={props.close}>
+        <Modal size="lg" show={showModal} onHide={props.close}>
             <Modal.Header closeButton>
                 <Modal.Title>{"Create New Ticket"}</Modal.Title>
             </Modal.Header>

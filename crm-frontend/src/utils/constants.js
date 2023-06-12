@@ -1,5 +1,10 @@
 const ticketStatus = ["open", "inProgress", "resolved", "cancelled", "onHold"];
 const ticketCardColor = ["primary", "info", "warning", "light", "success"];
+const ticketsModalType = {  
+    ViewTicketsModal:"ViewTicketsModal",
+    EditTicketModal: "EditTicketModal",
+    NewTicketModal: "NewTicketModal"
+};
 const ticketsType = {
     AssignedToMe:"AssignedToMe",
     CreatedByMe:"CreatedByMe",
@@ -15,6 +20,6 @@ const userStatus = {
     suspended:"suspended", 
     rejected:"rejected"
 }
-const constants = {ticketCardColor, ticketStatus, ticketsType, userType, userStatus}
+const constants = {ticketCardColor, ticketStatus, ticketsType, userType, userStatus, ticketsModalType}
 
 export default constants;
