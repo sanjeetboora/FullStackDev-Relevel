@@ -20,6 +20,18 @@ const userStatus = {
     suspended:"suspended", 
     rejected:"rejected"
 }
-const constants = {ticketCardColor, ticketStatus, ticketsType, userType, userStatus, ticketsModalType}
+const userModalType = {  
+    EditUserProfileModal:"EditUserProfileModal",
+};
+
+const sidebarTabs = {
+    Dashboard:"Dashboard",
+    Tickets: "Tickets",
+    Users: "Users",
+    Profile: "Profile",
+    Logout:"Logout"
+}
+
+const constants = {ticketCardColor, ticketStatus, ticketsType, userType, userStatus, ticketsModalType, userModalType, sidebarTabs}
 
 export default constants;

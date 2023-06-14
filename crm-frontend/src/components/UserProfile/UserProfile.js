@@ -1,8 +1,13 @@
 import { Button } from "react-bootstrap";
-import userInfo from '../../utils/currentUserInfo'
+import constants from '../../utils/constants';
 import UserProfileRow from "./UserProfileRow";
+import { useDispatch, useSelector } from "react-redux";
+import { updateShowUserModals, updateCurrentUserModalData} from '../../redux/slices/usersSlice';
 
-function UserProfile(props){
+function UserProfile(){
+    const dispatch = useDispatch();
+    const {userModalType} = constants;
+    const userInfo =  useSelector((state) => state.users.CurrentUserInfo);
     return (
         <section style={{"background-color": "#eee"}}>
             <div class="container py-5">
@@ -26,8 +31,8 @@ function UserProfile(props){
                             <hr />
                             <Button variant="primary" onClick={() => {
                                 const data = {...userInfo, selfUpdate:true};
-                                props.showInfo(data);
-                                props.updateProfile();
+                                dispatch(updateCurrentUserModalData({modalType: userModalType.EditUserProfileModal, data: data}));
+                                dispatch(updateShowUserModals({modalType: userModalType.EditUserProfileModal, show:true}));
                             }}>
                                 Edit Profile
                             </Button>

@@ -2,14 +2,19 @@ import MaterialTable from "@material-table/core";
 import ExportCsv from '@material-table/exporters/csv';
 import ExportPdf from '@material-table/exporters/pdf';
 import constants from '../../utils/constants';
+import {useSelector, useDispatch } from 'react-redux';
+import {updateCurrentUserModalData, updateShowUserModals} from '../../redux/slices/usersSlice';
 
 function UsersTable(props){
-    const {userType, userStatus} = constants;
+    const dispatch = useDispatch();
+    const {userType, userStatus, userModalType} = constants;
+    const allUserData = useSelector((state) => state.users.AllUserData);
     return <MaterialTable 
                 onRowClick={(event, rowData) => {
                     const data = {...rowData, selfUpdate:false};
-                    props.setUserEditModalData(data);
-                    props.showUserModalFn();
+                    // props.setUserEditModalData(data);
+                    dispatch(updateCurrentUserModalData({modalType: userModalType.EditUserProfileModal, data: data}));
+                    dispatch(updateShowUserModals({modalType: userModalType.EditUserProfileModal, show:true}));
                 }}
                 title={"User Records"}
                 options={{
@@ -39,7 +44,7 @@ function UsersTable(props){
                         backgroundColor: "#d4d4d4",
                     },
                 }}
-                data={props.allUserData}
+                data={allUserData}
                 columns={[
                     {
                         field: "name",

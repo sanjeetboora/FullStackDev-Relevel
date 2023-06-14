@@ -2,10 +2,15 @@ import { Button, Dropdown, Modal } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/DropdownItem'
 import constants from '../../utils/constants';
 import userInfo from '../../utils/currentUserInfo';
+import { useSelector, useDispatch } from 'react-redux';
+import {updateShowUserModals} from '../../redux/slices/usersSlice';
 
 function EditUserProfileModal(props){
-    const {userType, userStatus} = constants;
-     return <Modal size="lg" show={props.show} onHide={props.close}>
+    const dispatch = useDispatch();
+    const {userType, userStatus, userModalType} = constants;
+    const showModal =  useSelector((state) => state.users.ShowUserModals[userModalType.EditUserProfileModal]);
+    const closeModal = () => {dispatch(updateShowUserModals({modalType: userModalType.EditUserProfileModal, show:false}))};
+    return <Modal size="lg" show={showModal} onHide={closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit User Information</Modal.Title>
                 </Modal.Header>
@@ -62,10 +67,13 @@ function EditUserProfileModal(props){
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={props.close}>
+                    <Button variant="secondary" onClick={closeModal}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => props.updateUserProfile()}>
+                    <Button variant="primary" onClick={() => { 
+                        props.updateUserProfile(); 
+                        closeModal();
+                    }}>
                         Save
                     </Button>
                 </Modal.Footer>
