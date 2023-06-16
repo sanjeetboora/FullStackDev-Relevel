@@ -13,7 +13,7 @@ function TicketsButton(props){
     return (
         <div className='row' style = {{margin: "1rem", justifyContent: "end"}}>
             <Button onClick = {showNewTicketModal} style = {{"width": "10rem"}}>New Ticket</Button>
-            <TicketsTypeButton getTicketsAndUpdateCards={props.getTicketsAndUpdateCards} currentTicketsType={props.currentTicketsType} />
+            <TicketsTypeButton getTicketsAndUpdateCards={props.getTicketsAndUpdateCards} />
         </div>
     )
 }

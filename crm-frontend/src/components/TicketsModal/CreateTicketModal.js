@@ -12,6 +12,7 @@ function CreateTicketModal(props){
     const data= useSelector((state) => state.tickets.CurrentModalData[ticketsModalType.NewTicketModal]);
     const disableUpdateClientName = localStorage.getItem('userType') === "customer";
     const clientName = disableUpdateClientName ? localStorage.getItem('clientName') :  props.clientName;
+    
     return (
         <Modal size="lg" show={showModal} onHide={closeModal}>
             <Modal.Header closeButton>

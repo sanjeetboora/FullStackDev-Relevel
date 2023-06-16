@@ -7,6 +7,7 @@ const initalTicketsState = {
     AssignedToMe : [],
     CreatedByMe: [],
     All:[],
+    CurrentTicketsType:ticketsType.AssignedToMe,
     TicketsByStatus:{
         open:[],
         inProgress: [], 
@@ -65,12 +66,14 @@ export const ticketsSlice = createSlice({
                 }
             */
             state.CurrentModalData[action.payload.modalType] = action.payload.data;
-        }
-        
+        },
+        updateCurrentTicketsType:(state, action)=>{
+            state.CurrentTicketsType = action.payload;
+        } 
     },
 });
 
-export const {updateAllTickets, updateAssignedToMeTickets, updateCreatedByMeTickets, updateTicketsByStatus, updateTicketsCardsDetails, updateShowTicketsModal, updateCurrentModalData} = ticketsSlice.actions;
+export const {updateAllTickets, updateAssignedToMeTickets, updateCreatedByMeTickets, updateTicketsByStatus, updateTicketsCardsDetails, updateShowTicketsModal, updateCurrentModalData, updateCurrentTicketsType} = ticketsSlice.actions;
 export default ticketsSlice.reducer;
 
 

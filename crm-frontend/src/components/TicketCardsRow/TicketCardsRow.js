@@ -13,10 +13,10 @@ function TicketCardsRow(props){
         dispatch(updateShowTicketsModal({modalType: ticketsModalType.ViewTicketsModal, show: true}));
     }
     return(
-        <div className="row text-center">
+        <div className="row">
             {
                 ticketsCardsDetails.map(card => {
-                    return <div className="col" onClick={() => showTicketsModal(card.cardTitle)}>
+                    return <div className="col text-center" style={{display:'block', width:'18rem', flexGrow:0}} onClick={() => showTicketsModal(card.cardTitle)}>
                         <TicketCard props ={{cardColor: card.cardColor, cardTitle: card.cardTitle, numberOfTickets : card.numberOfTickets, percentageOfTickets : card.percentageOfTickets}} />
                     </div>
                 })

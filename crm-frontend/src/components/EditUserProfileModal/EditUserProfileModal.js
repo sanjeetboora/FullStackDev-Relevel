@@ -10,27 +10,28 @@ function EditUserProfileModal(props){
     const {userType, userStatus, userModalType} = constants;
     const showModal =  useSelector((state) => state.users.ShowUserModals[userModalType.EditUserProfileModal]);
     const closeModal = () => {dispatch(updateShowUserModals({modalType: userModalType.EditUserProfileModal, show:false}))};
+    const data = useSelector((state) => state.users.CurrentUserModalData[userModalType.EditUserProfileModal]);
     return <Modal size="lg" show={showModal} onHide={closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit User Information</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit = {props.updateUserProfile}>
-                        <h5 className='card-subtitle text-primary lead'>User Id: {props.data._id}</h5>
+                        <h5 className='card-subtitle text-primary lead'>User Id: {data._id}</h5>
                         <hr />
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Name</label>
-                            <input type='text' className='form-control' name='name' value={props.data.name} onChange={props.changeUserDetails}/>
+                            <input type='text' className='form-control' name='name' value={data.name} onChange={props.changeUserDetails}/>
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Email</label>
-                            <input type='text' className='form-control' name='email' value={props.data.email} onChange={props.changeUserDetails}/>
+                            <input type='text' className='form-control' name='email' value={data.email} onChange={props.changeUserDetails}/>
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>User Type</label>
                             <Dropdown onSelect = {props.changeUserDetails}>
                                 <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                                    {props.data.userType}
+                                    {data.userType}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     <DropdownItem eventKey = {userType.engineer} disabled = {userInfo.userType!==userType.admin}>{userType.engineer}</DropdownItem >
@@ -43,7 +44,7 @@ function EditUserProfileModal(props){
                             <label className='label input-group-text label-md'>User Status</label>
                             <Dropdown onSelect = {props.changeUserDetails}>
                                 <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                                    {props.data.userStatus}
+                                    {data.userStatus}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     <DropdownItem eventKey = {userStatus.approved} disabled = {userInfo.userType!==userType.admin}>{userStatus.approved}</DropdownItem >
@@ -54,15 +55,15 @@ function EditUserProfileModal(props){
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Created At</label>
-                            <input type='text' className='form-control' name='createdAt' value={props.data.createdAt} onChange={props.changeUserDetails} disabled/>
+                            <input type='text' className='form-control' name='createdAt' value={data.createdAt} onChange={props.changeUserDetails} disabled/>
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Organization</label>
-                            <input type='text' className='form-control' name='clientName' value={props.data.clientName} onChange={props.changeUserDetails} disabled = {userInfo.userType!==userType.admin}/>
+                            <input type='text' className='form-control' name='clientName' value={data.clientName} onChange={props.changeUserDetails} disabled = {userInfo.userType!==userType.admin}/>
                         </div>
                         <div className='input-group mb-3'>
                             <label className='label input-group-text label-md'>Updated At</label>
-                            <input type='text' className='form-control' name='updatedAt' value={props.data.updatedAt} onChange={props.changeUserDetails} disabled/>
+                            <input type='text' className='form-control' name='updatedAt' value={data.updatedAt} onChange={props.changeUserDetails} disabled/>
                         </div>
                     </form>
                 </Modal.Body>

@@ -1,7 +1,7 @@
 import '@coreui/coreui/dist/css/coreui.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { CSidebar, CSidebarBrand, CSidebarNav, CNavItem, CBadge, CSidebarToggler } from '@coreui/react';
+import { CSidebar, CSidebarBrand, CSidebarNav, CNavItem, CBadge } from '@coreui/react';
 import { logout } from '../../handlers/logout';
 import constants from '../../utils/constants';
 import userInfo from '../../utils/currentUserInfo';
@@ -15,7 +15,7 @@ function Sidebar(){
     const showDashboard = () =>{ dispatch(updateShowTab(sidebarTabs.Dashboard)); }
     const showUsers = () =>{ dispatch(updateShowTab(sidebarTabs.Users)); }
     const showUserProfile = () =>{ dispatch(updateShowTab(sidebarTabs.UserProfile));}
-    return <CSidebar className='vh-100' style={{position:'relative'}} visible={true}>
+    return <CSidebar className='vh-100 d-block d-sm-block d-md-block' style={{position:'relative', marginLeft: 0}} >
                 <CSidebarBrand>CRM App</CSidebarBrand>
                 <CSidebarNav>
                     <div onClick={showDashboard}>
@@ -52,7 +52,6 @@ function Sidebar(){
                         </CNavItem>
                     </div>
                 </CSidebarNav>
-                <CSidebarToggler />
             </CSidebar>
 }
 

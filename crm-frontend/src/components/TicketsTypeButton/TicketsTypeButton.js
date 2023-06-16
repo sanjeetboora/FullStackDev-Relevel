@@ -1,15 +1,23 @@
 import { Dropdown } from 'react-bootstrap';
 import constants from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCurrentTicketsType } from '../../redux/slices/ticketsSlice';
 
 function TicketsTypeButton(props){
     const { ticketsType} = constants;
+    const dispatch = useDispatch();
+    const currentTicketsType = useSelector((state) => state.tickets.CurrentTicketsType);
+    const updateTicketstype = (eventKey) => {
+        dispatch(updateCurrentTicketsType(eventKey));
+        props.getTicketsAndUpdateCards(eventKey);
+    };
     return(
-        <Dropdown onSelect = {props.getTicketsAndUpdateCards} style = {{
+        <Dropdown onSelect = {updateTicketstype} style = {{
             "text-align": "end",
             "width": "10rem",
         }}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                {props.currentTicketsType}
+                {currentTicketsType}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
