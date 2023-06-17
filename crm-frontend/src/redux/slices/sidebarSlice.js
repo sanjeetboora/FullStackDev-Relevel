@@ -1,9 +1,7 @@
-
-import constants from "../../utils/constants"
 import { createSlice } from '@reduxjs/toolkit'
-import userInfo from '../../utils/currentUserInfo'
 
 const initalSidebarState = {
+    showSidebar: true,
     currentOpenTab: "",
     ShowTab:{
         Dashboard: false,
@@ -23,10 +21,13 @@ export const sidebarSlice = createSlice({
             state.ShowTab[action.payload] = true;
             state.currentOpenTab = action.payload;
         },
+        toggleSidebar:(state)=>{
+            state.showSidebar = !state.showSidebar;
+        }
     },
 });
 
-export const {updateShowTab} = sidebarSlice.actions;
+export const {updateShowTab, toggleSidebar} = sidebarSlice.actions;
 export default sidebarSlice.reducer;
 
 

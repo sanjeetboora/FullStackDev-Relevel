@@ -15,9 +15,7 @@ function Customer(){
 
     return (
         <div className='row'>  
-            <div className="col-2 ">
-                <Sidebar />
-            </div>
+            <Sidebar />
             <div className="container col vh-100" style={{overflow: "scroll"}}>
                 <EditUserProfileModal 
                     changeUserDetails= {changeUserDetails}

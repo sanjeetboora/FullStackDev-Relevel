@@ -12,16 +12,14 @@ import TicketsButton from '../components/TicketsButton/TicketsButton';
 import CreateTicketModal from '../components/TicketsModal/CreateTicketModal';
 import EditUserProfileModal from '../components/EditUserProfileModal/EditUserProfileModal';
 import { useCommonFn } from '../hooks/useCommonFn';
+import { Button } from '@coreui/coreui';
 
 function Admin(){
    const [changeUserDetails, updateUserProfile, changeTicketDetails, updateTicketData, changeNewTicketDetails, createTicket, getTicketsAndUpdateCards, showAllTickets, showDashboard, showAllUsers, showUserProfile, selectedTicketsTypeData ] = useCommonFn();
-
     return (
         <div className='row'>  
-            <div className="col-2 ">
-                <Sidebar />
-            </div>
-            <div className="container col vh-100" style={{overflow: "scroll"}}>
+            <Sidebar />
+            <div className="container col-9 vh-100" style={{overflow: "scroll"}}>
                 <EditUserProfileModal 
                     changeUserDetails= {changeUserDetails}
                     updateUserProfile={updateUserProfile}

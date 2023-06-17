@@ -15,9 +15,7 @@ function Engineer(){
 
     return (
         <div className='row'>  
-            <div className="col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <Sidebar />
-            </div>
+            <Sidebar />
             <div className="container col-sm-6 col-md-8 col-lg-9 col-xl-9 vh-100" style={{overflow: "scroll"}}>
                 <EditUserProfileModal 
                     changeUserDetails= {changeUserDetails}

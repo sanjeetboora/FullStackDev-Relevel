@@ -28,7 +28,7 @@ export const useCommonFn = () =>{
     const showUserProfile = useSelector((state) => state.sidebar.ShowTab[sidebarTabs.UserProfile]);
     const showAllTickets = useSelector((state) => state.sidebar.ShowTab[sidebarTabs.Tickets]);
     const currentUserInfo = useSelector((state) => state.users.CurrentUserInfo);
-    
+
     const fetchAllTickets = async() =>{
         const result = await TicketService.getAllTickets();
         return result;
@@ -128,7 +128,7 @@ export const useCommonFn = () =>{
                 cardColor: ticketCardColor[i], 
                 cardTitle: ticketStatus[i], 
                 numberOfTickets : ticketsData[ticketStatus[i]].length, 
-                percentageOfTickets : parseInt(ticketsData[ticketStatus[i]].length*100/totalTickets),
+                percentageOfTickets : parseInt(ticketsData[ticketStatus[i]].length*100/(totalTickets===0?1:totalTickets)),
             }
             cardsData.push(data);
         }        
@@ -190,7 +190,6 @@ export const useCommonFn = () =>{
         const updatedUserData = await UserService.updateUserData(data);
         const updatedData = updatedUserData.data.result;
         if(userEditModalData.selfUpdate){
-            console.log("inside user update")
             localStorage.setItem("email",updatedData.email);
             localStorage.setItem("name",updatedData.name);
             localStorage.setItem("userType",updatedData.userType);
@@ -221,5 +220,8 @@ export const useCommonFn = () =>{
         dispatch(updateShowTicketsModal({modalType: ticketsModalType.NewTicketModal, show: event.target.value}));
     }
 
-    return [changeUserDetails, updateUserProfile, changeTicketDetails, updateTicketData, changeNewTicketDetails, createTicket, getTicketsAndUpdateCards, showAllTickets, showDashboard, showAllUsers, showUserProfile, selectedTicketsTypeData ];
+    return [changeUserDetails, updateUserProfile, changeTicketDetails, 
+        updateTicketData, changeNewTicketDetails, createTicket, getTicketsAndUpdateCards, 
+        showAllTickets, showDashboard, showAllUsers, showUserProfile, 
+        selectedTicketsTypeData];
 }
