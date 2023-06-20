@@ -1,0 +1,18 @@
+{
+  "name": "moviebookingapp",
+  "version": "1.0.0",
+  "description": "An app to book movies",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.3.0"
+  }
+}

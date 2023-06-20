@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "e26518cc-cdd0-4d97-8780-cb0c38653ba5",
+		"name": "MovieBookingApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20020531"
+	},
+	"item": [
+		{
+			"name": "GetMovieById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/movies/6491d6d93d2376a922265a34",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"movies",
+						"6491d6d93d2376a922265a34"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateMovie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\":\"The Godfather\",\r\n        \"description\": \"Don Vito Corleone, head of a mafia family, decides to hand over his empire to his youngest son Michael. However, his decision unintentionally puts the lives of his loved ones in grave danger.\",\r\n        \"casts\": [\" Marlon Brando\", \"Al Pacino\",  \"James Caan\"],\r\n        \"rating\": 9.2,\r\n        \"genre\": [\"Crime\", \"Drama\"],\r\n        \"posterUrl\": \"https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i\",\r\n        \"trailerUrl\": \"https://imdb-video.media-imdb.com/vi1348706585/1434659607842-pgv4ql-1616202346191.mp4?Expires=1687365293&Signature=X6iVTSSjnvEz6~8PanQ1Mn8fgu1oIcQ-7uldnCyGAkn7DJ8MDdK-SA3Og6ipMbk89DMuepG6yeZ8U41ctjUMs8zLDzGgTh57nwwoHbdG75SJTYkKnCc6JyZubugP03HyJLHjc-7thF9qkyswK6IpPPeNApbcLFRM4SP2y9nWWuZhJKI6o0pTZkuVi2y8xdRqcEkbJVTilHnXXjqkb-f2dexv43LjLhaA6zHontrAPilPzxx5E5LgET47QjTZT8RAqBoNhuvn7ok8N7rJ0TClEatw29vrHbN5d3s0w4L7bs13O3LMkNSbHzCYAipoqJzUoJsAy5SiulGM6ivZ6eNfVg__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA\",\r\n        \"language\": \"English\",\r\n        \"releaseDate\": \"1-1-1972\",\r\n        \"releaseStatus\": \"RELEASED\",\r\n        \"director\": [\"Francis Ford Coppola\"]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllMovies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetMoviesByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/movies/?name=The Godfather",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"movies",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "The Godfather"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateMovie2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\":\"The Godfather\",\r\n        \"description\": \"Don Vito Corleone, head of a mafia family, decides to hand over his empire to his youngest son Michael. However, his decision unintentionally puts the lives of his loved ones in grave danger.\",\r\n        \"casts\": [\" Marlon Brando\", \"Al Pacino\",  \"James Caan\"],\r\n        \"rating\": 9.2,\r\n        \"genre\": [\"Crime\", \"Drama\"],\r\n        \"posterUrl\": \"https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i\",\r\n        \"trailerUrl\": \"https://imdb-video.media-imdb.com/vi1348706585/1434659607842-pgv4ql-1616202346191.mp4?Expires=1687365293&Signature=X6iVTSSjnvEz6~8PanQ1Mn8fgu1oIcQ-7uldnCyGAkn7DJ8MDdK-SA3Og6ipMbk89DMuepG6yeZ8U41ctjUMs8zLDzGgTh57nwwoHbdG75SJTYkKnCc6JyZubugP03HyJLHjc-7thF9qkyswK6IpPPeNApbcLFRM4SP2y9nWWuZhJKI6o0pTZkuVi2y8xdRqcEkbJVTilHnXXjqkb-f2dexv43LjLhaA6zHontrAPilPzxx5E5LgET47QjTZT8RAqBoNhuvn7ok8N7rJ0TClEatw29vrHbN5d3s0w4L7bs13O3LMkNSbHzCYAipoqJzUoJsAy5SiulGM6ivZ6eNfVg__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA\",\r\n        \"language\": \"English\",\r\n        \"releaseDate\": \"1-1-1972\",\r\n        \"releaseStatus\": \"RELEASED\",\r\n        \"director\": [\"Francis Ford Coppola\"]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteMovie",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateMovie",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
