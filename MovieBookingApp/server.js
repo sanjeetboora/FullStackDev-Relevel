@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const movieRoutes = require('./routes/movie.routes');
+const theatreRoutes = require('./routes/theatre.routes');
 
 //Initialize the app
 const app = express();
@@ -17,6 +18,7 @@ mongoose.connect(DB_URL).catch(error => console.log("couldn't connect to mongodb
 
 //Call the routes
 movieRoutes(app);
+theatreRoutes(app);
 
 //Start the server
 app.listen(PORT, ()=>{
