@@ -15,4 +15,11 @@ module.exports = function(app){
 
     //  - API to delete a theatre
     app.delete('/mba/api/v1/theatres/:id', theatreController.deleteTheatre);
+
+    // Add/Delete movies to a theatre
+    app.put('/mba/api/v1/theatres/:id/movies', theatreController.updateMoviesInTheatre);
+
+    // To check if a given movie is running in a given theatre
+    app.get('/mba/api/v1/theatres/:theatreId/movies/:movieId', theatreController.checkMovieInATheatre);
+
 }

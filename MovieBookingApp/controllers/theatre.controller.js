@@ -4,6 +4,11 @@ const theatreService = require('../services/theatre.service');
 const getAllTheatres = async(req, res) => {
     try{
         const response = await theatreService.getAllTheatres(req.query);
+        if(response.error){
+            return res.status(401).send({
+                error: response.error
+            })
+        }
         return res.status(200).send({
             result: response
         })
@@ -17,6 +22,11 @@ const getAllTheatres = async(req, res) => {
 const createTheatre = async(req, res) =>{
     try{
         const response = await theatreService.createTheatre(req.body);
+        if(response.error){
+            return res.status(401).send({
+                error: response.error
+            })
+        }
         return res.status(200).send({
             result: response
         })
@@ -30,6 +40,11 @@ const createTheatre = async(req, res) =>{
 const getTheatreById = async(req, res) =>{
     try{
         const response = await theatreService.getTheatreById(req.params.id);
+        if(response.error){
+            return res.status(401).send({
+                error: response.error
+            })
+        }
         return res.status(200).send({
             result: response
         })
@@ -43,12 +58,17 @@ const getTheatreById = async(req, res) =>{
 const updateTheatre = async(req, res) =>{
     try{
         const response = await theatreService.updateTheatre(req.params.id, req.body);
+        if(response.error){
+            return res.status(401).send({
+                error: response.error
+            })
+        }
         return res.status(200).send({
             result: response
         })
     }catch(err){
         return res.status(500).send({
-            error: err
+            error: response.error
         })
     } 
 }
@@ -56,6 +76,11 @@ const updateTheatre = async(req, res) =>{
 const deleteTheatre = async(req, res) =>{
     try{
         const response = await theatreService.deleteTheatre(req.params.id);
+        if(response.error){
+            return res.status(401).send({
+                error: response.error
+            })
+        }
         return res.status(200).send({
             result: response
         })
@@ -66,5 +91,41 @@ const deleteTheatre = async(req, res) =>{
     } 
 }
 
-module.exports = {getAllTheatres, createTheatre, getTheatreById, updateTheatre, deleteTheatre}
+const updateMoviesInTheatre = async(req, res)=>{
+    try{
+        const response = await theatreService.updateMoviesInTheatre(req.params.id, req.body);
+        if(response.error){
+            return res.status(401).send({
+                error: response.error
+            })
+        }
+        return res.status(200).send({
+            result: response
+        })
+    }catch(err){
+        return res.status(500).send({
+            error: err
+        })
+    }  
+}
+
+const checkMovieInATheatre = async(req, res)=>{
+    try{
+        const response = await theatreService.checkMovieInATheatre(req.params.theatreId, req.params.movieId);
+        if(response.error){
+            return res.status(401).send({
+                error: response.error
+            })
+        }
+        return res.status(200).send({
+            result: response
+        })
+    }catch(err){
+        return res.status(500).send({
+            error: err
+        })
+    }  
+}
+
+module.exports = {getAllTheatres, createTheatre, getTheatreById, updateTheatre, deleteTheatre, updateMoviesInTheatre, checkMovieInATheatre}
 

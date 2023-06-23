@@ -64,4 +64,5 @@ const deleteMovie = async(req, res)=>{
         })
     }  
 }
+
 module.exports = {getAllMovies, createMovie, getMovieById, updateMovie, deleteMovie};

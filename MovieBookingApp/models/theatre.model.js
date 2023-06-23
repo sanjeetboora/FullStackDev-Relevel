@@ -33,6 +33,10 @@ const theatreSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    movies: {
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "Movie"
+    },
     createdAt:{
         type: Date,
         required: true,
