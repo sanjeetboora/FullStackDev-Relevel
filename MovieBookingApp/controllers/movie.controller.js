@@ -65,4 +65,18 @@ const deleteMovie = async(req, res)=>{
     }  
 }
 
-module.exports = {getAllMovies, createMovie, getMovieById, updateMovie, deleteMovie};
+const getTheatresList = async(req, res)=>{
+    try{
+        const response = await movieService.getTheatresList(req.params.id);
+        return res.status(200).send({
+            result: response
+        })
+    }catch(err){
+        return res.status(500).send({
+            error: err
+        })
+    }  
+}
+
+
+module.exports = {getAllMovies, createMovie, getMovieById, updateMovie, deleteMovie, getTheatresList};

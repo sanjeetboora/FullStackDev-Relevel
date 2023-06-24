@@ -64,4 +64,9 @@ const deleteMovie = async(movieId) =>{
     return movie;
 }
 
-module.exports = {getAllMovies, createMovie, getMovieById, getMoviesByName, updateMovie, deleteMovie};
+const getTheatresList = async(movieId) =>{
+    const movie = await Movie.findOne({_id: movieId});
+    return movie.theatres;
+}
+
+module.exports = {getAllMovies, createMovie, getMovieById, getMoviesByName, updateMovie, deleteMovie, getTheatresList};

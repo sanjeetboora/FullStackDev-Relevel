@@ -17,4 +17,7 @@ module.exports = function(app){
 
     // to delete a movie
     app.delete('/mba/api/v1/movies/:id', movieController.deleteMovie);
+
+    // to get the list of theatres running the given movie by movieId
+    app.get('/mba/api/v1/movies/:id/theatres', movieController.getTheatresList);
 }

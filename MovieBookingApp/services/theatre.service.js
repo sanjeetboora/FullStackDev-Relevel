@@ -94,6 +94,8 @@ const addMoviesInTheatre = async(theatreId, movieIds) => {
                         throw new Error("Invalid movie id");
                     }
                     movie && theatre.movies.push(movie._id);
+                    movie.theatres.push(theatre._id);
+                    await Movie.findOneAndUpdate({_id: movie._id}, movie);
                 }
                 if(count == movieIds.length){
                     const updatedTheatre = await Theatre.findOneAndUpdate({_id : theatreId}, theatre, {new: true});
@@ -126,6 +128,11 @@ const deleteMoviesInTheatre = async(theatreId, movieIds) => {
                 const index = theatre.movies.indexOf(movieId);
                 if(index > -1){// only splice array when item is found
                     theatre.movies.splice(index, 1); // 2nd parameter means remove one item only
+                    const theatreIndex = movie.theatres.indexOf(theatre._id);
+                    if(theatreIndex > -1){
+                        movie.theatres.splice(theatreIndex, 1);
+                        await Movie.findOneAndUpdate({_id: movie._id}, movie);
+                    }
                 }
                 if(count == movieIds.length){
                     const updatedTheatre = await Theatre.findOneAndUpdate({_id : theatreId}, theatre, {new: true});
