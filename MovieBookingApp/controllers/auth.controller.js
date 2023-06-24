@@ -22,7 +22,7 @@ const signup = async(req, res) =>{
 const signin = async(req, res) =>{
     try{
         //will implement this in a while
-        const response = await authService.signup(req.body);
+        const response = await authService.signin(req.body);
         if(response.error){
             return res.status(401).send({
                 error: response.error

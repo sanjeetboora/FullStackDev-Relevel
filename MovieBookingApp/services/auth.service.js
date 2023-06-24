@@ -1,7 +1,8 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
-const {userTypes, userStatus} = require('../utils/constants')
-
+const {userTypes, userStatus} = require('../utils/constants');
+const jwt = require('jsonwebtoken');
+const {secretKey} = require('../configs/auth.config');
 
 const signup = async(userData) => {
     try{
@@ -20,7 +21,7 @@ const signup = async(userData) => {
             name: userData.name,
             email: userData.email,
             username: userData.username,
-            passowrd: bcrypt.hashSync(userData.passowrd, 8),
+            password: bcrypt.hashSync(userData.password, 8),
             userType: userData.userType,
             userStatus: userStatusData,
         }
@@ -35,4 +36,40 @@ const signup = async(userData) => {
     }
 }
 
-module.exports = {signup}
+const signin = async(userData) => {
+    try{
+        const user = await User.findOne({email: userData.email});
+        // to check if user exists
+        if(!user){
+            throw new Error("user doesn't exist!");
+        }
+
+        // to check if user's status is approved
+        if(user.userStatus != userStatus.approved){
+            throw new Error(`user is not allowed to login, as user is in status: [ ${user.userStatus} ]`);
+        }
+
+        // to check user's password
+        const isValidPassword= bcrypt.compareSync(userData.password, user.password);
+        if(!isValidPassword){
+            throw new Error("Invalid password");
+        }
+
+        const accessToken = jwt.sign({ userId: user._id, email: user.email }, secretKey);
+        const response = {
+            name: user.name,
+            email: user.email,
+            username: user.username,
+            userType: user.userType,
+            userStatus: user.userStatus,
+            token: accessToken
+        }
+        return response;
+    }catch(err){
+        return {
+            error: err.message
+        }
+    }
+}
+
+module.exports = {signup, signin}
