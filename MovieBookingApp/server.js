@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const movieRoutes = require('./routes/movie.routes');
 const theatreRoutes = require('./routes/theatre.routes');
 const authRoutes = require('./routes/auth.routes');
+const userRoutes = require('./routes/user.routes');
 
 //Initialize the app
 const app = express();
@@ -21,6 +22,7 @@ mongoose.connect(DB_URL).catch(error => console.log("couldn't connect to mongodb
 movieRoutes(app);
 theatreRoutes(app);
 authRoutes(app);
+userRoutes(app);
 
 //Start the server
 app.listen(PORT, ()=>{
