@@ -99,7 +99,6 @@ const addMoviesInTheatre = async(theatreId, movieIds) => {
                 }
                 if(count == movieIds.length){
                     const updatedTheatre = await Theatre.findOneAndUpdate({_id : theatreId}, theatre, {new: true});
-                    console.log(updatedTheatre);
                     return updatedTheatre;
                 }
             };       
@@ -136,7 +135,6 @@ const deleteMoviesInTheatre = async(theatreId, movieIds) => {
                 }
                 if(count == movieIds.length){
                     const updatedTheatre = await Theatre.findOneAndUpdate({_id : theatreId}, theatre, {new: true});
-                    console.log(updatedTheatre);
                     return updatedTheatre;
                 }
             };       

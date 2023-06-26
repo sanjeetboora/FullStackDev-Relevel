@@ -41,7 +41,6 @@ const getMoviesByName = async(movieName) =>{
 
 const updateMovie = async(movieId, updates) =>{
     const movie = await Movie.findOne({_id: movieId});
-    console.log("updatessss", updates);
     movie.name = updates.name || movie.name;
     movie.description = updates.description || movie.description;
     movie.casts = updates.casts || movie.casts;
@@ -54,7 +53,6 @@ const updateMovie = async(movieId, updates) =>{
     movie.releaseStatus = updates.releaseStatus || movie.releaseStatus; 
     movie.director = updates.director || movie.director; 
 
-    console.log("movie", movie);
     const updatedMovie = await Movie.findOneAndUpdate({_id: movieId}, movie, {new: true});
     return updatedMovie;
 }
