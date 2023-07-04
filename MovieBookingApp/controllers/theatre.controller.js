@@ -21,7 +21,7 @@ const getAllTheatres = async(req, res) => {
 
 const createTheatre = async(req, res) =>{
     try{
-        const response = await theatreService.createTheatre(req.body);
+        const response = await theatreService.createTheatre(req.body, req.user);
         if(response.error){
             return res.status(401).send({
                 error: response.error

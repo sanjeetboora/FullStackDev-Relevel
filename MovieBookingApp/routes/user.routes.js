@@ -10,6 +10,6 @@ module.exports = function(app){
     //update user's password
     app.put('/mba/api/v1/users/:id/updatePassword', [verifyUpdatePasswordRequest, verifyUserWithToken, isUserStatusApproved], userController.updateUserPassword);
 
-     //get all users => only admin can use this api
-     app.get('/mba/api/v1/users/', [verifyUserWithToken, isUserStatusApproved, isAdmin], userController.getAllUsers);
+    //get all users => only admin can use this api
+    app.get('/mba/api/v1/users/', [verifyUserWithToken, isUserStatusApproved, isAdmin], userController.getAllUsers);
 }

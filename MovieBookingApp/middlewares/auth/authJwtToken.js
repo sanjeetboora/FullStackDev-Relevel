@@ -48,5 +48,15 @@ const isAdmin = async (req, res, next) =>{
     next();
 }
 
-module.exports = {verifyUserWithToken, isAdmin, isUserStatusApproved}
+const isAdminOrClient = async (req, res, next) =>{
+    
+    if(req.user.userType != userTypes.admin && req.user.userType != userTypes.client){
+        return res.status(403).send({
+            message: "Admin or Client role is required"
+        })
+    }
+    next();
+}
+
+module.exports = {verifyUserWithToken, isAdmin, isUserStatusApproved, isAdminOrClient}
 

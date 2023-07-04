@@ -12,7 +12,7 @@ const getAllTheatres = async(filters) => {
     }
 }
 
-const createTheatre = async(data) => {
+const createTheatre = async(data, user) => {
     try{
         const theatreObj = {
             name: data.name,
@@ -22,6 +22,7 @@ const createTheatre = async(data) => {
             state: data.state,
             city: data.city,
             pincode: data.pincode,
+            createdBy: user._id
         }
         const theatre = await Theatre.create(theatreObj);
         return theatre;
