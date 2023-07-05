@@ -7,6 +7,7 @@ const movieRoutes = require('./routes/movie.routes');
 const theatreRoutes = require('./routes/theatre.routes');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
+const bookingRoutes = require('./routes/booking.routes');
 
 //Initialize the app
 const app = express();
@@ -23,6 +24,7 @@ movieRoutes(app);
 theatreRoutes(app);
 authRoutes(app);
 userRoutes(app);
+bookingRoutes(app);
 
 //Start the server
 app.listen(PORT, ()=>{

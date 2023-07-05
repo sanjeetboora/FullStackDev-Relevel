@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
         enum: [userStatus.approved, userStatus.pending, userStatus.suspended, userStatus.rejected],
         default: userStatus.approved
     },
+    bookings: {
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "Booking"
+    },
     createdAt:{
         type: Date,
         required: true,
