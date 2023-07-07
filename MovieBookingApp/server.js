@@ -8,6 +8,7 @@ const theatreRoutes = require('./routes/theatre.routes');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const bookingRoutes = require('./routes/booking.routes');
+const paymentRoutes = require('./routes/payment.routes');
 
 //Initialize the app
 const app = express();
@@ -25,6 +26,7 @@ theatreRoutes(app);
 authRoutes(app);
 userRoutes(app);
 bookingRoutes(app);
+paymentRoutes(app);
 
 //Start the server
 app.listen(PORT, ()=>{

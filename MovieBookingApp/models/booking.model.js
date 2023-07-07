@@ -20,6 +20,10 @@ const bookingSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
+    paymentId: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Payment'
+    },
     startTime: {
         type: Date,
         required: true
