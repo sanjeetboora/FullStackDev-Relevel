@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const {userTypes, userStatus} = require('../utils/constants');
 const jwt = require('jsonwebtoken');
 const {secretKey} = require('../configs/auth.config');
+const {sendEmail} = require('../utils/notificationClient');
+const {mailTemplate} = require('../utils/notificationMailTemplate');
 
 const signup = async(userData) => {
     try{
@@ -27,6 +29,15 @@ const signup = async(userData) => {
         }
 
         const user = await User.create(userObj);
+        const emailContent = mailTemplate(user.name, `your profile is created successfully.`, `Profile Information: ${user}`);
+    
+        sendEmail(
+            "You are signed up successfully ", 
+            emailContent, 
+            user.email,
+            user.email,
+            user._id.toString()
+        );
         return user;
 
     }catch(err){

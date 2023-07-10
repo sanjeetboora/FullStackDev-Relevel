@@ -1,5 +1,8 @@
 const Theatre = require('../models/theatre.model');
 const Movie = require('../models/movie.model');
+const User = require('../models/user.model');
+const {sendEmail} = require('../utils/notificationClient');
+const {mailTemplate} = require('../utils/notificationMailTemplate');
 
 const getAllTheatres = async(filters) => {
     try{
@@ -7,7 +10,7 @@ const getAllTheatres = async(filters) => {
         return theatres;
     }catch(err){
         return {
-            error: err
+            error: err.message
         }
     }
 }
@@ -25,10 +28,18 @@ const createTheatre = async(data, user) => {
             createdBy: user._id
         }
         const theatre = await Theatre.create(theatreObj);
+        const emailContent = mailTemplate(user.name, `${theatre.name} is created successfully.`, `Theatre Information: ${theatre}`);
+        sendEmail(
+            "Theatre is created successfully", 
+            emailContent, 
+            user.email,
+            user.email,
+            theatre._id.toString()
+        );
         return theatre;
     }catch(err){
         return {
-            error: err
+            error: err.message
         }
     }
 }
@@ -39,7 +50,7 @@ const getTheatreById = async(theatreId) =>{
         return theatre;
     }catch(err){
         return {
-            error: err
+            error: err.message
         }
     }
 }
@@ -57,10 +68,19 @@ const updateTheatre = async(theatreId, data) =>{
         theatre.pincode = data.pincode || theatre.pincode;
 
         const updatedTheatre = await Theatre.findOneAndUpdate({_id : theatreId}, theatre, {new: true});
+        const user = await User.findOne({_id: updatedTheatre.createdBy});
+        const emailContent = mailTemplate(user.name, `${updatedTheatre.name} is updated successfully.`, `Theatre Information: ${updatedTheatre}`);
+        sendEmail(
+            "Theatre is updated successfully", 
+            emailContent, 
+            user.email,
+            user.email,
+            updatedTheatre._id.toString()
+        );
         return updatedTheatre;
     }catch(err){
         return {
-            error: err
+            error: err.message
         }
     }
 }
@@ -69,11 +89,20 @@ const updateTheatre = async(theatreId, data) =>{
 const deleteTheatre = async(theatreId) =>{
     try{
         const theatre = await Theatre.findOneAndDelete({_id : theatreId});
+        const user = await User.findOne({_id: theatre.createdBy});
+        const emailContent = mailTemplate(user.name, `${theatre.name} is deleted successfully.`, `Theatre Information: ${theatre}`);
+        sendEmail(
+            "Theatre is deleted successfully", 
+            emailContent, 
+            user.email,
+            user.email,
+            theatre._id.toString()
+        );
         return theatre;
 
     }catch(err){
         return {
-            error: err
+            error: err.message
         }
     }
 }
@@ -86,6 +115,7 @@ const addMoviesInTheatre = async(theatreId, movieIds) => {
                 return theatre;
             }
             let count = 0;
+            const moviesList = [];
             for(const movieId of movieIds){
                 count++;
                 if(!theatre.movies.includes(movieId))
@@ -97,9 +127,19 @@ const addMoviesInTheatre = async(theatreId, movieIds) => {
                     movie && theatre.movies.push(movie._id);
                     movie.theatres.push(theatre._id);
                     await Movie.findOneAndUpdate({_id: movie._id}, movie);
+                    moviesList.push(movie.name);
                 }
                 if(count == movieIds.length){
                     const updatedTheatre = await Theatre.findOneAndUpdate({_id : theatreId}, theatre, {new: true});
+                    const user = await User.findOne({_id: updatedTheatre.createdBy});
+                    const emailContent = mailTemplate(user.name, `movies are added to ${updatedTheatre.name} successfully. List of movies added: ${moviesList}.`, `Theatre Information: ${updatedTheatre}`);
+                    sendEmail(
+                        "Movies added to theatre successfully", 
+                        emailContent, 
+                        user.email,
+                        user.email,
+                        updatedTheatre._id.toString()
+                    );
                     return updatedTheatre;
                 }
             };       
@@ -119,6 +159,7 @@ const deleteMoviesInTheatre = async(theatreId, movieIds) => {
                 return theatre;
             }
             let count = 0;
+            const moviesList = [];
             for(const movieId of movieIds){
                 count++;
                 const movie = await Movie.findOne({_id: movieId});
@@ -131,11 +172,21 @@ const deleteMoviesInTheatre = async(theatreId, movieIds) => {
                     const theatreIndex = movie.theatres.indexOf(theatre._id);
                     if(theatreIndex > -1){
                         movie.theatres.splice(theatreIndex, 1);
+                        moviesList.push(movie.name);
                         await Movie.findOneAndUpdate({_id: movie._id}, movie);
                     }
                 }
                 if(count == movieIds.length){
                     const updatedTheatre = await Theatre.findOneAndUpdate({_id : theatreId}, theatre, {new: true});
+                    const user = await User.findOne({_id: updatedTheatre.createdBy});
+                    const emailContent = mailTemplate(user.name, `movies are removed to ${updatedTheatre.name} successfully. List of movies removed: ${moviesList}.`, `Theatre Information: ${updatedTheatre}`);
+                    sendEmail(
+                        "Movies removed from theatre successfully", 
+                        emailContent, 
+                        user.email,
+                        user.email,
+                        updatedTheatre._id.toString()
+                    );
                     return updatedTheatre;
                 }
             };       

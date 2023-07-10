@@ -15,7 +15,7 @@ const getAllMovies = async(req, res) =>{
 
 const createMovie = async(req, res) =>{
     try{
-        const response = await movieService.createMovie(req.body);
+        const response = await movieService.createMovie(req.body, req.user);
         return res.status(200).send({
             result: response
         })
@@ -41,7 +41,7 @@ const getMovieById = async(req, res) =>{
 
 const updateMovie = async(req, res) => {
     try{
-        const response = await movieService.updateMovie(req.params.id, req.body);
+        const response = await movieService.updateMovie(req.params.id, req.body, req.user);
         return res.status(200).send({
             result: response
         })
@@ -54,7 +54,7 @@ const updateMovie = async(req, res) => {
 
 const deleteMovie = async(req, res)=>{
     try{
-        const response = await movieService.deleteMovie(req.params.id);
+        const response = await movieService.deleteMovie(req.params.id, req.user);
         return res.status(200).send({
             result: response
         })

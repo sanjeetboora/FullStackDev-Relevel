@@ -55,7 +55,7 @@ const isAdminOrTheatreOwner = async(req, res, next) =>{
         else{
             const theatreId = req.params.id;
             const theatre = await Theatre.findOne({_id: theatreId});
-            if(currentUser._id.toString() != theatre.createdBy){
+            if(currentUser._id.toString() != theatre.createdBy.toString()){
                 throw new Error("Only theatre owner can update or delete the theatre's information");
             }
             next();

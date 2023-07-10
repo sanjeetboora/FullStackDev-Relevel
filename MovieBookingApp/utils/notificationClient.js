@@ -3,7 +3,6 @@ var Client = require('node-rest-client').Client;
 var client = new Client();
 
 const sendEmail = (subject, content, recepientEmails, requester, ticketId) => {
-
 	const reqBody = {
 		subject: subject,
 		content: content,

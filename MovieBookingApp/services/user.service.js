@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
-const {userTypes, userStatus}  = require('../utils/constants');
+const {userTypes}  = require('../utils/constants');
+const {sendEmail} = require('../utils/notificationClient');
 
 const updateUserPassword = async(currentUser, userId, data) =>{
     try{ 
@@ -11,7 +12,7 @@ const updateUserPassword = async(currentUser, userId, data) =>{
              * User with any role apart from admin can update their own information only.
              * User with any role apart from admin cannot update anyone else's information.
              */
-        if(currentUser.userType != userTypes.admin && currentUser._id != user._id){
+        if(currentUser.userType != userTypes.admin && currentUser._id.toString() != user._id.toString()){
             throw new Error(`current user with the userType: ${currentUser.userType} is not allowed to change the information of other users`);
         }
         if(!data.oldPassword){
@@ -27,6 +28,22 @@ const updateUserPassword = async(currentUser, userId, data) =>{
         }else{
             user.password = bcrypt.hashSync(data.newPassword, 8);
             const updatedUser = await User.findByIdAndUpdate({_id: userId}, user, {new: true});
+            let requesterEmail;
+            //admin is updating any other user's information
+            if(currentUser.userType == userTypes.admin && user.userType != userTypes.admin){    
+                requesterEmail = currentUser.email;
+            }else{
+                //user updating their own information
+                requesterEmail = updatedUser.email;
+            }
+            const emailContent = mailTemplate(updatedUser.name, `password has been updated for email ${updatedUser.email} successfully.`, "");
+            sendEmail(
+                "Password updated", 
+                emailContent, 
+                updatedUser.email,
+                requesterEmail,
+                updatedUser._id.toString()
+            );
             return updatedUser;
         }
     }catch(err){
@@ -51,7 +68,7 @@ const updateUser = async(currentUser, userId, data) =>{
          * User with any role apart from admin can update their own information only.
          * User with any role apart from admin cannot update anyone else's information.
          */
-        if(currentUser.userType != userTypes.admin && currentUser._id != user._id){
+        if(currentUser.userType != userTypes.admin && currentUser._id.toString() != user._id.toString()){
             throw new Error(`current user with the userType: ${currentUser.userType} is not allowed to change the information of other users`);
         }
 
@@ -76,6 +93,21 @@ const updateUser = async(currentUser, userId, data) =>{
         user.userType = data.userType || user.userType;
 
         const updatedUser = await User.findByIdAndUpdate({_id: userId}, user, {new: true});
+        //admin is updating any other user's information
+        if(currentUser.userType == userTypes.admin && user.userType != userTypes.admin){    
+            requesterEmail = currentUser.email;
+        }else{
+            //user updating their own information
+            requesterEmail = updatedUser.email;
+        }
+        const emailContent = mailTemplate(updatedUser.name, `your profile has been updatedsuccessfully.`, `Profile Information: ${updatedUser}`);       
+        sendEmail(
+            "Your profile updated", 
+            emailContent, 
+            updatedUser.email,
+            updatedUser.email,
+            updatedUser._id.toString()
+        );
         return updatedUser;
 
     }catch(err){
