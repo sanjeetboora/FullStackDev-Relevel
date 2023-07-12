@@ -12,13 +12,12 @@ const transporter  = nodemailer.createTransport({
     },
   });
 
-const sendNotificationMail = (to, subject, text, html) =>{
+const sendNotificationMail = (to, subject, html) =>{
     const message = {
         from: EMAIL_ADDRESS,
         to: to,
         subject: subject,
-        text: text,
-        html: html
+        html: html,
     };
     transporter.sendMail(message, (err, info) =>{
         if(err){

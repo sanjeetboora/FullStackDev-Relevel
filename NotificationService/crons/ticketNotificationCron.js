@@ -12,7 +12,7 @@ var job = new CronJob(
             unsentNotifications.forEach(async(notification) => {
                 //for every recepientEmail we will send the emai;l
                 notification.recepientEmails.forEach(recepient => {
-                    sendNotificationMail(recepient, notification.subject, notification.content, "<h5>Thanks</h5>")
+                    sendNotificationMail(recepient, notification.subject, notification.content)
                 });
                 await setStatusSent(notification);
             });
