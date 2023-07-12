@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
 const {userTypes}  = require('../utils/constants');
 const {sendEmail} = require('../utils/notificationClient');
+const {mailTemplate} = require('../utils/notificationMailTemplate');
 
 const updateUserPassword = async(currentUser, userId, data) =>{
     try{ 
