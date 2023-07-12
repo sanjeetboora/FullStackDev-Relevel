@@ -30,13 +30,43 @@
 			"response": []
 		},
 		{
+			"name": "GetTheatresListOfAMovieByMovieId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/movies/6491d6d93d2376a922265a34/theatres",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"movies",
+						"6491d6d93d2376a922265a34",
+						"theatres"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "CreateMovie",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMjA1MTBkZjE2YWE4NTM4ZTM0NDQiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDc4Nzd9.MW6P9n071C99lbk82yU2o0Wj7DZNLFtYNsM542gXKUQ",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"name\":\"The Godfather\",\r\n        \"description\": \"Don Vito Corleone, head of a mafia family, decides to hand over his empire to his youngest son Michael. However, his decision unintentionally puts the lives of his loved ones in grave danger.\",\r\n        \"casts\": [\" Marlon Brando\", \"Al Pacino\",  \"James Caan\"],\r\n        \"rating\": 9.2,\r\n        \"genre\": [\"Crime\", \"Drama\"],\r\n        \"posterUrl\": \"https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i\",\r\n        \"trailerUrl\": \"https://imdb-video.media-imdb.com/vi1348706585/1434659607842-pgv4ql-1616202346191.mp4?Expires=1687365293&Signature=X6iVTSSjnvEz6~8PanQ1Mn8fgu1oIcQ-7uldnCyGAkn7DJ8MDdK-SA3Og6ipMbk89DMuepG6yeZ8U41ctjUMs8zLDzGgTh57nwwoHbdG75SJTYkKnCc6JyZubugP03HyJLHjc-7thF9qkyswK6IpPPeNApbcLFRM4SP2y9nWWuZhJKI6o0pTZkuVi2y8xdRqcEkbJVTilHnXXjqkb-f2dexv43LjLhaA6zHontrAPilPzxx5E5LgET47QjTZT8RAqBoNhuvn7ok8N7rJ0TClEatw29vrHbN5d3s0w4L7bs13O3LMkNSbHzCYAipoqJzUoJsAy5SiulGM6ivZ6eNfVg__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA\",\r\n        \"language\": \"English\",\r\n        \"releaseDate\": \"1-1-1972\",\r\n        \"releaseStatus\": \"RELEASED\",\r\n        \"director\": [\"Francis Ford Coppola\"]\r\n    }",
+					"raw": "{\r\n        \"name\":\"A Godfather\",\r\n        \"description\": \"Don Vito Corleone\",\r\n        \"casts\": [\" Marlon Brando\"],\r\n        \"rating\": 9.2,\r\n        \"genre\": [\"Crime\", \"Drama\"],\r\n        \"posterUrl\": \"https://www.imdb.com/titleef_=tt_ov_i\",\r\n        \"trailerUrl\": \"https://imdb-video.media-imdb.c191.mp4?\",\r\n        \"language\": \"English\",\r\n        \"releaseDate\": \"1-1-1972\",\r\n        \"releaseStatus\": \"RELEASED\",\r\n        \"director\": [\"Coppola\"]\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -66,12 +96,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/movies",
-					"protocol": "http",
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/movies",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"mba",
 						"api",
@@ -83,12 +114,45 @@
 			"response": []
 		},
 		{
+			"name": "GetAllTheatres using filters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/theatres?state=Maharashtra",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"theatres"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "Delhi",
+							"disabled": true
+						},
+						{
+							"key": "state",
+							"value": "Maharashtra"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GetMoviesByName",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/movies/?name=The Godfather",
+					"raw": "http://localhost:8080/mba/api/v1/movies/?name=The Dark Knight&myName=shweta",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -104,7 +168,11 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "The Godfather"
+							"value": "The Dark Knight"
+						},
+						{
+							"key": "myName",
+							"value": "shweta"
 						}
 					]
 				}
@@ -115,10 +183,16 @@
 			"name": "CreateMovie2",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg0MDI5NDJ9.zW3gtj67N-lWC_48zjT03ifi2aAYzrJGPt97v8OOz5M",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"name\":\"The Godfather\",\r\n        \"description\": \"Don Vito Corleone, head of a mafia family, decides to hand over his empire to his youngest son Michael. However, his decision unintentionally puts the lives of his loved ones in grave danger.\",\r\n        \"casts\": [\" Marlon Brando\", \"Al Pacino\",  \"James Caan\"],\r\n        \"rating\": 9.2,\r\n        \"genre\": [\"Crime\", \"Drama\"],\r\n        \"posterUrl\": \"https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i\",\r\n        \"trailerUrl\": \"https://imdb-video.media-imdb.com/vi1348706585/1434659607842-pgv4ql-1616202346191.mp4?Expires=1687365293&Signature=X6iVTSSjnvEz6~8PanQ1Mn8fgu1oIcQ-7uldnCyGAkn7DJ8MDdK-SA3Og6ipMbk89DMuepG6yeZ8U41ctjUMs8zLDzGgTh57nwwoHbdG75SJTYkKnCc6JyZubugP03HyJLHjc-7thF9qkyswK6IpPPeNApbcLFRM4SP2y9nWWuZhJKI6o0pTZkuVi2y8xdRqcEkbJVTilHnXXjqkb-f2dexv43LjLhaA6zHontrAPilPzxx5E5LgET47QjTZT8RAqBoNhuvn7ok8N7rJ0TClEatw29vrHbN5d3s0w4L7bs13O3LMkNSbHzCYAipoqJzUoJsAy5SiulGM6ivZ6eNfVg__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA\",\r\n        \"language\": \"English\",\r\n        \"releaseDate\": \"1-1-1972\",\r\n        \"releaseStatus\": \"RELEASED\",\r\n        \"director\": [\"Francis Ford Coppola\"]\r\n    }",
+					"raw": "{\r\n        \"name\":\"Movie Relevell\",\r\n        \"description\": \"Don Vito Corleone, head of a mafia family, decides to hand over his empire to his youngest son Michael. However, his decision unintentionally puts the lives of his loved ones in grave danger.\",\r\n        \"casts\": [\" Marlon Brando\", \"Al Pacino\",  \"James Caan\"],\r\n        \"rating\": 9.2,\r\n        \"genre\": [\"Crime\", \"Drama\"],\r\n        \"posterUrl\": \"https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i\",\r\n        \"trailerUrl\": \"https://imdb-video.media-imdb.com/vi1348706585/1434659607842-pgv4ql-1616202346191.mp4?Expires=1687365293&Signature=X6iVTSSjnvEz6~8PanQ1Mn8fgu1oIcQ-7uldnCyGAkn7DJ8MDdK-SA3Og6ipMbk89DMuepG6yeZ8U41ctjUMs8zLDzGgTh57nwwoHbdG75SJTYkKnCc6JyZubugP03HyJLHjc-7thF9qkyswK6IpPPeNApbcLFRM4SP2y9nWWuZhJKI6o0pTZkuVi2y8xdRqcEkbJVTilHnXXjqkb-f2dexv43LjLhaA6zHontrAPilPzxx5E5LgET47QjTZT8RAqBoNhuvn7ok8N7rJ0TClEatw29vrHbN5d3s0w4L7bs13O3LMkNSbHzCYAipoqJzUoJsAy5SiulGM6ivZ6eNfVg__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA\",\r\n        \"language\": \"English\",\r\n        \"releaseDate\": \"1-1-1972\",\r\n        \"releaseStatus\": \"RELEASED\",\r\n        \"director\": [\"Francis Ford Coppola\"]\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -145,16 +219,893 @@
 		{
 			"name": "DeleteMovie",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMjA1MTBkZjE2YWE4NTM4ZTM0NDQiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDc4Nzd9.MW6P9n071C99lbk82yU2o0Wj7DZNLFtYNsM542gXKUQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/movies/64ac3830e8f757ba0005e78d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"movies",
+						"64ac3830e8f757ba0005e78d"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "UpdateMovie",
 			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMjA1MTBkZjE2YWE4NTM4ZTM0NDQiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDc4Nzd9.MW6P9n071C99lbk82yU2o0Wj7DZNLFtYNsM542gXKUQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"GodMother\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/movies/64ac3830e8f757ba0005e78d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"movies",
+						"64ac3830e8f757ba0005e78d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllTheatres",
+			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/theatres",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"theatres"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTheatreById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/theatres/64931a8f628f169bfb09a8d0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"theatres",
+						"64931a8f628f169bfb09a8d0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CheckMovieExistsInTheatre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/theatres/64931a22618f169bfb09a8cd/movies/6491de038d1cd0c1c8072ff4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"theatres",
+						"64931a22618f169bfb09a8cd",
+						"movies",
+						"6491de038d1cd0c1c8072ff4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTheatre",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMWY4MWM5ZGY1MzYyMDJhODExNzciLCJlbWFpbCI6InNvbGFua2luaWtzMDcxMkBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDQ4OTd9.FtD7W6WdLwewS7chZK8qzoNyMpyuIEm4J7qN4N-DopM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sunrise Cinema\",\r\n    \"description\": \" Parking Facility, Food Court\",\r\n    \"rating\": 4.5, \r\n    \"street\": \"Unit Multiplex Seawoods Railway, Sector No 40, Plot R1, Delhi\",\r\n    \"state\": \"Delhi\",\r\n    \"city\": \"Delhi\",\r\n    \"pincode\": \"110706\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/theatres",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"theatres"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Relevel\",\r\n    \"email\": \"notificationfsd@gmail.com\",\r\n    \"username\": \"Relevel\",\r\n    \"password\":\"Relevel\",\r\n    \"userStatus\": \"approved\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/auth/signup",
+					"protocol": "https",
+					"host": [
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"notificationfsd@gmail.com\",\r\n    \"password\": \"Relevel\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/auth/signin",
+					"protocol": "https",
+					"host": [
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user information",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzM1ODh9.dK2mq7QX00_NPSoAU2WHUYulqEahor3XN04aDRq5jd0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"notificationfsd@gmail.com\",\r\n    \"userType\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/users/64ac20510df16aa8538e3444",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"users",
+						"64ac20510df16aa8538e3444"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user password",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFlYzZiOWI0NDA5MGFjMjBiYWE0MjYiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2ODkxNzU3Njl9.XB7k2BP2ftxRzY5rUQIkmyIldnBzj43SMOgqL6Anx1I",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"oldPassword\": \"relevel\",\r\n    \"newPassword\": \"Relevel\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/users/64aec6b9b44090ac20baa426/updatePassword/",
+					"protocol": "https",
+					"host": [
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"users",
+						"64aec6b9b44090ac20baa426",
+						"updatePassword",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateTheatre",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMWY4MWM5ZGY1MzYyMDJhODExNzciLCJlbWFpbCI6InNvbGFua2luaWtzMDcxMkBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDYxMTl9.YR7B7xVu8vE35r58KBBGxoX8hHCZLHpat6bVnOwXg0E",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Moonrise Cinema\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/theatres/64ac2ba211e10c9841f7a607",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"theatres",
+						"64ac2ba211e10c9841f7a607"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateMoviesToTheatre",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMWY4MWM5ZGY1MzYyMDJhODExNzciLCJlbWFpbCI6InNvbGFua2luaWtzMDcxMkBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDYxMTl9.YR7B7xVu8vE35r58KBBGxoX8hHCZLHpat6bVnOwXg0E",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"removeMovieIds\":[],\r\n    \"addMovieIds\":[\"6491d6d93d2376a922265a34\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/theatres/64ac2ba211e10c9841f7a607/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"theatres",
+						"64ac2ba211e10c9841f7a607",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTheatre",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/theatres/64931b45628f169bfb09a8d3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"theatres",
+						"64931b45628f169bfb09a8d3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzM1ODh9.dK2mq7QX00_NPSoAU2WHUYulqEahor3XN04aDRq5jd0",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBooking",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMjA1MTBkZjE2YWE4NTM4ZTM0NDQiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDc4Nzd9.MW6P9n071C99lbk82yU2o0Wj7DZNLFtYNsM542gXKUQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"theatreId\": \"64931a8f628f169bfb09a8d0\",\r\n    \"movieId\": \"6491d6d93d2376a922265a34\",\r\n    \"startTime\": \"2022-02-26T17:08:13.930Z\",\r\n    \"endTime\": \"2022-02-28T17:08:13.930Z\",\r\n    \"noOfSeats\": 3,\r\n    \"totalCost\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/book/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"book",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllBookings",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzMzNjZ9.d-yzgPhZL9L0_bipruAjZnDCxj29zE_P4k3_Ntzy6wM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/book/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"book",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Booking by BookingId",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzM1ODh9.dK2mq7QX00_NPSoAU2WHUYulqEahor3XN04aDRq5jd0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/book/64a58f68d16dd32e12274024",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"book",
+						"64a58f68d16dd32e12274024"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Booking by TheatreId Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzM1ODh9.dK2mq7QX00_NPSoAU2WHUYulqEahor3XN04aDRq5jd0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/bookByTheatreAndMovie/64931a8f628f169bfb09a8d0/6491d6d93d2376a922265a34",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"bookByTheatreAndMovie",
+						"64931a8f628f169bfb09a8d0",
+						"6491d6d93d2376a922265a34"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateBooking",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YTk1MTEzMjlmNmQwZjI3MzBmZDkiLCJlbWFpbCI6InNhdGlzaEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1Nzc3MTl9.3Ed3S12cftpP3v8mwjkejiRDjdqku4BhLsXxZsySn1w",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\" : \"CANCELLED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/book/64a58f68d16dd32e12274024",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"book",
+						"64a58f68d16dd32e12274024"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Booking by TheatreId",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzM1ODh9.dK2mq7QX00_NPSoAU2WHUYulqEahor3XN04aDRq5jd0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/bookByTheatre/64931a8f628f169bfb09a8d0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"bookByTheatre",
+						"64931a8f628f169bfb09a8d0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreatePayment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMjA1MTBkZjE2YWE4NTM4ZTM0NDQiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDc4Nzd9.MW6P9n071C99lbk82yU2o0Wj7DZNLFtYNsM542gXKUQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookingId\": \"64ac3afb5c72a4bb5752c149\",\r\n    \"status\": \"COMPLETED\",\r\n    \"amount\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/payments/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"payments",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdatePayment",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMjA1MTBkZjE2YWE4NTM4ZTM0NDQiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDc4Nzd9.MW6P9n071C99lbk82yU2o0Wj7DZNLFtYNsM542gXKUQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookingId\": \"64ac3afb5c72a4bb5752c149\",\r\n    \"amount\": 700\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/payment/64ac3b8ff0d570365ce3a886",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"payment",
+						"64ac3b8ff0d570365ce3a886"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllPayments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzMzNjZ9.d-yzgPhZL9L0_bipruAjZnDCxj29zE_P4k3_Ntzy6wM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/payments/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"payments",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPaymentByPaymentId",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzMzNjZ9.d-yzgPhZL9L0_bipruAjZnDCxj29zE_P4k3_Ntzy6wM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/payments/64a838840531d79b0859af8f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"payments",
+						"64a838840531d79b0859af8f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPaymentByBookingId",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzMzNjZ9.d-yzgPhZL9L0_bipruAjZnDCxj29zE_P4k3_Ntzy6wM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/paymentByBookingId/64a58c901e3385eab5d479f9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"paymentByBookingId",
+						"64a58c901e3385eab5d479f9"
+					]
+				}
 			},
 			"response": []
 		}
