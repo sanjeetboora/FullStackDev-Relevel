@@ -32,6 +32,10 @@ const showroomSchema = new mongoose.Schema({
         required: true,
         default: Date.now(),
     },
+    bookings: {
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "Booking"
+    },
     createdAt:{
         type: Date,
         required: true,

@@ -40,22 +40,9 @@ const getBookingByBookingId = async(req, res) =>{
     }    
 }
 
-const getBookingByTheatreId = async(req, res) =>{
+const getBookingByShowroomId = async(req, res) =>{
     try{
-        const response = await bookingService.getBookingByTheatreId(req.params.id);
-        return res.status(200).send({
-            result: response
-        })
-    }catch(err){
-        return res.status(500).send({
-            error: err
-        })
-    }    
-}
-
-const getBookingByTheatreIdAndMovieId = async(req, res) =>{
-    try{
-        const response = await bookingService.getBookingByTheatreIdAndMovieId(req.params.id, req.params.movieId);
+        const response = await bookingService.getBookingByShowroomId(req.params.id);
         return res.status(200).send({
             result: response
         })
@@ -79,4 +66,4 @@ const updateBooking = async(req, res) =>{
     }    
 }
 
-module.exports = {createBooking, getAllBookings, getBookingByBookingId, getBookingByTheatreId, getBookingByTheatreIdAndMovieId, updateBooking};
+module.exports = {createBooking, getAllBookings, getBookingByBookingId, getBookingByShowroomId, updateBooking};

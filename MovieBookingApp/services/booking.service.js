@@ -1,16 +1,13 @@
 const Booking = require('../models/booking.model');
-const Movie = require('../models/movie.model');
 const User = require('../models/user.model');
-const Theatre = require('../models/theatre.model');
+const Showroom = require('../models/showroom.model');
 
 const createBooking = async(data, user)=>{
     const bookingObj = {
-        theatreId: data.theatreId,
-        movieId: data.movieId,
+        showroomId: data.showroomId,
         userId: user._id,
-        startTime: data.startTime,
-        endTime: data.endTime,
-        noOfSeats: data.noOfSeats,
+        noOfSeatsToBook: data.noOfSeatsToBook,
+        seatsToBook: data.seatsToBook,
         totalCost: data.totalCost,
     }
     const booking = await Booking.create(bookingObj);
@@ -19,13 +16,9 @@ const createBooking = async(data, user)=>{
     userInfo.bookings.push(booking._id);
     await User.findOneAndUpdate({_id: userInfo._id}, userInfo);
 
-    const movie = await Movie.findOne({_id:booking.movieId});
-    movie.bookings.push(booking._id);
-    await Movie.findOneAndUpdate({_id: movie._id}, movie);
-
-    const theatre = await Theatre.findOne({_id:booking.theatreId});
-    theatre.bookings.push(booking._id);
-    await Theatre.findOneAndUpdate({_id: theatre._id}, theatre);
+    const showroom = await Showroom.findOne({_id:booking.showroomId});
+    showroom.bookings.push(booking._id);
+    await Showroom.findOneAndUpdate({_id: showroom._id}, showroom);
 
     return booking;
 }
@@ -40,23 +33,9 @@ const getBookingByBookingId = async(bookingId)=>{
     return booking;
 }
 
-const getBookingByTheatreId = async(theatreId)=>{
-    const theatre = await Theatre.findOne({_id: theatreId});
-    return theatre.bookings;
-}
-
-const getBookingByTheatreIdAndMovieId = async(theatreId, movieId)=>{
-    const theatre = await Theatre.findOne({_id: theatreId});
-    const movie = await Movie.findOne({_id: movieId});
-    const result = [];
-    for(const booking of theatre.bookings){
-        movie.bookings.filter((movieBooking) =>{
-            if(movieBooking.equals(booking)){
-                result.push(movieBooking);
-            }
-        })
-    }
-    return result;
+const getBookingByShowroomId = async(showroomId)=>{
+    const showroom = await Showroom.findOne({_id: showroomId});
+    return showroom.bookings;
 }
 
 const updateBooking = async(bookingId, data) =>{
@@ -66,11 +45,9 @@ const updateBooking = async(bookingId, data) =>{
         throw new Error("invalid booking id");
     }
 
-    booking.theatreId = data.theatreId || booking.theatreId;
-    booking.movieId = data.movieId || booking.movieId;
-    booking.startTime = data.startTime || booking.startTime;
-    booking.endTime = data.endTime || booking.endTime;
-    booking.noOfSeats = data.noOfSeats || booking.noOfSeats,
+    booking.showroomId = data.showroomId || booking.showroomId;
+    booking.noOfSeatsToBook = data.noOfSeatsToBook || booking.noOfSeatsToBook,
+    booking.seatsToBook = data.seatsToBook || booking.seatsToBook,
     booking.totalCost = data.totalCost || booking.totalCost;
     booking.status = data.status || booking.status;
 
@@ -78,4 +55,4 @@ const updateBooking = async(bookingId, data) =>{
     return updatedBooking;
 }
 
-module.exports = {createBooking, getAllBookings, getBookingByBookingId, getBookingByTheatreId, getBookingByTheatreIdAndMovieId, updateBooking};
+module.exports = {createBooking, getAllBookings, getBookingByBookingId, getBookingByShowroomId, updateBooking};

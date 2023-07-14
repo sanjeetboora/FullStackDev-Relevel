@@ -1,46 +1,44 @@
 const Booking = require('../../models/booking.model');
-const Theatre = require('../../models/theatre.model');
-const Movie = require('../../models/movie.model');
+const Showroom = require('../../models/showroom.model');
 const { userTypes } = require('../../utils/constants');
 
 const validateBookingReqBody = async(req, res, next) =>{
     try{
         // validate if all the fields are provided
-        if(!req.body.theatreId){
-            throw new Error("value for field 'theatreId' is not provided")
+        if(!req.body.showroomId){
+            throw new Error("value for field 'showroomId' is not provided")
         }
-        if(!req.body.movieId){
-            throw new Error("value for field 'movieId' is not provided")
-        }
-        if(!req.body.startTime){
-            throw new Error("value for field 'startTime' is not provided")
-        }
-        if(!req.body.endTime){
-            throw new Error("value for field 'endTime' is not provided")
-        }
-        if(req.body.noOfSeats == undefined || req.body.noOfSeats == null){
-            throw new Error("value for field 'noOfSeats' is not provided")
+        if(req.body.noOfSeatsToBook == undefined || req.body.noOfSeatsToBook == null){
+            throw new Error("value for field 'noOfSeatsToBook' is not provided")
         }
         if(req.body.totalCost == undefined || req.body.totalCost == null){
             throw new Error("value for field 'totalCost' is not provided")
         }
-
-        // theatreId is valid
-        const theatre = await Theatre.findOne({_id:req.body.theatreId})
-        if(!theatre){
-            throw new Error(`invalid theatre id: ${req.body.theatreId}`)
+        if(req.body.seatsToBook == undefined || req.body.seatsToBook == null){
+            throw new Error("value for field 'seatsToBook' is not provided")
         }
-        // movieId is valid
-        const movie = await Movie.findOne({_id:req.body.movieId});
-
-        if(!movie){
-            throw new Error(`invalid movie id: ${req.body.movieId}`)
+        // showroomId is valid
+        const showroom = await Showroom.findOne({_id:req.body.showroomId})
+        if(!showroom){
+            throw new Error(`invalid showroom id: ${req.body.showroomId}`)
         }
-
-        if(req.body.noOfSeats < 0){
-            throw new Error("value for field 'noOfSeats' is invalid")
+        // noOfSeatsToBook to book are valid
+        if(req.body.noOfSeatsToBook < 0){
+            throw new Error("value for field 'noOfSeatsToBook' is invalid")
         }
 
+        // noOfSeatsToBook: 3
+        // seatsToBook: [45, 78, 79]
+        //noOfSeatsToBook should be equal to length of list of chosen seats to book
+        if(req.body.noOfSeatsToBook != req.body.seatsToBook.length){
+            throw new Error("value for field 'noOfSeatsToBook' is not matching with length of provided list of seats to book")
+        }
+        //list of chosen seats to book is having unique seat numbers
+        const seatsSet = new Set(req.body.seatsToBook);
+        if(seatsSet.size() != req.body.seatsToBook.length){
+            throw new Error("seat numbers provided for field 'seatsToBook' are not unique")
+        }
+        //totalCost is valid
         if(req.body.totalCost < 0){
             throw new Error("value for field 'totalCost' is invalid")
         }

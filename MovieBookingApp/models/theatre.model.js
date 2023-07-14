@@ -37,10 +37,6 @@ const theatreSchema = new mongoose.Schema({
         type: [mongoose.SchemaTypes.ObjectId],
         ref: "Movie"
     },
-    bookings: {
-        type: [mongoose.SchemaTypes.ObjectId],
-        ref: "Booking"
-    },
     showrooms:{
         type: [mongoose.SchemaTypes.ObjectId],
         ref: "Showroom"

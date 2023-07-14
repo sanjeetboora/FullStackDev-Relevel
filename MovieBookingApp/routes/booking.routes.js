@@ -17,10 +17,7 @@ module.exports = function(app){
     // get booking by booking id (only admin & user who made the booking)
     app.get('/mba/api/v1/book/:id', [verifyUserWithToken, isUserStatusApproved, isValidBookingId, isAdminOrBookingOwner], bookingController.getBookingByBookingId);
 
-    // get booking by theatre id (only admin & user who made the booking)
-    app.get('/mba/api/v1/bookByTheatre/:id', [verifyUserWithToken, isUserStatusApproved, isAdminOrTheatreOwner], bookingController.getBookingByTheatreId);
-
-    // get booking by theatre id (only admin & user who made the booking)
-    app.get('/mba/api/v1/bookByTheatreAndMovie/:id/:movieId', [verifyUserWithToken, isUserStatusApproved, isAdminOrTheatreOwner], bookingController.getBookingByTheatreIdAndMovieId);
+    // get booking by showroom id (only admin & user who made the booking)
+    app.get('/mba/api/v1/bookByShowroom/:id', [verifyUserWithToken, isUserStatusApproved, isAdminOrTheatreOwner], bookingController.getBookingByShowroomId);
 
 }
