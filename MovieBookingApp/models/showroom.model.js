@@ -4,38 +4,33 @@ const mongoose = require('mongoose');
  * Schema of the booking resource to be stored in the DB
  */
 
-const bookingSchema = new mongoose.Schema({
-    showroomId: {
+const showroomSchema = new mongoose.Schema({
+    theatreId: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
-        ref: 'Showroom'
+        ref: 'Theatre'
     },
-    userId: {
+    movieId: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
-        ref: 'User'
+        ref: 'Movie'
     },
-    paymentId: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Payment'
-    },
-	status: {
-        type: String,
-        required: true,
-        default: "IN_PROGRESS"
-    },
-	noOfSeatsToBook: {
+	totalSeats: {
         type: Number,
         required: true
     },
-    seatsToBook: {
+    bookedSeats: {
         type: [Number],
         required: true
     },
-	totalCost: {
-        type: Number,
+    timeSlot:{
+        type: String,
+        required: true
+    },
+    date:{
+        type: Date,
         required: true,
-        default: 0
+        default: Date.now(),
     },
     createdAt:{
         type: Date,
@@ -52,4 +47,4 @@ const bookingSchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('Booking', bookingSchema);
+module.exports = mongoose.model('Showroom', showroomSchema);
