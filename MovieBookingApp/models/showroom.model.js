@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 /**
- * Schema of the booking resource to be stored in the DB
+ * Schema of the showroom resource to be stored in the DB
+ * Showroom is nothing but defines a show only i.e. the combination of Theatre + Movie + Timeslot
  */
 
 const showroomSchema = new mongoose.Schema({

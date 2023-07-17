@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const bookingRoutes = require('./routes/booking.routes');
 const paymentRoutes = require('./routes/payment.routes');
+const showroomRoutes = require('./routes/showroom.routes');
 
 //Initialize the app
 const app = express();
@@ -27,6 +28,7 @@ authRoutes(app);
 userRoutes(app);
 bookingRoutes(app);
 paymentRoutes(app);
+showroomRoutes(app);
 
 //Start the server
 app.listen(PORT, ()=>{
