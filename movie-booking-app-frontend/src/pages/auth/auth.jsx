@@ -23,7 +23,7 @@ function Login(){
     const redirectUrl = () =>{
         if(localStorage.getItem("userStatus") == "approved"){
             if(localStorage.getItem("userType") == userType.customer){
-                navigate('/customer');
+                navigate(-1);
             }
             else if(localStorage.getItem("userType") == userType.admin){
                 navigate('/admin');

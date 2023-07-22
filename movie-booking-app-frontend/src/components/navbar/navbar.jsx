@@ -1,16 +1,23 @@
+import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { isUserLoggedIn } from "../../utils/authUtils";
+import Form from 'react-bootstrap/Form';
+
 function Navbar(){
+    const isLoggedIn = isUserLoggedIn();
+    const navigate = useNavigate();
+    const onAuthButtonClick = () =>{
+        if(isLoggedIn){
+            //logout
+            localStorage.clear();
+        }
+        navigate('/login');
+    }
     return(
-        <nav class="navbar navbar-dark bg-dark justify-content-between">
-            <a class="navbar-brand text-danger">MBA</a>
-            <form class="form-inline" className="w-50 mr-sm-2">
-                <input 
-                    className="form-control"
-                    type="search"
-                    placeholder="Movie Name"
-                    aria-label="Search"
-                />
-            </form>
-            <button className="btn bg-danger my-2 my-sm-0 text-light" type="submit">Logout</button>
+        <nav className="navbar navbar-dark bg-dark align-items-center justify-content-between">
+            <div><a className="navbar-brand text-danger py-1 ml-2">MBA</a></div>
+            <div><Form.Control placeholder="Search Movie Name" size="lg"/></div>
+            <div><Button className="btn bg-danger px-5 py-2 mr-2 text-light" onClick= {onAuthButtonClick} type="submit">{isLoggedIn? "Logout" : "Login"} </Button></div>
         </nav>
     );
 }

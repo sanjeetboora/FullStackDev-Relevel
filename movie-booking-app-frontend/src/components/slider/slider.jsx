@@ -1,23 +1,25 @@
 import { CCarousel,CCarouselItem, CImage } from "@coreui/react";
+import First from '../../assets/1.avif';
+import Second from '../../assets/2.avif';
+import Third from '../../assets/3.avif';
+import Fourth from '../../assets/4.avif';
 
 function Slider(){
-    const image1 = 'https://coreui.io/react/docs/static/react-83088efde08a5dedde9f67a954cb4b5b.jpg';
-    const image2 = '../../../public/assets/2.jpg';
-    const image3 = '../../../public/assets/3.jpg';
     return(
-        <div className="shadow-lg">
-            <CCarousel controls>
+        <CCarousel controls transition="crossfade">
             <CCarouselItem>
-                <CImage className="d-block w-100" src={image1} alt="slide 1" />
+                <CImage className="d-block w-100" src={First} alt="slide 1" />
             </CCarouselItem>
             <CCarouselItem>
-                <CImage className="d-block w-100" src={image2} alt="slide 2" />
+                <CImage className="d-block w-100" src={Second} alt="slide 2" />
             </CCarouselItem>
             <CCarouselItem>
-                <CImage className="d-block w-100" src={image3} alt="slide 3" />
+                <CImage className="d-block w-100" src={Third} alt="slide 3" />
+            </CCarouselItem>
+            <CCarouselItem>
+                <CImage className="d-block w-100" src={Fourth} alt="slide 4" />
             </CCarouselItem>
         </CCarousel>
-        </div>
     );
 }
 

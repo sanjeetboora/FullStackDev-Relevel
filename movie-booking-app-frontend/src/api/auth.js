@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/';
+const BASE_URL = process.env.REACT_APP_MBA_BACKEND_BASE_URL;
 
 export const signIn = async(data) => {
     try{
