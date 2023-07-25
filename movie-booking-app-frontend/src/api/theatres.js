@@ -2,9 +2,12 @@ import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_MBA_BACKEND_BASE_URL;
 
-export const getAllMovies = async() => {
+export const getAllTheatres = async() => {
     try{
-        const result = await axios.get(BASE_URL + 'movies');
+        const result = await axios.get(BASE_URL + 'theatres', 
+        {headers:{
+            'x-access-token': localStorage.getItem('token')
+        }});
         return result.data.result;
     }
     catch(err){
@@ -12,9 +15,9 @@ export const getAllMovies = async() => {
     }
 }
 
-export const createMovie = async(data) => {
+export const createTheatre = async(data) => {
     try{
-        const result = await axios.post(BASE_URL + 'movies', 
+        const result = await axios.post(BASE_URL + 'theatres', 
         data, {headers:{
             'x-access-token': localStorage.getItem('token')
         }});
@@ -24,3 +27,4 @@ export const createMovie = async(data) => {
         return {error: err.response.data.message};
     }
 }
+
