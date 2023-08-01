@@ -60,7 +60,7 @@
 				"header": [
 					{
 						"key": "x-access-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMjA1MTBkZjE2YWE4NTM4ZTM0NDQiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDc4Nzd9.MW6P9n071C99lbk82yU2o0Wj7DZNLFtYNsM542gXKUQ",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFlYzZiOWI0NDA5MGFjMjBiYWE0MjYiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2OTAwNDE2Nzl9.uM6OWy_VjT4f_wZaLc443RviD5ZOoVVLt_XfxFwRfTw",
 						"type": "text"
 					}
 				],
@@ -74,12 +74,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/movies",
-					"protocol": "http",
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/movies",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"mba",
 						"api",
@@ -186,7 +187,7 @@
 				"header": [
 					{
 						"key": "x-access-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg0MDI5NDJ9.zW3gtj67N-lWC_48zjT03ifi2aAYzrJGPt97v8OOz5M",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFlYzZiOWI0NDA5MGFjMjBiYWE0MjYiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2OTAwNDE2Nzl9.uM6OWy_VjT4f_wZaLc443RviD5ZOoVVLt_XfxFwRfTw",
 						"type": "text"
 					}
 				],
@@ -200,12 +201,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/movies",
-					"protocol": "http",
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/movies",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"mba",
 						"api",
@@ -252,13 +254,13 @@
 				"header": [
 					{
 						"key": "x-access-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMjA1MTBkZjE2YWE4NTM4ZTM0NDQiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDc4Nzd9.MW6P9n071C99lbk82yU2o0Wj7DZNLFtYNsM542gXKUQ",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFlYzZiOWI0NDA5MGFjMjBiYWE0MjYiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2OTAwNDE2Nzl9.uM6OWy_VjT4f_wZaLc443RviD5ZOoVVLt_XfxFwRfTw",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"GodMother\"\r\n}",
+					"raw": "{\r\n    \"posterUrl\" : \"https://xl.movieposterdb.com/22_11/1992/250404/xl_godfather-movie-poster_9cfb5a6b.jpg\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -266,18 +268,19 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/movies/64ac3830e8f757ba0005e78d",
-					"protocol": "http",
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/movies/64bbfd8810064171de3e8235",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"mba",
 						"api",
 						"v1",
 						"movies",
-						"64ac3830e8f757ba0005e78d"
+						"64bbfd8810064171de3e8235"
 					]
 				}
 			},
@@ -289,12 +292,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/theatres",
-					"protocol": "http",
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/theatres",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"mba",
 						"api",
@@ -311,7 +315,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/theatres/64931a8f628f169bfb09a8d0",
+					"raw": "http://localhost:8080/mba/api/v1/theatres/64ac2ba211e10c9841f7a607",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -322,7 +326,7 @@
 						"api",
 						"v1",
 						"theatres",
-						"64931a8f628f169bfb09a8d0"
+						"64ac2ba211e10c9841f7a607"
 					]
 				}
 			},
@@ -374,12 +378,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/theatres",
-					"protocol": "http",
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/theatres",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"mba",
 						"api",
@@ -397,7 +402,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Relevel\",\r\n    \"email\": \"notificationfsd@gmail.com\",\r\n    \"username\": \"Relevel\",\r\n    \"password\":\"Relevel\",\r\n    \"userStatus\": \"approved\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Relevel\",\r\n    \"email\": \"notificationfsd@gmail.com\",\r\n    \"username\": \"Relevel\",\r\n    \"password\":\"Relevel\",\r\n    \"userType\": \"admin\",\r\n    \"userStatus\": \"approved\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -463,7 +468,7 @@
 				"header": [
 					{
 						"key": "x-access-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDk5YThjOTEzMjlmNmQwZjI3MzBmZDciLCJlbWFpbCI6Im5pa2hpbEBnbWFpbC5jb20iLCJpYXQiOjE2ODg1NzM1ODh9.dK2mq7QX00_NPSoAU2WHUYulqEahor3XN04aDRq5jd0",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFlYzZiOWI0NDA5MGFjMjBiYWE0MjYiLCJlbWFpbCI6Im5vdGlmaWNhdGlvbmZzZEBnbWFpbC5jb20iLCJpYXQiOjE2OTAwNDE0ODJ9.qydkg99hPc_K5b786jduG0f9CzzZGUQntbHLKGiQW1I",
 						"type": "text"
 					}
 				],
@@ -477,18 +482,19 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/users/64ac20510df16aa8538e3444",
-					"protocol": "http",
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/users/64aec6b9b44090ac20baa426",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"mba",
 						"api",
 						"v1",
 						"users",
-						"64ac20510df16aa8538e3444"
+						"64aec6b9b44090ac20baa426"
 					]
 				}
 			},
@@ -652,12 +658,13 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/mba/api/v1/users/",
-					"protocol": "http",
+					"raw": "https://moviebookingappbackend-gkzx.onrender.com/mba/api/v1/users/",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"moviebookingappbackend-gkzx",
+						"onrender",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"mba",
 						"api",
@@ -1104,6 +1111,155 @@
 						"v1",
 						"paymentByBookingId",
 						"64a58c901e3385eab5d479f9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllShowrooms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/showrooms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"showrooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetShowroomById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/showrooms/64b18770be8dc99baf7d1c0b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"showrooms",
+						"64b18770be8dc99baf7d1c0b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete showroom",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMWY4MWM5ZGY1MzYyMDJhODExNzciLCJlbWFpbCI6InNvbGFua2luaWtzMDcxMkBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDQ4OTd9.FtD7W6WdLwewS7chZK8qzoNyMpyuIEm4J7qN4N-DopM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/showrooms/64b18770be8dc99baf7d1c0b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"showrooms",
+						"64b18770be8dc99baf7d1c0b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateShowroom",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMWY4MWM5ZGY1MzYyMDJhODExNzciLCJlbWFpbCI6InNvbGFua2luaWtzMDcxMkBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDQ4OTd9.FtD7W6WdLwewS7chZK8qzoNyMpyuIEm4J7qN4N-DopM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"theatreId\": \"64ac2ba211e10c9841f7a607\",\r\n    \"movieId\": \"64a2fc151a7793cfc07f05e5\",\r\n    \"totalSeats\": 100, \r\n    \"bookedSeats\": [],\r\n    \"timeSlot\": \"T2\",\r\n    \"date\": \"2023-07-03T16:20:38.471Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/showrooms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"showrooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Showroom",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGFjMWY4MWM5ZGY1MzYyMDJhODExNzciLCJlbWFpbCI6InNvbGFua2luaWtzMDcxMkBnbWFpbC5jb20iLCJpYXQiOjE2ODkwMDQ4OTd9.FtD7W6WdLwewS7chZK8qzoNyMpyuIEm4J7qN4N-DopM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"totalSeats\": 150, \r\n    \"timeSlot\": \"T3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mba/api/v1/showrooms/64b18770be8dc99baf7d1c0b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mba",
+						"api",
+						"v1",
+						"showrooms",
+						"64b18770be8dc99baf7d1c0b"
 					]
 				}
 			},
