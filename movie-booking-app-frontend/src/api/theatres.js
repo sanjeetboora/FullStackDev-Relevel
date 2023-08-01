@@ -15,6 +15,19 @@ export const getAllTheatres = async() => {
     }
 }
 
+export const getTheatreById = async(theatreId) => {
+    try{
+        const result = await axios.get(BASE_URL + `theatres/${theatreId}`, 
+        {headers:{
+            'x-access-token': localStorage.getItem('token')
+        }});
+        return result.data.result;
+    }
+    catch(err){
+        return {error: err.response.data.message};
+    }
+}
+
 export const createTheatre = async(data) => {
     try{
         const result = await axios.post(BASE_URL + 'theatres', 

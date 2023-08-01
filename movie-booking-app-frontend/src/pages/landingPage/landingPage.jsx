@@ -8,6 +8,15 @@ import Footer from "../../components/footer/footer";
 
 function LandingPage(){
     const [moviesData, setMoviesData] = useState(null);
+    const [searchedMoviesData, setSearchedMoviesData] = useState(null);
+
+    const filterMovies = (searchMovieName) =>{
+        const filteredMovies = moviesData.filter((movie)=>{
+            const movieName = movie.name.toLowerCase();
+            return movieName.startsWith(searchMovieName.toLowerCase());
+        })
+        setSearchedMoviesData(filteredMovies);
+    }
 
     const fetchMovies = async() =>{
         const movies = await getAllMovies();
@@ -20,11 +29,11 @@ function LandingPage(){
 
     return(
         <div>
-            <Navbar />
+            <Navbar filterMovies={filterMovies} />
             <Slider />
             <div className="text-center">  
             {
-                (moviesData === null ? <CSpinner color="primary" variant="grow"/> : <MovieList moviesData = {moviesData}/>)
+                (moviesData === null ? <CSpinner color="primary" variant="grow"/> : <MovieList moviesData = {searchedMoviesData!==null && searchedMoviesData.length>0 ? searchedMoviesData : moviesData}/>)
             }
             </div>
             <Footer />

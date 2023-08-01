@@ -1,0 +1,90 @@
+
+
+
+.Cinema {
+    display: grid;
+    place-items: center;
+    grid-gap: 25px;
+    perspective: 500px;
+    margin: 10px;
+}
+
+.Cinema .screen {
+    height: 70px;
+    background-color: white;
+    width: 50%;
+    box-shadow: 0 3px 10px 2px;
+    transform: rotateX(-30deg) scale(1.1);
+    margin-top:5%;
+}
+
+.Cinema .seats{
+    display: grid;
+    grid-gap: 6px;
+    grid-template-columns: repeat(10, min-content);
+    align-items: center;
+    transform: rotateX(-180deg) ;
+}
+
+
+.Cinema .seats .seat:not(.occupied):hover,
+.Cinema .seats .seat:not(.occupied):focus{
+    cursor: pointer;
+    transform: scale(1.2);
+} 
+
+.Cinema .seats .seat.selected::after{
+    content: '';
+    position: absolute;
+    cursor: pointer;
+    top:0;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    background: transparent;
+    border: 1px solid green;
+    animation: show-off 0.4s;
+    visibility: hidden;
+} 
+
+
+.Cinema .seats .seat:nth-of-type(10n+2){
+    margin-right: 12px;
+}
+
+.Cinema .seats .seat:nth-of-type(10n+6){
+    margin-right: 12px;
+}
+
+
+
+@keyframes show-off {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+
+.seat{
+    display: inline-block;
+    color: grey;
+    width: 16px;
+    height: 20px;
+    transition: transform 0.3s ease-in-out;
+} 
+
+.seat.selected{
+    color: green;
+}
+
+.seat.occupied{
+    color: #cfcfcf;
+}

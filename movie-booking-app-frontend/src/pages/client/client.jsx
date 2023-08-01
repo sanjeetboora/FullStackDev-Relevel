@@ -5,14 +5,16 @@ import { getAllMovies } from "../../api/movie";
 import { useEffect, useState } from "react";
 import { createTheatre, getAllTheatres } from '../../api/theatres';
 import AddTheatreModal from '../../components/modals/addTheatreModal';
-
+import { userType } from '../../constants/user';
+import { useNavigate } from 'react-router-dom';
 
 function Client(){
-
+    const navigate = useNavigate();
     const [moviesData, setMoviesData] = useState(null);
     const [theatresData, setTheatresData] = useState(null);
     const [showAddTheatreModal, setShowAddTheatreModal] = useState(false);
     const [addTheatreFormData, setAddTheatreFormData] = useState({});
+    const isClient = localStorage.getItem('userType') === userType.client;
   
     const onChangeAddTheatreFormData = (event) =>{
         const {id, value} = event.target;
@@ -40,6 +42,7 @@ function Client(){
     }
 
     useEffect(() =>{
+        !isClient && navigate('/noAccessPage');
         fetchMovies();
         fetchTheatres();
     }, [])
@@ -47,6 +50,7 @@ function Client(){
 
 
     return (
+        isClient && 
         <div className='bg-light text-center'>
             <AddTheatreModal show={showAddTheatreModal} close = {closeAddTheatreModal} onChangeData = {onChangeAddTheatreFormData} data = {addTheatreFormData} onSubmit = {addTheatre} />
 

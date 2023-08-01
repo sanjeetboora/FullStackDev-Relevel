@@ -3,7 +3,7 @@ import MovieCard from "../movieCard/movieCard";
 
 function MovieList(props){
     const renderMovies = (movies)=>{
-        return movies.map((movie) => <MovieCard movieDetail = {movie}/>)
+        return movies && movies.length>0 && movies.map((movie) => <MovieCard movieDetail = {movie}/>)
     }
 
     const {moviesData} = props;

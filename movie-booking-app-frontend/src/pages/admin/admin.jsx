@@ -9,9 +9,11 @@ import AddTheatreModal from '../../components/modals/addTheatreModal';
 import AddMovieModal from '../../components/modals/addMovieModal';
 import AddUserModal from '../../components/modals/addUserModal';
 import { signUp } from "../../api/auth";
+import { userType } from '../../constants/user';
+import { useNavigate } from 'react-router-dom';
 
 function Admin(){
-
+    const navigate = useNavigate();
     const [moviesData, setMoviesData] = useState(null);
     const [theatresData, setTheatresData] = useState(null);
     const [usersData, setUsersData] = useState(null);
@@ -22,6 +24,7 @@ function Admin(){
     const [showAddUserModal, setShowAddUserModal] = useState(false);
     const [addUserFormData, setAddUserFormData] = useState({});
     const [selectedUserType, setSelectedUserType] = useState('');
+    const isAdmin = localStorage.getItem('userType') === userType.admin;
 
     const onChangeAddTheatreFormData = (event) =>{
         const {id, value} = event.target;
@@ -92,6 +95,7 @@ function Admin(){
     }
 
     useEffect(() =>{
+        !isAdmin && navigate('/noAccessPage');
         fetchMovies();
         fetchTheatres();
         fetchUsers();
@@ -100,28 +104,29 @@ function Admin(){
 
 
     return (
+        isAdmin && 
         <div className='bg-light text-center'>
             <AddTheatreModal show={showAddTheatreModal} close = {closeAddTheatreModal} onChangeData = {onChangeAddTheatreFormData} data = {addTheatreFormData} onSubmit = {addTheatre} />
             <AddMovieModal show={showAddMovieModal} close = {closeAddMovieModal} onChangeData = {onChangeAddMovieFormData} data = {addMovieFormData} onSubmit = {addMovie} /> 
             <AddUserModal show={showAddUserModal} close = {closeAddUserModal} onChangeData = {onChangeAddUserFormData} data = {addUserFormData} onSubmit = {addUser} onChangeDataUserType = {handleSelectUserType}/> 
             
             <Navbar />
-           <div className='container'>
-                <div>
-                    <h3 className='text-center pt-3'>Welcome, {localStorage.getItem('name')}!</h3>
-                    <p  className='text-center text-secondary'>Take a quick look at your stats below.</p>
-                </div>
-                <CardList showAddUser = {setShowAddUserModal} showAddTheatre = {setShowAddTheatreModal} showAddMovie = {setShowAddMovieModal} />
-                <CommonTable data={theatresData} tableName = {"THEATRES"}/>
-                <button className="btn btn-danger text-white mt-2 mb-4" onClick={() => setShowAddTheatreModal(true)}>
-                    Add Theatre
-                </button>
-                <CommonTable data={moviesData} tableName = {"MOVIES"}/>
-                <button className="btn btn-danger text-white mt-2 mb-4" onClick={() => setShowAddMovieModal(true)}>
-                    Add Movie
-                </button>
-                <CommonTable data={usersData} tableName = {"USER RECORD"}/>
-           </div>
+            <div className='container'>
+                    <div>
+                        <h3 className='text-center pt-3'>Welcome, {localStorage.getItem('name')}!</h3>
+                        <p  className='text-center text-secondary'>Take a quick look at your stats below.</p>
+                    </div>
+                    <CardList showAddUser = {setShowAddUserModal} showAddTheatre = {setShowAddTheatreModal} showAddMovie = {setShowAddMovieModal} />
+                    <CommonTable data={theatresData} tableName = {"THEATRES"}/>
+                    <button className="btn btn-danger text-white mt-2 mb-4" onClick={() => setShowAddTheatreModal(true)}>
+                        Add Theatre
+                    </button>
+                    <CommonTable data={moviesData} tableName = {"MOVIES"}/>
+                    <button className="btn btn-danger text-white mt-2 mb-4" onClick={() => setShowAddMovieModal(true)}>
+                        Add Movie
+                    </button>
+                    <CommonTable data={usersData} tableName = {"USER RECORD"}/>
+            </div>
         </div>
     )
 }

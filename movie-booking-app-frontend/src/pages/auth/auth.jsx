@@ -54,6 +54,7 @@ function Login(){
             localStorage.setItem("userStatus", result.userStatus);
             localStorage.setItem("userType", result.userType);
             localStorage.setItem("username", result.username);
+            localStorage.setItem("bookings", result.bookings);
             redirectUrl();
         }
 
